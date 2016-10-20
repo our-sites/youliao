@@ -1,0 +1,327 @@
+@import url('./not_in_mm2c9cd6.css');
+@import url('./page_mp_article_improve_combo30c4d9.css');
+
+#Article {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: #fff;
+}
+
+#Article header {
+    padding: 15px;
+}
+
+#Article header h1 {
+    font-size: 20px;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+#Article header .clf {
+    font-size: 12px;
+}
+
+#Article header .author {
+    color: #27cdb9;
+    margin-right: 6px;
+}
+
+#Article header .date {
+    color: #999;
+    margin-right: 6px;
+}
+
+#Article header .grade {
+    color: #0dc4ae;
+    padding: 1px 6px;
+    border: 1px solid #0dc4ae;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+}
+
+#Article header .favor {
+    float: right;
+    color: #999999;
+    padding-left: 20px;
+    height: 14px;
+    line-height: 12px;
+    background: url("../img/article-favor.png") no-repeat 0 0;
+    cursor: pointer;
+}
+
+#Article header .favor.active {
+    background-position: 0 -14px;
+}
+
+#Article .article-content {
+    color: #2b2b2b;
+    font-size: 15px;
+    padding: 15px;
+    line-height: 2;
+}
+
+#Article .article-other {
+    height: 35px;
+    padding: 6px 15px;
+    border-bottom: 1px solid #e6e6e6;
+    font-size: 12px;
+}
+
+#Article .article-other .tags {
+    float: left;
+}
+
+#Article .article-other .tags span {
+    display: inline-block;
+    margin-right: 6px;
+    padding: 0 6px;
+    color: #9b9b9b;
+    border: 1px solid #9b9b9b;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+}
+
+#Article .article-other .fr {
+    color: #808080;
+}
+
+#Article .article-other .fr span {
+    padding-left: 18px;
+}
+
+#Article .article-other .page-view {
+    background: url("../img/article-view.png") no-repeat 0 0;
+    margin-right: 14px;
+}
+
+#Article .article-other .praise {
+    background: url("../img/article-praise.png") no-repeat 0 0;
+    cursor: pointer;
+}
+
+#Article .article-other .praise.active {
+    background-position: 0 -14px;
+}
+
+#Article .attention {
+    height: 94px;
+    padding: 15px;
+    border: 1px solid #e6e6e6;
+    background-color: #f5f5f5;
+    margin: 15px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#Article .attention .fl p {
+    display: inline-block;
+    vertical-align: top;
+    margin: 10px 0 0 15px;
+    font-size: 14px;
+    color: #999;
+}
+
+#Article .attention .fl img {
+    width: 64px;
+    height: 64px;
+}
+
+#Article .attention .attention-btn {
+    padding: 0 18px;
+    color: #0ec4ae;
+    border: 1px solid #0ec4ae;
+    -webkit-border-radius: 18px;
+    -moz-border-radius: 18px;
+    border-radius: 18px;
+    font-size: 18px;
+    margin-top: 15px;
+    display: inline-block;
+    line-height: 30px;
+}
+
+#Article .attention .attention-btn b {
+    font-size: 24px;
+    font-weight: normal;
+    margin-right: 6px;
+}
+
+#Article .attention .attention-btn:focus {
+    background-color: #0ec4ae;
+    color: #ffffff;
+}
+
+#Article .article-source {
+    padding: 15px 15px 30px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+#Article .article-source p {
+    color: #999999;
+    font-size: 12px;
+    border-bottom: 1px solid #e6e6e6;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+}
+
+#Article .article-source img {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
+#Article .article-source .fl span {
+    font-size: 16px;
+    vertical-align: top;
+    line-height: 32px;
+}
+
+#Article .article-source .fr {
+    font-size: 14px;
+    color: #999999;
+    line-height: 32px;
+}
+
+#Article .article-comment {
+    width: 100%;
+    padding: 15px;
+    background-color: #f4f4f4;
+}
+
+#Article .article-comment-header {
+    padding: 15px 0 22px;
+}
+
+#Article .article-comment-header h3 {
+    position: relative;
+    text-align: center;
+    color: #9e9e9e;
+    font-size: 14px;
+    margin-bottom: 10px;
+    height: 18px;
+
+}
+
+#Article .article-comment-header h3 .dash-line {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-bottom: 1px dotted #e5e5e5;
+}
+
+#Article .article-comment-header h3 span {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    display: inline-block;
+    padding: 0 6px;
+    background-color: #f4f4f4;
+    margin-left: -28px;
+}
+
+#Article .article-comment-header p {
+    text-align: right;
+}
+
+#Article .article-comment-header p a {
+    color: #6684aa;
+}
+
+#Article .article-comment-list {
+
+}
+
+#Article .article-comment-item {
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+#Article .article-comment-item .reviewer-avatar {
+    float: left;
+    width: 32px;
+    height: 32px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin-right: 9px;
+}
+
+#Article .article-comment-item .article-comment-item-right {
+    overflow: hidden;
+}
+
+#Article .reviewer-info h4 {
+    color: #777;
+    margin-bottom: 6px;
+}
+
+#Article .reviewer-info-liked {
+    float: right;
+    padding-left: 18px;
+    height: 21px;
+    background: url("../img/article-comment-praise.png") no-repeat 0 0;
+    cursor: pointer;
+    margin-top: -3px;
+}
+
+#Article .reviewer-info-liked.active{
+    background-position: 0 -21px;
+}
+
+#Article .reviewer-info-date {
+    margin-top: 3px;
+    color: #8d8d8d;
+    font-size: 12px;
+}
+
+#Article .author-comment {
+    margin-top: 6px;
+    padding-top: 9px;
+    border-top: 1px solid #e5e5e5;
+}
+
+#Article .author-comment h4 {
+    line-height: 14px;
+    margin-bottom: 6px;
+    padding-left: 6px;
+    border-left: 3px solid #00ba00;
+}
+
+#Article .author-comment-content {
+    padding-left: 9px;
+}
+
+#Article .author-comment-date {
+    margin-top: 3px;
+    padding-left: 9px;
+    color: #8d8d8d;
+    font-size: 12px;
+}
+
+#Article .article-statement {
+    text-align: center;
+    color: #999999;
+    padding: 15px 0;
+    line-height: 1.8;
+    font-size: 12px;
+}
+
+#Article .article-statement a {
+    color: #999999;
+}
+
+@media screen and (min-width: 1024px) {
+    body {
+        width: 740px;
+        margin-left: auto;
+        margin-right: auto
+    }
+}

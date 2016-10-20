@@ -1,0 +1,137 @@
+#Library {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 40px 0;
+    background-color: #f3f3f3;
+}
+
+#Library nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    overflow: hidden;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    background-color: #fff;
+    -webkit-box-shadow: 0 1px 0 #e6e6e6;
+    -moz-box-shadow: 0 1px 0 #e6e6e6;
+    box-shadow: 0 1px 0 #e6e6e6;
+
+}
+
+#Library nav > a {
+    display: inline-block;
+    height: 40px;
+    padding: 0 3px;
+    color: #4d4d4d;
+    border-bottom: 1px solid transparent;
+}
+
+#Library nav > a.active {
+    color: #0ec4af;
+    border-bottom-color: #0ec4af;
+}
+
+#Library nav .share {
+    float: right;
+    margin-right: 15px;
+}
+
+#Library nav .favor {
+    margin-left: 15px;
+}
+
+
+#Library section{
+    margin-top: 10px;
+    background-color: #fff;
+}
+
+#Library section li {
+    position: relative;
+    width: 100%;
+    height: 95px;
+    -webkit-box-shadow: 0 1px 0 #e6e6e6;
+    -moz-box-shadow: 0 1px 0 #e6e6e6;
+    box-shadow: 0 1px 0 #e6e6e6;
+    margin-bottom: 1px;
+}
+
+#Library section .item{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 95px;
+    padding: 15px;
+    background-color: #fff;
+
+}
+
+#Library section .item a.img-box {
+    display: block;
+    float: left;
+    width: 95px;
+    height: 65px;
+    margin-right: 10px;
+}
+
+#Library section .item a.img-box img {
+    width: 95px;
+    height: 65px;
+}
+
+#Library section .item h4 {
+    font-size: 16px;
+    height: 40px;
+    line-height: 20px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+#Library section .item h4 a {
+    color: #000000;
+}
+
+#Library section .item p {
+    height: 15px;
+    line-height: 15px;
+    font-size: 12px;
+    color: #9b9b9b;
+}
+
+#Library section .item p span {
+    display: inline-block;
+    height: 15px;
+    line-height: 15px;
+}
+
+#Library section .item p .author {
+    margin-right: 10px;
+}
+
+#Library section .item p .page-view {
+    background: url("../img/eyes.png") no-repeat 0 2px;
+    padding-left: 18px;
+    float: right;
+    margin-right: 6px;
+}
+
+#Library section li .del{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 80px;
+    height: 95px;
+    line-height: 95px;
+    text-align: center;
+    background-color: #4fe3c1;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+

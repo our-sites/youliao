@@ -1,0 +1,117 @@
+#Index{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 40px 0;
+    background-color: #f3f3f3;
+}
+#Index nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    overflow: hidden;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    background-color: #fff;
+    -webkit-box-shadow:  0 1px 0 #e6e6e6;
+    -moz-box-shadow: 0 1px 0 #e6e6e6;
+    box-shadow: 0 1px 0 #e6e6e6;
+
+}
+
+#Index nav .plus {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    line-height: 36px;
+    font-size: 20px;
+    text-align: center;
+    background: url("../img/plus-bg.png") no-repeat 0 0;
+}
+
+#Index nav ul{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 40px;
+}
+
+#Index nav li {
+    float: left;
+    height: 40px;
+    padding: 0 3px;
+    margin-left: 15px;
+    border-bottom: 1px solid transparent;
+}
+
+#Index nav li.active {
+    color: #0ec4af;
+    border-bottom-color: #0ec4af;
+}
+
+
+
+
+
+#Index section{
+    background-color: #fff;
+}
+
+#Index section li{
+    width: 100%;
+    height: 95px;
+    padding: 15px;
+    -webkit-box-shadow:  0 1px 0 #e6e6e6;
+    -moz-box-shadow: 0 1px 0 #e6e6e6;
+    box-shadow: 0 1px 0 #e6e6e6;
+}
+#Index section li a.img-box{
+    display: block;
+    float: left;
+    width: 95px;
+    height: 65px;
+    margin-right: 10px;
+}
+#Index section li a.img-box img{
+    width: 95px;
+    height: 65px;
+}
+
+#Index section li h4{
+    font-size: 16px;
+    height: 40px;
+    line-height: 20px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+#Index section li h4 a{
+    color: #000000;
+}
+
+#Index section li p{
+    height: 15px;
+    line-height: 15px;
+    font-size: 12px;
+    color: #9b9b9b;
+}
+#Index section li p span{
+    display: inline-block;
+    height: 15px;
+    line-height: 15px;
+}
+
+#Index section li p .author{
+    margin-right: 10px;
+}
+
+#Index section li p .page-view{
+    background: url("../img/eyes.png") no-repeat 0 2px;
+    padding-left: 18px;
+}
+
