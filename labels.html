@@ -8,20 +8,80 @@
     <link rel="stylesheet" href="css/labels.css">
 </head>
 <body>
+<script type="text/javascript">
+    window.jsonData = {
+        "code": 200,
+        "data": {
+            "recommend": [
+                {
+                    "cateid": 16,
+                    "catename": "社会"
+                },
+                {
+                    "cateid": 29,
+                    "catename": "生活"
+                },
+                {
+                    "cateid": 18,
+                    "catename": "娱乐"
+                },
+                {
+                    "cateid": 25,
+                    "catename": "女人"
+                }
+            ],
+            "normal": [
+                {
+                    "cateid": 28,
+                    "catename": "人文"
+                },
+                {
+                    "cateid": 19,
+                    "catename": "搞笑"
+                },
+                {
+                    "cateid": 20,
+                    "catename": "财经"
+                },
+                {
+                    "cateid": 21,
+                    "catename": "科技"
+                },
+                {
+                    "cateid": 26,
+                    "catename": "创业"
+                },
+                {
+                    "cateid": 31,
+                    "catename": "家庭"
+                }
+            ]
+        },
+        "msg": "",
+        "redirect": false,
+        "runTime": "1.65ms"
+    }
+</script>
 
     <div id="Labels">
-        <div class="yellow circle-1">家居</div>
-        <div class="yellow circle-2">思想</div>
-        <div class="cyan circle-3">杂谈</div>
-        <div class="cyan circle-4">生活</div>
-        <div class="cyan circle-5">理财</div>
-        <div class="yellow circle-6">美食</div>
-        <div class="yellow circle-7">科技</div>
-        <div class="cyan circle-8">感情</div>
-        <div class="cyan circle-9">艺术</div>
-        <div class="cyan circle-10">军事</div>
+        <div id="tags" class="tags">
+            <!--<div class="yellow circle-1">家居</div>-->
+            <!--<div class="yellow circle-2">思想</div>-->
+            <!--<div class="cyan circle-3">杂谈</div>-->
+            <!--<div class="cyan circle-4">生活</div>-->
+            <!--<div class="cyan circle-5">理财</div>-->
+            <!--<div class="yellow circle-6">美食</div>-->
+            <!--<div class="yellow circle-7">科技</div>-->
+            <!--<div class="cyan circle-8">感情</div>-->
+            <!--<div class="cyan circle-9">艺术</div>-->
+            <!--<div class="cyan circle-10">军事</div>-->
+        </div>
+        <form id="form1" action="/list" method="post" class="fn-hide">
+            <input id="ids" name="cate" type="text" />
+        </form>
         <p>请选择你感兴趣的三条标签</p>
     </div>
+
 
     <script src="js/jquery-1.11.1.min.js"></script>
     <script src="js/jquery.mobile.custom.js"></script>

@@ -1,7 +1,4 @@
-/**
- * Created by zhupengcheng on 2016/10/10.
- */
-$(function () {
+jQuery(function ($) {
 
     var _$ = function (arg) {
             var ele = $('#Article');

@@ -8,7 +8,7 @@
     overflow: hidden;
 }
 
-#Labels > div{
+#Labels .tags > div{
     position: absolute;
 }
 

@@ -146,6 +146,9 @@ code, kbd, pre, samp {
     float: right
 }
 
+.fn-hide{
+    display: none;
+}
 
 /*toastr*/
 .toastr{
