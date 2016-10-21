@@ -26,12 +26,13 @@
     right: 0;
     top: 0;
     z-index: 2;
-    width: 40px;
+    /*width: 40px;*/
+    width: 15px;
     height: 40px;
     line-height: 36px;
     font-size: 20px;
     text-align: center;
-    background: url("../img/plus-bg.png") no-repeat 0 0;
+    /*background: url("../img/plus-bg.png") no-repeat 0 0;*/
 }
 
 #Index nav ul{
@@ -39,6 +40,11 @@
     left: 0;
     top: 0;
     height: 40px;
+    -webkit-transition: left .3s ease-in-out;
+    -moz-transition: left .3s ease-in-out;
+    -ms-transition: left .3s ease-in-out;
+    -o-transition: left .3s ease-in-out;
+    transition: left .3s ease-in-out;
 }
 
 #Index nav li {

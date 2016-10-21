@@ -2,10 +2,10 @@
 
 // a simple http server
 
-var
-    fs = require('fs'),
+var fs = require('fs'),
     url = require('url'),
     path = require('path'),
+    mime = require('mime'),
     http = require('http');
 var root = path.resolve(process.argv[2] || '.');
 
@@ -13,10 +13,13 @@ console.log('Static root dir: ' + root);
 var server = http.createServer(function (request, response) {
     var pathname = url.parse(request.url).pathname, // '/static/bootstrap.css'
         filepath = path.join(root, pathname); // '/srv/www/static/bootstrap.css'
+
     fs.stat(filepath, function (err, stats) {
         if (!err && stats.isFile()) {
             console.log('200 ' + request.url);
-            response.writeHead(200);
+            response.writeHead(200,{
+                'Content-type': mime.lookup(filepath)
+            });
             fs.createReadStream(filepath).pipe(response);
         } else {
             console.log('404 ' + request.url);

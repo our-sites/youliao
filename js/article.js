@@ -28,7 +28,7 @@ jQuery(function ($) {
                     //评分
                     _$('header .grade').text(data.score + '分');
                     //文章内容
-                    _$('.article-content').html(data.content);
+                    _$('.article-content').html(data.content.replace(/data-src/g,'src').replace(/width\:\sauto/g, 'width: 100%'));
                     // 关注有料 跳转链接
                     _$('.attention-btn').attr('href', data.youliao_follow_url);
                     // 关注内容来源公众号 跳转链接
