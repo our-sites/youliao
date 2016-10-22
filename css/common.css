@@ -485,7 +485,7 @@ footer .account.active{
 }
 .dropload-refresh,.dropload-update,.dropload-load,.dropload-noData{
     height: 50px;
-    line-height: 50px;
+    line-height: 43px;
     text-align: center;
 }
 .dropload-load .loading{
