@@ -1,10 +1,11 @@
-#Index{
+#Index {
     width: 100%;
     height: 100%;
     position: relative;
     padding: 40px 0;
     background-color: #f3f3f3;
 }
+
 #Index nav {
     position: fixed;
     left: 0;
@@ -15,7 +16,7 @@
     height: 40px;
     line-height: 40px;
     background-color: #fff;
-    -webkit-box-shadow:  0 1px 0 #e6e6e6;
+    -webkit-box-shadow: 0 1px 0 #e6e6e6;
     -moz-box-shadow: 0 1px 0 #e6e6e6;
     box-shadow: 0 1px 0 #e6e6e6;
 
@@ -33,9 +34,13 @@
     font-size: 20px;
     text-align: center;
     /*background: url("../img/plus-bg.png") no-repeat 0 0;*/
+    background: url("../img/bg-shadow.png") no-repeat 0 0;
+    -webkit-background-size: auto 100%;
+    background-size: auto 100%;
+    opacity: .7;
 }
 
-#Index nav ul{
+#Index nav ul {
     position: absolute;
     left: 0;
     top: 0;
@@ -60,35 +65,33 @@
     border-bottom-color: #0ec4af;
 }
 
-
-
-
-
-#Index section{
+#Index section {
     background-color: #fff;
 }
 
-#Index section li{
+#Index section li {
     width: 100%;
     height: 95px;
     padding: 15px;
-    -webkit-box-shadow:  0 1px 0 #e6e6e6;
+    -webkit-box-shadow: 0 1px 0 #e6e6e6;
     -moz-box-shadow: 0 1px 0 #e6e6e6;
     box-shadow: 0 1px 0 #e6e6e6;
 }
-#Index section li a.img-box{
+
+#Index section li a.img-box {
     display: block;
     float: left;
     width: 95px;
     height: 65px;
     margin-right: 10px;
 }
-#Index section li a.img-box img{
+
+#Index section li a.img-box img {
     width: 95px;
     height: 65px;
 }
 
-#Index section li h4{
+#Index section li h4 {
     font-size: 16px;
     height: 40px;
     line-height: 20px;
@@ -96,27 +99,28 @@
     overflow: hidden;
 }
 
-#Index section li h4 a{
+#Index section li h4 a {
     color: #000000;
 }
 
-#Index section li p{
+#Index section li p {
     height: 15px;
     line-height: 15px;
     font-size: 12px;
     color: #9b9b9b;
 }
-#Index section li p span{
+
+#Index section li p span {
     display: inline-block;
     height: 15px;
     line-height: 15px;
 }
 
-#Index section li p .author{
+#Index section li p .author {
     margin-right: 10px;
 }
 
-#Index section li p .page-view{
+#Index section li p .page-view {
     background: url("../img/eyes.png") no-repeat 0 2px;
     padding-left: 18px;
 }

@@ -18,7 +18,8 @@ jQuery(function ($) {
                     Ul = Nav.find('ul'),
                     Plus = Nav.find('.plus'),
                     Body = $('body'),
-                    rate = 3,
+                    rate = 1.5,
+                    boursLength = 20,
                     limitWidth = Nav.width() - Plus.width();
 
                 // 取得ul的真实宽度
@@ -31,20 +32,26 @@ jQuery(function ($) {
                 });
 
                 // 设置ul的宽度 使所有li在一行显示
-                Ul.css('width', 100 * Li.length + '%');
+                Ul.css('width', width);
                 // console.log(width);
 
+                Ul.on('vmouseover', function (e) {
+                    Ul.data('x', e.pageX)
+                });
+
                 // 滑动
-                Ul.on('swipe', function (e) {
-                    var distance = e.swipestart.coords[0] - e.swipestop.coords[0],
+                Ul.on('vmousemove', function (e) {
+                    var distance = Ul.data('x') - e.pageX,
                         left = Ul.css('left').slice(0, Ul.css('left').length - 2),
                         finalLeft = 0;
+
+
                     if (distance < 0) {
                         // 左滑 ←
                         finalLeft = left - distance * rate;
                         // 如果已经是最左
-                        if (finalLeft > 0) {
-                            finalLeft = 0
+                        if (finalLeft > boursLength) {
+                            finalLeft = boursLength
                         }
 
                     } else {
@@ -53,8 +60,8 @@ jQuery(function ($) {
                         if (width > limitWidth) {
                             finalLeft = left - distance * rate;
                             // 如果已经是最右
-                            if (limitWidth - width > finalLeft) {
-                                finalLeft = limitWidth - width
+                            if (limitWidth - width - boursLength > finalLeft) {
+                                finalLeft = limitWidth - width - boursLength;
                             }
                         } else {
                             finalLeft = 0
@@ -63,9 +70,20 @@ jQuery(function ($) {
 
                     // 滑动
                     /*Ul.animate({
-                        left: finalLeft
-                    }, 200);*/
-                    Ul.css('left',finalLeft);
+                     left: finalLeft
+                     }, 200);*/
+                    Ul.css('left', finalLeft);
+
+
+                    setTimeout(function () {
+                        if (finalLeft > 0) {
+                            Ul.css('left', 0);
+                        } else if (limitWidth - width > finalLeft) {
+                            Ul.css('left', limitWidth - width);
+                        }
+                    }, 300);
+
+
                     // console.log(left - distance*2);
                     // console.log(left);
                     // console.log(Ul.width());
