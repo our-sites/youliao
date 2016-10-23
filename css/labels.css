@@ -26,7 +26,7 @@
     width: 58px;
     height: 58px;
     line-height: 58px;
-    border: 1px solid #f3a622;
+    border: 1px solid #ffd199;
     color: #f3a622;
     text-align: center;
     font-size: 18px;
@@ -38,7 +38,7 @@
 }
 
 #Labels .yellow.active{
-    background: #f3a622;
+    background: #ffc766;
     color: #ffffff;
 }
 
@@ -46,7 +46,7 @@
     width: 49px;
     height: 49px;
     line-height: 49px;
-    border: 1px solid #0ec4ae;
+    border: 1px solid #73e6d8;
     color: #0ec4ae;
     text-align: center;
     font-size: 16px;
@@ -58,7 +58,7 @@
 }
 
 #Labels .cyan.active{
-    background: #0ec4ae;
+    background: #50e3c2;
     color: #ffffff;
 }
 
