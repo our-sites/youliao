@@ -12,6 +12,7 @@ jQuery(function ($) {
 
                 window.Common.footer(_$);
             },
+            preload: '',
             navSwipe: function () {
                 var that = this,
                     Nav = _$('nav'),
@@ -100,12 +101,15 @@ jQuery(function ($) {
 
                     $(this).addClass('active').siblings('li').removeClass('active');
 
+
+                    // section.find(oldEl).data('scrolltop', Body.scrollTop());
+
                     section.hide();
                     _$('.loading-big').show();
 
-                    section.find(oldEl).data('scrolltop', Body.scrollTop());
                     section.find(el).show().siblings('ul').hide();
-                    Body.scrollTop(section.find(el).data('scrolltop') || 0);
+
+                    // Body.scrollTop(section.find(el).data('scrolltop') || 0);
 
 
                     /*if (that[key]) {
@@ -137,7 +141,7 @@ jQuery(function ($) {
                     Body = $('body'),
                     url = window.Common.domain + '/wx/article/interest' + '?callback=?',
                     loading = '<div class="loading-small"><div class="loading-icon"><div class="loading-curve"></div></div>页面加载中...</div>',
-                    successFun = function (data, me, cateId) {
+                    successFun = function (data, me, cateId, type, preload) {
                         if (window.Common.verifyData(data)) {
                             var listData = data.data.list,
                                 key = 'tabs' + cateId,
@@ -154,12 +158,29 @@ jQuery(function ($) {
                                     '<p><span class="author">' + author + '</span><span class="page-view">' + view + '</span>' +
                                     '</p></a></li>';
                             }
-                            _$('.loading-big').hide();
-                            section.show().find(el).html(_html);
-                            that[key] = true;
-                            that.dropload.resetload();
-                            me.unlock();
-                            me.noData(false);
+                            if (preload) {
+                                that.preload = _html;
+                                console.log('preload is true');
+                            } else {
+                                // 隐藏loading
+                                _$('.loading-big').hide();
+                                // 删除之前的refresh-node
+                                section.find('.refresh-node').remove();
+                                // 判断是prepend 还是append
+                                if (type == 'prepend') {
+                                    _html += '<div class="refresh-node">刚刚看到这里，点击刷新</div>';
+                                    section.show().find(el).prepend(_html);
+                                } else if (type == 'append') {
+                                    section.show().find(el).append(_html);
+                                } else {
+                                    console.log('choose the type first')
+                                }
+                                // that[key] = true;
+                                that.dropload.resetload();
+                                me.unlock();
+                                me.noData(false);
+                            }
+
                         }
                     };
 
@@ -179,8 +200,8 @@ jQuery(function ($) {
                         if (cateId == 0) {
                             url = window.Common.domain + '/wx/article/interest' + '?callback=?';
                         } else {
-                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';
-                            url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&callback=?';
+                            url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';
+                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&callback=?';
                         }
 
                         $.ajax({
@@ -188,8 +209,8 @@ jQuery(function ($) {
                             url: url,
                             dataType: 'json',
                             success: function (data) {
-                                successFun(data, me, cateId);
-                                me.$domUp.css("height", 0);
+                                successFun(data, me, cateId, 'prepend');
+                                // me.$domUp.css("height", 0);
                             },
                             error: function (xhr, type) {
                                 that.dropload.resetload();
@@ -202,24 +223,73 @@ jQuery(function ($) {
                         if (cateId == 0) {
                             url = window.Common.domain + '/wx/article/interest' + '?callback=?';
                         } else {
-                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';
-                            url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&callback=?';
+                            url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';
+                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&callback=?';
                         }
 
+                        // 正常请求
                         $.ajax({
                             type: 'GET',
                             url: url,
                             dataType: 'json',
                             success: function (data) {
-                                successFun(data, me, cateId);
-                                Body.scrollTop(0);
+                                successFun(data, me, cateId, 'append');
                             },
                             error: function (xhr, type) {
                                 that.dropload.resetload();
                             }
                         });
+
+                        if (that.preload) {
+                            // 隐藏loading
+                            _$('.loading-big').hide();
+                            // 删除之前的refresh-node
+                            section.find('.refresh-node').remove();
+                            // append
+                            section.show().find('ul[data-id="' + cateId + '"]').append(that.preload);
+
+                            that.preload = '';
+
+                            // 预加载
+                            $.ajax({
+                                type: 'GET',
+                                url: url,
+                                dataType: 'json',
+                                success: function (data) {
+                                    successFun(data, me, cateId, 'append', true);
+                                },
+                                error: function (xhr, type) {
+                                    that.dropload.resetload();
+                                }
+                            });
+
+                            that.dropload.resetload();
+                            me.unlock();
+                            me.noData(false);
+                        } else {
+                            // 预加载
+                            $.ajax({
+                                type: 'GET',
+                                url: url,
+                                dataType: 'json',
+                                success: function (data) {
+                                    successFun(data, me, cateId, 'append', true);
+                                },
+                                error: function (xhr, type) {
+                                    that.dropload.resetload();
+                                }
+                            });
+                        }
+
                     }
                 });
+
+            },
+            refreshNode: function () {
+                var refresh = _$('.refresh-node');
+                refresh.on('tap', function () {
+                    
+                })
             }
         };
 
