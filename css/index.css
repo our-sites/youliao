@@ -19,7 +19,6 @@
     -webkit-box-shadow: 0 1px 0 #e6e6e6;
     -moz-box-shadow: 0 1px 0 #e6e6e6;
     box-shadow: 0 1px 0 #e6e6e6;
-
 }
 
 #Index nav .plus {
@@ -69,7 +68,6 @@
     display: none;
     background-color: #fff;
 }
-
 
 #Index section li {
     width: 100%;
@@ -125,3 +123,10 @@
     padding-left: 18px;
 }
 
+#Index .refresh-node {
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: #eee;
+    color: #0ec4af;
+}

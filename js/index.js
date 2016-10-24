@@ -1,19 +1,21 @@
-jQuery(function ($) {
+jQuery(function($) {
 
-    var _$ = function (arg) {
+    var _$ = function(arg) {
             var ele = $('#Index');
             return arg ? ele.find(arg) : ele
         },
         Index = {
-            init: function () {
+            init: function() {
                 this.navSwipe();
 
                 this.loadContent();
 
+                this.refreshNode();
+
                 window.Common.footer(_$);
             },
             preload: '',
-            navSwipe: function () {
+            navSwipe: function() {
                 var that = this,
                     Nav = _$('nav'),
                     Ul = Nav.find('ul'),
@@ -28,7 +30,7 @@ jQuery(function ($) {
                     Li = Ul.find('li'),
                     Padding = Number(Li.css('padding-left').replace('px', '')) * 2,
                     Margin = Number(Li.css('margin-left').replace('px', ''));
-                Li.each(function () {
+                Li.each(function() {
                     width += $(this).width() + Padding + Margin
                 });
 
@@ -36,12 +38,12 @@ jQuery(function ($) {
                 Ul.css('width', width);
                 // console.log(width);
 
-                Ul.on('vmouseover', function (e) {
+                Ul.on('vmouseover', function(e) {
                     Ul.data('x', e.pageX)
                 });
 
                 // 滑动
-                Ul.on('vmousemove', function (e) {
+                Ul.on('vmousemove', function(e) {
                     var distance = Ul.data('x') - e.pageX,
                         left = Ul.css('left').slice(0, Ul.css('left').length - 2),
                         finalLeft = 0;
@@ -71,7 +73,7 @@ jQuery(function ($) {
                     Ul.css('left', finalLeft);
 
 
-                    setTimeout(function () {
+                    setTimeout(function() {
                         if (finalLeft > 0) {
                             Ul.css('left', 0);
                         } else if (limitWidth - width > finalLeft) {
@@ -83,13 +85,13 @@ jQuery(function ($) {
                 });
 
                 // 初始化一些值
-                Ul.find('li').each(function () {
+                Ul.find('li').each(function() {
                     var key = 'tabs' + $(this).data('id');
                     that[key] = false;
                 });
 
                 // 点击
-                Ul.find('li').on('tap', function () {
+                Ul.find('li').on('tap', function() {
                     var cateId = $(this).data('id'),
                         el = 'ul[data-id="' + cateId + '"]',
                         key = 'tabs' + cateId,
@@ -128,20 +130,20 @@ jQuery(function ($) {
                 });
 
                 //添加
-                Plus.on('tap', function () {
+                Plus.on('tap', function() {
                     var str = '<div id="tagsBox"><div class="tags-body"><p class="clf"><span class="close">&times;</span></p>' +
                         '<div class="my"><h5>我的频道 <span class="edit">编辑</span><span class="success">完成</span></h5><div class="my-content">' +
                         '</div></div><div class="more"><h5>点击添加更多频道</h5>' +
                         '</div></div><div class="mask"></div></div>';
                 })
             },
-            loadContent: function () {
+            loadContent: function() {
                 var that = this,
                     section = _$('section'),
                     Body = $('body'),
                     url = window.Common.domain + '/wx/article/interest' + '?callback=?',
                     loading = '<div class="loading-small"><div class="loading-icon"><div class="loading-curve"></div></div>页面加载中...</div>',
-                    successFun = function (data, me, cateId, type, preload) {
+                    successFun = function(data, me, cateId, type, preload) {
                         if (window.Common.verifyData(data)) {
                             var listData = data.data.list,
                                 key = 'tabs' + cateId,
@@ -170,6 +172,7 @@ jQuery(function ($) {
                                 if (type == 'prepend') {
                                     _html += '<div class="refresh-node">刚刚看到这里，点击刷新</div>';
                                     section.show().find(el).prepend(_html);
+                                    Body.scrollTop(0);
                                 } else if (type == 'append') {
                                     section.show().find(el).append(_html);
                                 } else {
@@ -194,37 +197,37 @@ jQuery(function ($) {
                         domClass: 'dropload-down',
                         domLoad: loading,
                     },
-                    loadUpFn: function (me) {
+                    loadUpFn: function(me) {
                         var cateId = _$('nav').find('li.active').data('id');
 
                         if (cateId == 0) {
                             url = window.Common.domain + '/wx/article/interest' + '?callback=?';
                         } else {
-                            url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';
-                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&callback=?';
+                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';
+                            url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&callback=?';
                         }
 
                         $.ajax({
                             type: 'GET',
                             url: url,
                             dataType: 'json',
-                            success: function (data) {
+                            success: function(data) {
                                 successFun(data, me, cateId, 'prepend');
                                 // me.$domUp.css("height", 0);
                             },
-                            error: function (xhr, type) {
+                            error: function(xhr, type) {
                                 that.dropload.resetload();
                             }
                         });
                     },
-                    loadDownFn: function (me) {
+                    loadDownFn: function(me) {
                         var cateId = _$('nav').find('li.active').data('id');
 
                         if (cateId == 0) {
                             url = window.Common.domain + '/wx/article/interest' + '?callback=?';
                         } else {
-                            url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';
-                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&callback=?';
+                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';
+                            url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&callback=?';
                         }
 
                         // 正常请求
@@ -232,10 +235,10 @@ jQuery(function ($) {
                             type: 'GET',
                             url: url,
                             dataType: 'json',
-                            success: function (data) {
+                            success: function(data) {
                                 successFun(data, me, cateId, 'append');
                             },
-                            error: function (xhr, type) {
+                            error: function(xhr, type) {
                                 that.dropload.resetload();
                             }
                         });
@@ -255,10 +258,10 @@ jQuery(function ($) {
                                 type: 'GET',
                                 url: url,
                                 dataType: 'json',
-                                success: function (data) {
+                                success: function(data) {
                                     successFun(data, me, cateId, 'append', true);
                                 },
-                                error: function (xhr, type) {
+                                error: function(xhr, type) {
                                     that.dropload.resetload();
                                 }
                             });
@@ -272,10 +275,10 @@ jQuery(function ($) {
                                 type: 'GET',
                                 url: url,
                                 dataType: 'json',
-                                success: function (data) {
+                                success: function(data) {
                                     successFun(data, me, cateId, 'append', true);
                                 },
-                                error: function (xhr, type) {
+                                error: function(xhr, type) {
                                     that.dropload.resetload();
                                 }
                             });
@@ -285,10 +288,10 @@ jQuery(function ($) {
                 });
 
             },
-            refreshNode: function () {
-                var refresh = _$('.refresh-node');
-                refresh.on('tap', function () {
-                    
+            refreshNode: function() {
+                var that = this;
+                $(document).on('tap', '.refresh-node', function() {
+                    that.dropload.opts.loadUpFn(that.dropload);
                 })
             }
         };
