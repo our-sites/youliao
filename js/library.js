@@ -9,7 +9,6 @@ jQuery(function ($) {
 
                 this.loadContent();
                 this.delItem();
-
                 window.Common.footer(_$);
 
             },
@@ -33,10 +32,12 @@ jQuery(function ($) {
                                         title = listData[x]['title'],
                                         view = listData[x]['viewnum'],
                                         author = listData[x]['actname'];
-                                    _html += '<li><div class="item clf"><a href="' + href + '" class="img-box"><img src="' + src + '" alt=""></a>' +
-                                        '<h4><a href="' + href + '">' + title + '</a></h4><p><span class="author">' + author +
-                                        '</span><span class="page-view">' + view + '</span></p></div> <div class="del" data-id="' + id + '">删除</div></li>';
+                                    _html += '<li><div class="item clf"><a href="' + href + '"><img src="' + src + '" alt="">' +
+                                        '<h4>' + title + '</h4><p><span class="author">' + author + '</span><span class="page-view">' +
+                                        view + '</span></p></div><div class="del" data-id="' + id + '">删除</div></a></li>';
                                 }
+                                _$('.loading-big').hide();
+                                section.show();
 
                                 if (type == 'refresh') {
                                     section.find('ul').html(_html);
@@ -59,7 +60,6 @@ jQuery(function ($) {
 
                         }
                     };
-
 
                 that.dropload = section.dropload({
                     scrollArea: window,

@@ -18,7 +18,7 @@ jQuery(function ($) {
                     Ul = Nav.find('ul'),
                     Plus = Nav.find('.plus'),
                     Body = $('body'),
-                    rate = 1.5,
+                    rate = 1.2,
                     boursLength = 20,
                     limitWidth = Nav.width() - Plus.width();
 
@@ -44,8 +44,6 @@ jQuery(function ($) {
                     var distance = Ul.data('x') - e.pageX,
                         left = Ul.css('left').slice(0, Ul.css('left').length - 2),
                         finalLeft = 0;
-
-
                     if (distance < 0) {
                         // 左滑 ←
                         finalLeft = left - distance * rate;
@@ -69,9 +67,6 @@ jQuery(function ($) {
                     }
 
                     // 滑动
-                    /*Ul.animate({
-                     left: finalLeft
-                     }, 200);*/
                     Ul.css('left', finalLeft);
 
 
@@ -84,10 +79,6 @@ jQuery(function ($) {
                     }, 300);
 
 
-                    // console.log(left - distance*2);
-                    // console.log(left);
-                    // console.log(Ul.width());
-                    // console.log(e.swipestop. coords[0] - e.swipestart. coords[0]);
                 });
 
                 // 初始化一些值
@@ -100,7 +91,8 @@ jQuery(function ($) {
                 Ul.find('li').on('tap', function () {
                     var cateId = $(this).data('id'),
                         el = 'ul[data-id="' + cateId + '"]',
-                        key = 'tabs' + cateId;
+                        key = 'tabs' + cateId,
+                        section = _$('section');
 
                     var oldCateId = $(this).siblings('.active').data('id'),
                         oldEl = 'ul[data-id="' + oldCateId + '"]',
@@ -108,9 +100,12 @@ jQuery(function ($) {
 
                     $(this).addClass('active').siblings('li').removeClass('active');
 
-                    _$('section').find(oldEl).data('scrolltop', Body.scrollTop());
-                    _$('section').find(el).show().siblings('ul').hide();
-                    Body.scrollTop(_$('section').find(el).data('scrolltop') || 0);
+                    section.hide();
+                    _$('.loading-big').show();
+
+                    section.find(oldEl).data('scrolltop', Body.scrollTop());
+                    section.find(el).show().siblings('ul').hide();
+                    Body.scrollTop(section.find(el).data('scrolltop') || 0);
 
 
                     /*if (that[key]) {
@@ -155,11 +150,12 @@ jQuery(function ($) {
                                     title = listData[x]['title'],
                                     view = listData[x]['viewnum'],
                                     author = listData[x]['actname'];
-                                _html += '<li><a href="' + href + '" class="img-box"><img src="' + src + '" alt=""></a>' +
-                                    '<h4><a href="' + href + '">' + title + '</a></h4><p><span class="author">' + author +
-                                    '</span><span class="page-view">' + view + '</span></p></li>';
+                                _html += '<li><a href="' + href + '"><img src="' + src + '" alt=""><h4>' + title + '</h4>' +
+                                    '<p><span class="author">' + author + '</span><span class="page-view">' + view + '</span>' +
+                                    '</p></a></li>';
                             }
-                            section.find(el).html(_html);
+                            _$('.loading-big').hide();
+                            section.show().find(el).html(_html);
                             that[key] = true;
                             that.dropload.resetload();
                             me.unlock();
@@ -183,7 +179,8 @@ jQuery(function ($) {
                         if (cateId == 0) {
                             url = window.Common.domain + '/wx/article/interest' + '?callback=?';
                         } else {
-                            url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';
+                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';
+                            url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&callback=?';
                         }
 
                         $.ajax({
@@ -205,7 +202,8 @@ jQuery(function ($) {
                         if (cateId == 0) {
                             url = window.Common.domain + '/wx/article/interest' + '?callback=?';
                         } else {
-                            url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';
+                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';
+                            url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&callback=?';
                         }
 
                         $.ajax({

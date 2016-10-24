@@ -46,6 +46,7 @@
 
 
 #Library section{
+    display: none;
     margin-top: 10px;
     background-color: #fff;
 }
@@ -72,17 +73,16 @@
 
 }
 
-#Library section .item a.img-box {
+#Library section .item a{
+    display: block;
+}
+
+#Library section .item img {
     display: block;
     float: left;
     width: 95px;
     height: 65px;
     margin-right: 10px;
-}
-
-#Library section .item a.img-box img {
-    width: 95px;
-    height: 65px;
 }
 
 #Library section .item h4 {
@@ -93,7 +93,7 @@
     overflow: hidden;
 }
 
-#Library section .item h4 a {
+#Library section .item h4{
     color: #000000;
 }
 

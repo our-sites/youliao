@@ -66,8 +66,10 @@
 }
 
 #Index section {
+    display: none;
     background-color: #fff;
 }
+
 
 #Index section li {
     width: 100%;
@@ -78,17 +80,18 @@
     box-shadow: 0 1px 0 #e6e6e6;
 }
 
-#Index section li a.img-box {
+#Index section li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+#Index section li img {
     display: block;
     float: left;
     width: 95px;
     height: 65px;
     margin-right: 10px;
-}
-
-#Index section li a.img-box img {
-    width: 95px;
-    height: 65px;
 }
 
 #Index section li h4 {
@@ -97,9 +100,6 @@
     line-height: 20px;
     margin-bottom: 10px;
     overflow: hidden;
-}
-
-#Index section li h4 a {
     color: #000000;
 }
 

@@ -91,9 +91,9 @@ jQuery(function ($) {
                     content: data.msg,
                     pos: "top"
                 });
-                setTimeOut(function () {
+                /*setTimeout(function () {
                     window.location.href = window.Common.domain + '/console/user/login';
-                }, 1000);
+                }, 1000);*/
                 return false;
             } else {
                 window.Common.toastr({
