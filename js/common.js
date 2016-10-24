@@ -1,7 +1,7 @@
-jQuery(function ($) {
+jQuery(function($) {
     var Common = {
 
-        toastr: function (options) {
+        toastr: function(options) {
             // 移除之前的
             $('.toastr').remove();
             // 添加新的
@@ -35,11 +35,11 @@ jQuery(function ($) {
                 };
             }
 
-            if(Number(config.delay)){
-                Toastr.css(setValue).fadeIn().delay(config.delay).fadeOut(300, function () {
+            if (Number(config.delay)) {
+                Toastr.css(setValue).fadeIn().delay(config.delay).fadeOut(300, function() {
                     $(this).remove();
                 });
-            }else if(config.delay == 'fixed'){
+            } else if (config.delay == 'fixed') {
                 Toastr.css(setValue).fadeIn();
             }
 
@@ -48,13 +48,13 @@ jQuery(function ($) {
 
         },
 
-        footer: function (_$) {
+        footer: function(_$) {
             _$().css('min-height', $(window).height());
             _$('footer').length && _$('footer').show();
         },
 
-        feedback: function (ele) {
-            ele.on('click', function () {
+        feedback: function(ele) {
+            ele.on('click', function() {
                 if (!$('#feedbackBox').length) {
                     var str = '<div id="feedbackBox"><div class="feedback-body"><textarea placeholder="请输入你的问题和建议"></textarea>' +
                         '<input type="number" placeholder="请留下你的QQ/电话"><div class="submit">提交</div></div><div class="feedback-mask"></div></div>';
@@ -64,14 +64,14 @@ jQuery(function ($) {
                 }
             });
 
-            $(document).on('tap', '.feedback-mask', function () {
+            $(document).on('tap', '.feedback-mask', function() {
                 $('#feedbackBox').hide();
             })
         },
-        comment: function (ele) {
-            ele.on('click', function () {
+        comment: function(ele) {
+            ele.on('click', function() {
                 if (!$('#commentBox').length) {
-                    var str = '<div id="commentBox"><div class="comment-body"><textarea placeholder="请输入你的问题和建议"></textarea>' +
+                    var str = '<div id="commentBox"><div class="comment-body"><textarea placeholder="请输入你的评论"></textarea>' +
                         '<div class="submit">发表</div></div><div class="comment-mask"></div></div>';
                     $('body').append(str);
                 } else {
@@ -79,11 +79,11 @@ jQuery(function ($) {
                 }
             });
 
-            $(document).on('tap', '.comment-mask', function () {
+            $(document).on('tap', '.comment-mask', function() {
                 $('#commentBox').hide();
             })
         },
-        verifyData: function (data) {
+        verifyData: function(data) {
             if (data.code == 200) {
                 return true;
             } else if (data.code == 10001) {

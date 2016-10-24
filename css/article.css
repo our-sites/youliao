@@ -30,6 +30,7 @@
 }
 
 #Article header .grade {
+    display: none;
     color: #0dc4ae;
     padding: 1px 6px;
     border: 1px solid #0dc4ae;
@@ -202,7 +203,6 @@
     font-size: 14px;
     margin-bottom: 10px;
     height: 18px;
-
 }
 
 #Article .article-comment-header h3 .dash-line {
@@ -232,9 +232,7 @@
     color: #6684aa;
 }
 
-#Article .article-comment-list {
-
-}
+#Article .article-comment-list {}
 
 #Article .article-comment-item {
     margin-bottom: 30px;
@@ -269,7 +267,7 @@
     margin-top: -3px;
 }
 
-#Article .reviewer-info-liked.active{
+#Article .reviewer-info-liked.active {
     background-position: 0 -21px;
 }
 
@@ -312,11 +310,13 @@
 }
 
 #Article .article-statement a {
-    color: #999999;
+    color: #27cdb9;
 }
 
 @media screen and (min-width: 1024px) {
-    body {
+    body,
+    .comment-body,
+    .feedback-body {
         width: 740px;
         margin-left: auto;
         margin-right: auto

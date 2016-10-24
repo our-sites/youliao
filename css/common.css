@@ -2,31 +2,87 @@ html {
     color: #4d4d4d;
     background: #fff;
     -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%
+    -ms-text-size-adjust: 100%;
 }
 
-body, div, dl, dt, dd, a, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+body,
+div,
+dl,
+dt,
+dd,
+a,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td,
+hr,
+button,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     outline: none;
 }
 
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
     display: block
 }
 
-audio, canvas, video {
+audio,
+canvas,
+video {
     display: inline-block;
     *display: inline;
     *zoom: 1
 }
 
-body, button, input, select, textarea {
-    font: 14px/1.5 tahoma, arial, "Hiragino Sans GB","Microsoft YaHei", \5b8b\4f53
+body,
+button,
+input,
+select,
+textarea {
+    font: 14px/1.5 tahoma, arial, "Hiragino Sans GB", "Microsoft YaHei", \5b8b\4f53
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
     font-size: 100%
 }
 
@@ -39,7 +95,8 @@ th {
     text-align: inherit
 }
 
-fieldset, img {
+fieldset,
+img {
     border: 0
 }
 
@@ -47,7 +104,8 @@ iframe {
     display: block
 }
 
-abbr, acronym {
+abbr,
+acronym {
     border: 0;
     font-variant: normal
 }
@@ -56,29 +114,45 @@ del {
     text-decoration: line-through
 }
 
-address, caption, cite, code, dfn, em, th, var {
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+th,
+var {
     font-style: normal;
     font-weight: 500
 }
 
-ol, ul {
+ol,
+ul {
     list-style: none
 }
 
-caption, th {
+caption,
+th {
     text-align: left
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-size: 100%;
     font-weight: 500
 }
 
-q:before, q:after {
+q:before,
+q:after {
     content: ''
 }
 
-sub, sup {
+sub,
+sup {
     font-size: 75%;
     line-height: 0;
     position: relative;
@@ -103,16 +177,22 @@ a:hover {
     text-decoration: none;
 }
 
-ins, a {
+ins,
+a {
     text-decoration: none
 }
 
-code, kbd, pre, samp {
+code,
+kbd,
+pre,
+samp {
     font-family: monospace, serif;
     font-size: 1em
 }
 
-.clearfix:after, .layout:after, .clf:after {
+.clearfix:after,
+.layout:after,
+.clf:after {
     visibility: hidden;
     display: block;
     font-size: 0;
@@ -121,7 +201,9 @@ code, kbd, pre, samp {
     height: 0
 }
 
-.clearfix, .layout, .clf {
+.clearfix,
+.layout,
+.clf {
     zoom: 1
 }
 
@@ -134,7 +216,8 @@ code, kbd, pre, samp {
     overflow: hidden
 }
 
-.fl, .fr {
+.fl,
+.fr {
     display: inline
 }
 
@@ -146,12 +229,20 @@ code, kbd, pre, samp {
     float: right
 }
 
-.fn-hide{
+.fn-hide {
     display: none;
 }
 
+/*html,
+body {
+    overflow-x: hidden;
+}
+*/
+
+
 /*toastr*/
-.toastr{
+
+.toastr {
     position: fixed;
     left: 50%;
     z-index: 4000;
@@ -161,14 +252,15 @@ code, kbd, pre, samp {
     font-size: 16px;
     color: #ffffff;
     text-align: center;
-    background: rgba(0,0,0,.75);
-    -webkit-border-radius:12px;
-    -moz-border-radius:12px;
+    background: rgba(0, 0, 0, .75);
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
     border-radius: 12px;
 }
 
 
 /*footer*/
+
 footer {
     display: none;
     position: fixed;
@@ -198,15 +290,15 @@ footer > a {
 }
 
 footer > a:focus,
-footer > a:hover{
+footer > a:hover {
     color: #ababab;
 }
 
-footer > a.active{
+footer > a.active {
     color: #0ec4af;
 }
 
-footer > a span{
+footer > a span {
     transform: scale(0.9);
 }
 
@@ -215,7 +307,7 @@ footer .home {
     background-position: center top;
 }
 
-footer .home.active{
+footer .home.active {
     background-position: center -45px;
 }
 
@@ -225,7 +317,7 @@ footer .library {
     background-position: center -90px;
 }
 
-footer .library.active{
+footer .library.active {
     background-position: center -135px;
 }
 
@@ -234,12 +326,14 @@ footer .account {
     background-position: center -180px;
 }
 
-footer .account.active{
+footer .account.active {
     background-position: center -225px;
 }
 
+
 /*feedbackBox*/
-#feedbackBox{
+
+#feedbackBox {
     position: fixed;
     top: 0;
     left: 0;
@@ -249,14 +343,16 @@ footer .account.active{
     width: 100%;
     height: 100%;
 }
-#feedbackBox .feedback-mask{
+
+#feedbackBox .feedback-mask {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
 }
-#feedbackBox .feedback-body{
+
+#feedbackBox .feedback-body {
     position: relative;
     z-index: 2;
     width: 90%;
@@ -271,7 +367,8 @@ footer .account.active{
     -moz-box-shadow: 0 0 16px rgba(204, 204, 204, .9);
     box-shadow: 0 0 16px rgba(204, 204, 204, .9);
 }
-#feedbackBox .feedback-body textarea{
+
+#feedbackBox .feedback-body textarea {
     width: 100%;
     height: 115px;
     margin-bottom: 10px;
@@ -283,7 +380,7 @@ footer .account.active{
     border-radius: 5px;
 }
 
-#feedbackBox .feedback-body input{
+#feedbackBox .feedback-body input {
     width: 100%;
     height: 35px;
     line-height: 35px;
@@ -296,7 +393,7 @@ footer .account.active{
     margin-bottom: 10px;
 }
 
-#feedbackBox .feedback-body .submit{
+#feedbackBox .feedback-body .submit {
     width: 100%;
     height: 35px;
     line-height: 35px;
@@ -309,8 +406,10 @@ footer .account.active{
     background-color: #0ec4ae;
 }
 
+
 /*commentBox*/
-#commentBox{
+
+#commentBox {
     position: fixed;
     top: 0;
     left: 0;
@@ -320,14 +419,16 @@ footer .account.active{
     width: 100%;
     height: 100%;
 }
-#commentBox .comment-mask{
+
+#commentBox .comment-mask {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
 }
-#commentBox .comment-body{
+
+#commentBox .comment-body {
     position: relative;
     z-index: 2;
     width: 90%;
@@ -342,7 +443,8 @@ footer .account.active{
     -moz-box-shadow: 0 0 16px rgba(204, 204, 204, .9);
     box-shadow: 0 0 16px rgba(204, 204, 204, .9);
 }
-#commentBox .comment-body textarea{
+
+#commentBox .comment-body textarea {
     width: 100%;
     height: 115px;
     margin-bottom: 10px;
@@ -354,7 +456,7 @@ footer .account.active{
     border-radius: 5px;
 }
 
-#commentBox .comment-body .submit{
+#commentBox .comment-body .submit {
     width: 100%;
     height: 35px;
     line-height: 35px;
@@ -367,8 +469,10 @@ footer .account.active{
     background-color: #0ec4ae;
 }
 
+
 /*loading*/
-.loading-small{
+
+.loading-small {
     width: 100%;
     height: 20px;
     line-height: 20px;
@@ -376,7 +480,8 @@ footer .account.active{
     margin: 12px auto;
     color: #9b9b9b;
 }
-.loading-small .loading-icon{
+
+.loading-small .loading-icon {
     position: relative;
     display: inline-block;
     width: 20px;
@@ -385,7 +490,8 @@ footer .account.active{
     margin-right: 6px;
     background: url("../img/loading-small-bg.png") no-repeat 0 0;
 }
-.loading-small .loading-curve{
+
+.loading-small .loading-curve {
     position: absolute;
     top: 11px;
     left: 4px;
@@ -398,21 +504,21 @@ footer .account.active{
 }
 
 @keyframes loading-small-semicircle {
-    0%{
+    0% {
         -webkit-transform: rotate(0deg);
         -moz-transform: rotate(0deg);
         -ms-transform: rotate(0deg);
         -o-transform: rotate(0deg);
         transform: rotate(0deg);
     }
-    50%{
+    50% {
         -webkit-transform: rotate(-100deg);
         -moz-transform: rotate(-100deg);
         -ms-transform: rotate(-100deg);
         -o-transform: rotate(-100deg);
         transform: rotate(-100deg);
     }
-    100%{
+    100% {
         -webkit-transform: rotate(0deg);
         -moz-transform: rotate(0deg);
         -ms-transform: rotate(0deg);
@@ -421,20 +527,21 @@ footer .account.active{
     }
 }
 
-.loading-big{
+.loading-big {
     text-align: center;
     margin-top: 40%;
     color: #9b9b9b;
 }
 
-.loading-big .loading-icon{
+.loading-big .loading-icon {
     position: relative;
     width: 40px;
     height: 40px;
     margin: 0 auto 12px;
     background: url("../img/loading-big-bg.png") no-repeat 0 0;
 }
-.loading-big .loading-curve{
+
+.loading-big .loading-curve {
     position: absolute;
     top: 22px;
     left: 8px;
@@ -447,21 +554,21 @@ footer .account.active{
 }
 
 @keyframes loading-big-semicircle {
-    0%{
+    0% {
         -webkit-transform: rotate(0deg);
         -moz-transform: rotate(0deg);
         -ms-transform: rotate(0deg);
         -o-transform: rotate(0deg);
         transform: rotate(0deg);
     }
-    50%{
+    50% {
         -webkit-transform: rotate(-100deg);
         -moz-transform: rotate(-100deg);
         -ms-transform: rotate(-100deg);
         -o-transform: rotate(-100deg);
         transform: rotate(-100deg);
     }
-    100%{
+    100% {
         -webkit-transform: rotate(0deg);
         -moz-transform: rotate(0deg);
         -ms-transform: rotate(0deg);
@@ -470,25 +577,34 @@ footer .account.active{
     }
 }
 
+
 /*上滑加载 下拉刷新*/
-.dropload-up,.dropload-down{
+
+.dropload-up,
+.dropload-down {
     position: relative;
     height: 0;
     overflow: hidden;
     font-size: 12px;
     /* 开启硬件加速 */
-    -webkit-transform:translateZ(0);
-    transform:translateZ(0);
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
-.dropload-down{
+
+.dropload-down {
     height: 50px;
 }
-.dropload-refresh,.dropload-update,.dropload-load,.dropload-noData{
+
+.dropload-refresh,
+.dropload-update,
+.dropload-load,
+.dropload-noData {
     height: 50px;
     line-height: 43px;
     text-align: center;
 }
-.dropload-load .loading{
+
+.dropload-load .loading {
     display: inline-block;
     height: 15px;
     width: 15px;
@@ -500,6 +616,7 @@ footer .account.active{
     -webkit-animation: rotate 0.75s linear infinite;
     animation: rotate 0.75s linear infinite;
 }
+
 @-webkit-keyframes rotate {
     0% {
         -webkit-transform: rotate(0deg);
@@ -511,6 +628,7 @@ footer .account.active{
         -webkit-transform: rotate(360deg);
     }
 }
+
 @keyframes rotate {
     0% {
         transform: rotate(0deg);
