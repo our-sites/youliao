@@ -105,7 +105,7 @@ jQuery(function($) {
         },
         addDprAttr: function () {
             var dpr = window.devicePixelRatio || 1;
-            $('html').data('dpr', dpr);
+            $('html').attr('data-dpr', dpr);
         },
         
         domain: 'http://uliao.news'
