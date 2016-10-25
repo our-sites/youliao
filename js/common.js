@@ -103,8 +103,15 @@ jQuery(function($) {
             }
             return true
         },
+        addDprAttr: function () {
+            var dpr = window.devicePixelRatio || 1;
+            $('html').data('dpr', dpr);
+        },
+        
         domain: 'http://uliao.news'
     };
+
+    Common.addDprAttr();
 
     window.Common = Common
 });

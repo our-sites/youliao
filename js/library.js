@@ -6,7 +6,6 @@ jQuery(function($) {
         },
         Library = {
             init: function() {
-
                 this.loadContent();
                 this.delItem();
                 window.Common.footer(_$);
