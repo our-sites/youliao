@@ -35,18 +35,18 @@ jQuery(function($) {
                                         '<h4>' + title + '</h4><p><span class="author">' + author + '</span><span class="page-view">' +
                                         view + '</span></p></div><div class="del" data-id="' + id + '">删除</div></a></li>';
                                 }
-                                _$('.loading-big').hide();
-                                section.show();
 
-                                if (type == 'refresh') {
-                                    section.find('ul').html(_html);
-                                    num = 1;
-                                } else if (type == 'add') {
+
+                                if(!section.find('ul li').length){
+                                    _$('.loading-big').hide();
                                     section.find('ul').append(_html);
-                                    num += 1;
+                                    section.show();
                                 } else {
-                                    console.log('not a valid type')
+                                    section.find('ul').append(_html);
                                 }
+
+
+
 
                                 that.dropload.resetload();
                                 me.unlock();
@@ -62,32 +62,15 @@ jQuery(function($) {
 
                 that.dropload = section.dropload({
                     scrollArea: window,
-                    /*domUp: {
-                        domClass: 'dropload-up',
-                        domLoad: loading
-                    },*/
                     domDown: {
                         domClass: 'dropload-down',
                         domLoad: loading,
-                        domNoData: '<div class="dropload-noData">暂无数据</div>'
+                        domNoData: '<div class="dropload-noData" style="background-color: #f3f3f3;"></div>'
                     },
-                    /*loadUpFn: function (me) {
-                        $.ajax({
-                            type: 'GET',
-                            url: window.Common.domain + '/wx/collect/list?page=1&callback=?',
-                            dataType: 'json',
-                            success: function (data) {
-                                successFun(data, me, 'refresh');
-                            },
-                            error: function (xhr, type) {
-                                that.dropload.resetload();
-                            }
-                        });
-                    },*/
                     loadDownFn: function(me) {
                         $.ajax({
                             type: 'GET',
-                            url: window.Common.domain + '/wx/collect/list?page=' + num + '&callback=?',
+                            url: window.Common.domain + '/wx/collect/list?page=' + num + '&uid=1&callback=?',
                             dataType: 'json',
                             success: function(data) {
                                 successFun(data, me, 'add');

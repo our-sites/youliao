@@ -28,23 +28,32 @@ jQuery(function($) {
                     //评分
                     _$('header .grade').text(data.score + '分');
                     //文章内容
+                    var dataContent = $(data.content);
                     var wWidth = $(window).width();
-                    var dataContent = $(data.content).find('img').each(function(idx) {
-                        $(this).removeAttr('style').attr('src', $(this).data('src'));
-                        if ($(this).data('w') > wWidth) {
+                    // 格式化图片
+                    if($(data.content).find('img').length){
+                        dataContent = dataContent.find('img').each(function(idx) {
+                            $(this).removeAttr('style').attr('src', $(this).data('src'));
+                            if ($(this).data('w') > wWidth) {
+                                $(this).css({
+                                    'width': '100%',
+                                    'height': 'auto'
+                                });
+                            } else {
+                                $(this).css('width', $(this).data('w'));
+                            }
+                        }).parents('#js_content')
+                    }
+                    // 格式化视频
+                    if(dataContent.find('.video_iframe').length){
+                        dataContent = dataContent.find('.video_iframe').each(function() {
                             $(this).css({
                                 'width': '100%',
                                 'height': 'auto'
                             });
-                        } else {
-                            $(this).css('width', $(this).data('w'));
-                        }
-                    }).parents('#js_content').find('.video_iframe').each(function() {
-                        $(this).css({
-                            'width': '100%',
-                            'height': 'auto'
-                        });
-                    }).parents('#js_content');
+                        }).parents('#js_content');
+                    }
+
                     _$('.article-content').html(dataContent);
                     // 关注有料 跳转链接
                     _$('.attention-btn').attr('href', data.youliao_follow_url);
