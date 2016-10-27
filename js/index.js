@@ -1,11 +1,11 @@
-jQuery(function($) {
+jQuery(function ($) {
 
-    var _$ = function(arg) {
+    var _$ = function (arg) {
             var ele = $('#Index');
             return arg ? ele.find(arg) : ele
         },
         Index = {
-            init: function() {
+            init: function () {
                 this.navSwipe();
 
                 this.loadContent();
@@ -16,8 +16,8 @@ jQuery(function($) {
 
                 window.Common.footer(_$);
             },
-            preload: '',
-            navSwipe: function() {
+            preload: {},
+            navSwipe: function () {
                 var that = this,
                     Nav = _$('nav'),
                     Ul = Nav.find('ul'),
@@ -32,7 +32,7 @@ jQuery(function($) {
                     Li = Ul.find('li'),
                     Padding = Number(Li.css('padding-left').replace('px', '')) * 2,
                     Margin = Number(Li.css('margin-left').replace('px', ''));
-                Li.each(function() {
+                Li.each(function () {
                     width += $(this).width() + Padding + Margin
                 });
 
@@ -40,12 +40,12 @@ jQuery(function($) {
                 Ul.css('width', width);
                 // console.log(width);
 
-                Ul.on('vmouseover', function(e) {
+                Ul.on('vmouseover', function (e) {
                     Ul.data('x', e.pageX)
                 });
 
                 // 滑动
-                Ul.on('vmousemove', function(e) {
+                Ul.on('vmousemove', function (e) {
                     var distance = Ul.data('x') - e.pageX,
                         left = Ul.css('left').slice(0, Ul.css('left').length - 2),
                         finalLeft = 0;
@@ -75,7 +75,7 @@ jQuery(function($) {
                     Ul.css('left', finalLeft);
 
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         if (finalLeft > 0) {
                             Ul.css('left', 0);
                         } else if (limitWidth - width > finalLeft) {
@@ -87,13 +87,18 @@ jQuery(function($) {
                 });
 
                 // 初始化一些值
-                Ul.find('li').each(function() {
+                Ul.find('li').each(function () {
                     var key = 'tabs' + $(this).data('id');
                     that[key] = false;
                 });
+                // 用于预加载 关闭定时器
+                that.cateIds = [];
+                Ul.find('li').each(function () {
+                    that.cateIds.push($(this).data('id'))
+                });
 
-                // 点击
-                Ul.find('li').on('tap', function() {
+                // 点击 切换
+                Ul.find('li').on('tap', function () {
                     var cateId = $(this).data('id'),
                         el = 'ul[data-id="' + cateId + '"]',
                         key = 'tabs' + cateId,
@@ -103,49 +108,37 @@ jQuery(function($) {
                         oldEl = 'ul[data-id="' + oldCateId + '"]',
                         oldKey = 'tabs' + oldCateId;
 
+                    // 样式
                     $(this).addClass('active').siblings('li').removeClass('active');
 
-
-                    // section.find(oldEl).data('scrolltop', Body.scrollTop());
-
-                    section.hide();
-                    _$('.loading-big').show();
-
+                    // 显示当前分类
                     section.find(el).show().siblings('ul').hide();
+                    // 判断当前分类是否有内容，如果没有，显示loading
+                    if (!section.find(el).find('li').length) {
+                        // loading
+                        section.hide();
+                        _$('.loading-big').show();
+                    }
 
-                    // Body.scrollTop(section.find(el).data('scrolltop') || 0);
-
-
-                    /*if (that[key]) {
-                     // 锁定
-                     that.dropload.lock();
-                     that.dropload.noData();
-                     } else {
-                     // 解锁
-                     that.dropload.unlock();
-                     that.dropload.noData(false);
-                     }*/
                     // 重置
                     that.dropload.unlock();
                     that.dropload.noData(false);
                     that.dropload.resetload();
+
+
+                    // 预加载
+                    that.preloadTimer(cateId);
+
                 });
 
-                //添加
-                Plus.on('tap', function() {
-                    var str = '<div id="tagsBox"><div class="tags-body"><p class="clf"><span class="close">&times;</span></p>' +
-                        '<div class="my"><h5>我的频道 <span class="edit">编辑</span><span class="success">完成</span></h5><div class="my-content">' +
-                        '</div></div><div class="more"><h5>点击添加更多频道</h5>' +
-                        '</div></div><div class="mask"></div></div>';
-                })
             },
-            loadContent: function() {
+            loadContent: function () {
                 var that = this,
                     section = _$('section'),
                     Body = $('body'),
                     url = window.Common.domain + '/wx/article/interest' + '?callback=?',
                     loading = '<div class="loading-small"><div class="loading-icon"><div class="loading-curve"></div></div>页面加载中...</div>',
-                    successFun = function(data, me, cateId, type, preload) {
+                    successFun = function (data, me, cateId, type, preload) {
                         if (window.Common.verifyData(data)) {
                             var listData = data.data.list,
                                 key = 'tabs' + cateId,
@@ -162,29 +155,34 @@ jQuery(function($) {
                                     '<p><span class="author">' + author + '</span><span class="page-view">' + view + '</span>' +
                                     '</p></a></li>';
                             }
+
+
+                            // 如果是预加载
                             if (preload) {
-                                that.preload = _html;
-                                console.log('preload is true');
+                                that.preload[cateId] = _html;
                             } else {
                                 // 隐藏loading
                                 _$('.loading-big').hide();
+                                // 显示section
+                                section.show();
                                 // 删除之前的refresh-node
                                 section.find('.refresh-node').remove();
                                 // 判断是prepend 还是append
                                 if (type == 'prepend') {
                                     _html += '<div class="refresh-node">刚刚看到这里，点击刷新</div>';
-                                    section.show().find(el).prepend(_html);
+                                    section.find(el).prepend(_html);
                                     Body.scrollTop(0);
                                 } else if (type == 'append') {
-                                    section.show().find(el).append(_html);
+                                    section.find(el).append(_html);
                                 } else {
                                     console.log('choose the type first')
                                 }
-                                // that[key] = true;
-                                that.dropload.resetload();
-                                me.unlock();
-                                me.noData(false);
                             }
+
+
+                            that.dropload.resetload();
+                            me.unlock();
+                            me.noData(false);
 
                         }
                     };
@@ -199,102 +197,82 @@ jQuery(function($) {
                         domClass: 'dropload-down',
                         domLoad: loading,
                     },
-                    loadUpFn: function(me) {
+                    loadUpFn: function (me) {
+
                         var cateId = _$('nav').find('li.active').data('id');
 
-                        if (cateId == 0) {
-                            // url = window.Common.domain + '/wx/article/interest' + '&uid=1' + '?callback=?'; // 开发环境
-                            url = window.Common.domain + '/wx/article/interest' + '?callback=?';
-                        } else {
-                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';// 开发环境
-                            url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&callback=?';
-                        }
+                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
+                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?';// 开发环境
 
                         $.ajax({
                             type: 'GET',
                             url: url,
                             dataType: 'json',
-                            success: function(data) {
+                            success: function (data) {
                                 successFun(data, me, cateId, 'prepend');
-                                // me.$domUp.css("height", 0);
                             },
-                            error: function(xhr, type) {
+                            error: function (xhr, type) {
                                 that.dropload.resetload();
                             }
                         });
+
+                        // 预加载
+                        // that.preloadTimer(cateId);
                     },
-                    loadDownFn: function(me) {
+                    loadDownFn: function (me, preload) {
                         var cateId = _$('nav').find('li.active').data('id');
 
-                        if (cateId == 0) {
-                            // url = window.Common.domain + '/wx/article/interest' + '&uid=1' + '?callback=?'; // 开发环境
-                            url = window.Common.domain + '/wx/article/interest' + '?callback=?';
-                        } else {
-                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?'; // 开发环境
-                            url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&callback=?';
-                        }
+                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
+                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?';// 开发环境
 
-                        // 正常请求
-                        $.ajax({
-                            type: 'GET',
-                            url: url,
-                            dataType: 'json',
-                            success: function(data) {
-                                successFun(data, me, cateId, 'append');
-                            },
-                            error: function(xhr, type) {
+                        if (preload) {
+                            $.ajax({
+                                type: 'GET',
+                                url: url,
+                                dataType: 'json',
+                                success: function (data) {
+                                    successFun(data, me, cateId, 'append', preload);
+                                },
+                                error: function (xhr, type) {
+                                    that.dropload.resetload();
+                                }
+                            });
+                        } else {
+                            // 如果不是预加载 看看是否有存储的预加载数据 有的话就用 没有就去请求
+                            if (that.preload[cateId]) {
+                                var el = 'ul[data-id="' + cateId + '"]';
+                                _$('section').find(el).append(that.preload[cateId]);
+                                that.preload[cateId] = '';
                                 that.dropload.resetload();
+                                me.unlock();
+                                me.noData(false);
+
+                            } else {
+                                $.ajax({
+                                    type: 'GET',
+                                    url: url,
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        successFun(data, me, cateId, 'append');
+                                    },
+                                    error: function (xhr, type) {
+                                        that.dropload.resetload();
+                                    }
+                                });
+                                // 预加载
+                                that.preloadTimer(cateId);
                             }
-                        });
 
-                        if (that.preload) {
-                            // 隐藏loading
-                            _$('.loading-big').hide();
-                            // 删除之前的refresh-node
-                            section.find('.refresh-node').remove();
-                            // append
-                            section.show().find('ul[data-id="' + cateId + '"]').append(that.preload);
-
-                            that.preload = '';
-
-                            // 预加载
-                            $.ajax({
-                                type: 'GET',
-                                url: url,
-                                dataType: 'json',
-                                success: function(data) {
-                                    successFun(data, me, cateId, 'append', true);
-                                },
-                                error: function(xhr, type) {
-                                    that.dropload.resetload();
-                                }
-                            });
-
-                            that.dropload.resetload();
-                            me.unlock();
-                            me.noData(false);
-                        } else {
-                            // 预加载
-                            $.ajax({
-                                type: 'GET',
-                                url: url,
-                                dataType: 'json',
-                                success: function(data) {
-                                    successFun(data, me, cateId, 'append', true);
-                                },
-                                error: function(xhr, type) {
-                                    that.dropload.resetload();
-                                }
-                            });
                         }
+
 
                     }
                 });
 
             },
-            refreshNode: function() {
+            refreshNode: function () {
                 var that = this;
-                $(document).on('tap', '.refresh-node', function() {
+                $(document).on('tap', '.refresh-node', function () {
                     that.dropload.opts.loadUpFn(that.dropload);
                 })
             },
@@ -306,10 +284,23 @@ jQuery(function($) {
                         section: _$('section').html(),
                         scrollTop: $('body').scrollTop()
                     };
-                    sessionStorage.setItem('list',JSON.stringify(obj));
+                    sessionStorage.setItem('list', JSON.stringify(obj));
                     location.href = $(this).attr('href');
                     // location.href = 'http://172.16.13.130:8888/article.html' // 开发环境
                 })
+            },
+            preloadTimer: function (cateId) {
+                var that = this;
+                // 预加载
+                // 关闭所有定时器
+                for (var h in that.cateIds) {
+                    var timerKey = that.cateIds[h];
+                    clearTimeout(that[timerKey]);
+                }
+                // 打开一个定时器
+                that[cateId] = setTimeout(function () {
+                    that.dropload.opts.loadDownFn(that.dropload, 'preload');
+                }, 2000);
             }
         };
 
