@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
+
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
@@ -7,77 +8,75 @@
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/index.css">
 </head>
+
 <body>
-
-<div id="Index">
-    <!--导航-->
-    <nav>
-        <ul class="clf">
-            <li data-id="0" class="active">有料</li>
-            <li data-id="16">社会</li>
-            <li data-id="18">娱乐</li>
-            <li data-id="19">搞笑</li>
-            <li data-id="20">财经</li>
-            <li data-id="21">科技</li>
-            <li data-id="24">汽车</li>
-            <li data-id="25">女人</li>
-            <li data-id="26">创业</li>
-            <li data-id="27">体育</li>
-            <li data-id="28">人文</li>
-            <li data-id="29">生活</li>
-            <li data-id="31">家庭</li>
-        </ul>
-        <div class="plus"></div>
-    </nav>
-    <!--loading-->
-    <div class="loading-big">
-        <div class="loading-icon">
-            <div class="loading-curve"></div>
+    <div id="Index">
+        <!--导航-->
+        <nav>
+            <ul class="clf">
+                <li data-id="0" class="active">有料</li>
+                <li data-id="16">社会</li>
+                <li data-id="18">娱乐</li>
+                <li data-id="19">搞笑</li>
+                <li data-id="20">财经</li>
+                <li data-id="21">科技</li>
+                <li data-id="24">汽车</li>
+                <li data-id="25">女人</li>
+                <li data-id="26">创业</li>
+                <li data-id="27">体育</li>
+                <li data-id="28">人文</li>
+                <li data-id="29">生活</li>
+                <li data-id="31">家庭</li>
+            </ul>
+            <div class="plus"></div>
+        </nav>
+        <!--loading-->
+        <div class="loading-big">
+            <div class="loading-icon">
+                <div class="loading-curve"></div>
+            </div>
+            页面加载中...
         </div>
-        页面加载中...
+        <!--列表-->
+        <section>
+            <ul data-id="0"></ul>
+            <ul data-id="16"></ul>
+            <ul data-id="18"></ul>
+            <ul data-id="19"></ul>
+            <ul data-id="20"></ul>
+            <ul data-id="21"></ul>
+            <ul data-id="24"></ul>
+            <ul data-id="25"></ul>
+            <ul data-id="26"></ul>
+            <ul data-id="27"></ul>
+            <ul data-id="28"></ul>
+            <ul data-id="29"></ul>
+            <ul data-id="31"></ul>
+        </section>
+        <!-- 底部-->
+        <footer>
+            <a class="home active" href="index.html"><span>首页</span></a>
+            <a class="library" href="library.html"><span>我的文库</span></a>
+            <a class="account" href="account.html"><span>账号</span></a>
+        </footer>
     </div>
-    <!--列表-->
-    <section>
-        <ul data-id="0"></ul>
-        <ul data-id="16"></ul>
-        <ul data-id="18"></ul>
-        <ul data-id="19"></ul>
-        <ul data-id="20"></ul>
-        <ul data-id="21"></ul>
-        <ul data-id="24"></ul>
-        <ul data-id="25"></ul>
-        <ul data-id="26"></ul>
-        <ul data-id="27"></ul>
-        <ul data-id="28"></ul>
-        <ul data-id="29"></ul>
-        <ul data-id="31"></ul>
-    </section>
-    <!-- 底部-->
-    <footer>
-        <a class="home active" href="index.html"><span>首页</span></a>
-        <a class="library" href="library.html"><span>我的文库</span></a>
-        <a class="account" href="account.html"><span>账号</span></a>
-    </footer>
-</div>
-
-
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/jquery.mobile.custom.js"></script>
-<script type="text/javascript">
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.mobile.custom.js"></script>
+    <script type="text/javascript">
     if (sessionStorage.getItem('list')) {
         var index = $('#Index'),
-                list = JSON.parse(sessionStorage.getItem('list'));
+            list = JSON.parse(sessionStorage.getItem('list'));
         index.find('.loading-big').hide();
-        index.find('nav').html(list.nav);
+        index.find('nav').html(list.nav).scrollLeft(list.navScrollLeft);
         index.find('section').show().html(list.section);
         $('body').scrollTop(list.scrollTop);
+
         sessionStorage.clear('list');
     }
-</script>
-<script src="js/dropload.js"></script>
-<script src="js/common.js"></script>
-<script src="js/index.js"></script>
-
-
+    </script>
+    <script src="js/dropload.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/index.js"></script>
 </body>
+
 </html>
