@@ -71,6 +71,7 @@
         index.find('nav').html(list.nav);
         index.find('section').show().html(list.section);
         $('body').scrollTop(list.scrollTop);
+        sessionStorage.clear('list');
     }
 </script>
 <script src="js/dropload.js"></script>
