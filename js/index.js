@@ -12,6 +12,8 @@ jQuery(function($) {
 
                 this.refreshNode();
 
+                this.storePage();
+
                 window.Common.footer(_$);
             },
             preload: '',
@@ -201,9 +203,10 @@ jQuery(function($) {
                         var cateId = _$('nav').find('li.active').data('id');
 
                         if (cateId == 0) {
+                            // url = window.Common.domain + '/wx/article/interest' + '&uid=1' + '?callback=?'; // 开发环境
                             url = window.Common.domain + '/wx/article/interest' + '?callback=?';
                         } else {
-                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';
+                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';// 开发环境
                             url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&callback=?';
                         }
 
@@ -224,9 +227,10 @@ jQuery(function($) {
                         var cateId = _$('nav').find('li.active').data('id');
 
                         if (cateId == 0) {
+                            // url = window.Common.domain + '/wx/article/interest' + '&uid=1' + '?callback=?'; // 开发环境
                             url = window.Common.domain + '/wx/article/interest' + '?callback=?';
                         } else {
-                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?';
+                            // url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&uid=1' + '&callback=?'; // 开发环境
                             url = window.Common.domain + '/wx/article/cate?cateid=' + cateId + '&callback=?';
                         }
 
@@ -292,6 +296,19 @@ jQuery(function($) {
                 var that = this;
                 $(document).on('tap', '.refresh-node', function() {
                     that.dropload.opts.loadUpFn(that.dropload);
+                })
+            },
+            storePage: function () {
+                $(document).on('tap', 'section li a', function (e) {
+                    e.preventDefault();
+                    var obj = {
+                        nav: _$('nav').html(),
+                        section: _$('section').html(),
+                        scrollTop: $('body').scrollTop()
+                    };
+                    sessionStorage.setItem('list',JSON.stringify(obj));
+                    location.href = $(this).attr('href');
+                    // location.href = 'http://172.16.13.130:8888/article.html' // 开发环境
                 })
             }
         };
