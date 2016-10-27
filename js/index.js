@@ -1,11 +1,11 @@
-jQuery(function ($) {
+jQuery(function($) {
 
-    var _$ = function (arg) {
+    var _$ = function(arg) {
             var ele = $('#Index');
             return arg ? ele.find(arg) : ele
         },
         Index = {
-            init: function () {
+            init: function() {
                 this.navSwipe();
 
                 this.loadContent();
@@ -17,7 +17,7 @@ jQuery(function ($) {
                 window.Common.footer(_$);
             },
             preload: {},
-            navSwipe: function () {
+            navSwipe: function() {
                 var that = this,
                     Nav = _$('nav'),
                     Ul = Nav.find('ul'),
@@ -32,73 +32,26 @@ jQuery(function ($) {
                     Li = Ul.find('li'),
                     Padding = Number(Li.css('padding-left').replace('px', '')) * 2,
                     Margin = Number(Li.css('margin-left').replace('px', ''));
-                Li.each(function () {
+                Li.each(function() {
                     width += $(this).width() + Padding + Margin
                 });
 
                 // 设置ul的宽度 使所有li在一行显示
-                Ul.css('width', width);
-                // console.log(width);
-
-                Ul.on('vmouseover', function (e) {
-                    Ul.data('x', e.pageX)
-                });
-
-                // 滑动
-                Ul.on('vmousemove', function (e) {
-                    var distance = Ul.data('x') - e.pageX,
-                        left = Ul.css('left').slice(0, Ul.css('left').length - 2),
-                        finalLeft = 0;
-                    if (distance < 0) {
-                        // 左滑 ←
-                        finalLeft = left - distance * rate;
-                        // 如果已经是最左
-                        if (finalLeft > boursLength) {
-                            finalLeft = boursLength
-                        }
-
-                    } else {
-                        // 右滑 →
-                        // 如果有隐藏的项
-                        if (width > limitWidth) {
-                            finalLeft = left - distance * rate;
-                            // 如果已经是最右
-                            if (limitWidth - width - boursLength > finalLeft) {
-                                finalLeft = limitWidth - width - boursLength;
-                            }
-                        } else {
-                            finalLeft = 0
-                        }
-                    }
-
-                    // 滑动
-                    Ul.css('left', finalLeft);
-
-
-                    setTimeout(function () {
-                        if (finalLeft > 0) {
-                            Ul.css('left', 0);
-                        } else if (limitWidth - width > finalLeft) {
-                            Ul.css('left', limitWidth - width);
-                        }
-                    }, 300);
-
-
-                });
+                Ul.css('width', width + 15);
 
                 // 初始化一些值
-                Ul.find('li').each(function () {
+                Ul.find('li').each(function() {
                     var key = 'tabs' + $(this).data('id');
                     that[key] = false;
                 });
                 // 用于预加载 关闭定时器
                 that.cateIds = [];
-                Ul.find('li').each(function () {
+                Ul.find('li').each(function() {
                     that.cateIds.push($(this).data('id'))
                 });
 
                 // 点击 切换
-                Ul.find('li').on('tap', function () {
+                Ul.find('li').on('tap', function() {
                     var cateId = $(this).data('id'),
                         el = 'ul[data-id="' + cateId + '"]',
                         key = 'tabs' + cateId,
@@ -132,13 +85,13 @@ jQuery(function ($) {
                 });
 
             },
-            loadContent: function () {
+            loadContent: function() {
                 var that = this,
                     section = _$('section'),
                     Body = $('body'),
                     url = window.Common.domain + '/wx/article/interest' + '?callback=?',
                     loading = '<div class="loading-small"><div class="loading-icon"><div class="loading-curve"></div></div>页面加载中...</div>',
-                    successFun = function (data, me, cateId, type, preload) {
+                    successFun = function(data, me, cateId, type, preload) {
                         if (window.Common.verifyData(data)) {
                             var listData = data.data.list,
                                 key = 'tabs' + cateId,
@@ -197,7 +150,7 @@ jQuery(function ($) {
                         domClass: 'dropload-down',
                         domLoad: loading,
                     },
-                    loadUpFn: function (me) {
+                    loadUpFn: function(me) {
 
                         var cateId = _$('nav').find('li.active').data('id');
 
@@ -208,10 +161,10 @@ jQuery(function ($) {
                             type: 'GET',
                             url: url,
                             dataType: 'json',
-                            success: function (data) {
+                            success: function(data) {
                                 successFun(data, me, cateId, 'prepend');
                             },
-                            error: function (xhr, type) {
+                            error: function(xhr, type) {
                                 that.dropload.resetload();
                             }
                         });
@@ -219,7 +172,7 @@ jQuery(function ($) {
                         // 预加载
                         // that.preloadTimer(cateId);
                     },
-                    loadDownFn: function (me, preload) {
+                    loadDownFn: function(me, preload) {
                         var cateId = _$('nav').find('li.active').data('id');
 
                         url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
@@ -230,10 +183,10 @@ jQuery(function ($) {
                                 type: 'GET',
                                 url: url,
                                 dataType: 'json',
-                                success: function (data) {
+                                success: function(data) {
                                     successFun(data, me, cateId, 'append', preload);
                                 },
-                                error: function (xhr, type) {
+                                error: function(xhr, type) {
                                     that.dropload.resetload();
                                 }
                             });
@@ -252,10 +205,10 @@ jQuery(function ($) {
                                     type: 'GET',
                                     url: url,
                                     dataType: 'json',
-                                    success: function (data) {
+                                    success: function(data) {
                                         successFun(data, me, cateId, 'append');
                                     },
-                                    error: function (xhr, type) {
+                                    error: function(xhr, type) {
                                         that.dropload.resetload();
                                     }
                                 });
@@ -270,14 +223,14 @@ jQuery(function ($) {
                 });
 
             },
-            refreshNode: function () {
+            refreshNode: function() {
                 var that = this;
-                $(document).on('tap', '.refresh-node', function () {
+                $(document).on('tap', '.refresh-node', function() {
                     that.dropload.opts.loadUpFn(that.dropload);
                 })
             },
-            storePage: function () {
-                $(document).on('tap', 'section li a', function (e) {
+            storePage: function() {
+                $(document).on('tap', 'section li a', function(e) {
                     e.preventDefault();
                     var obj = {
                         nav: _$('nav').html(),
@@ -289,7 +242,7 @@ jQuery(function ($) {
                     // location.href = 'http://172.16.13.130:8888/article.html' // 开发环境
                 })
             },
-            preloadTimer: function (cateId) {
+            preloadTimer: function(cateId) {
                 var that = this;
                 // 预加载
                 // 关闭所有定时器
@@ -298,7 +251,7 @@ jQuery(function ($) {
                     clearTimeout(that[timerKey]);
                 }
                 // 打开一个定时器
-                that[cateId] = setTimeout(function () {
+                that[cateId] = setTimeout(function() {
                     that.dropload.opts.loadDownFn(that.dropload, 'preload');
                 }, 2000);
             }
