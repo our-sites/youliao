@@ -154,8 +154,8 @@ jQuery(function($) {
 
                         var cateId = _$('nav').find('li.active').data('id');
 
-                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
-                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
+                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
+                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
 
                         $.ajax({
                             type: 'GET',
@@ -175,8 +175,8 @@ jQuery(function($) {
                     loadDownFn: function(me, preload) {
                         var cateId = _$('nav').find('li.active').data('id');
 
-                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
-                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
+                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
+                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
 
                         if (preload) {
                             $.ajax({
@@ -240,8 +240,8 @@ jQuery(function($) {
                         scrollTop: $('body').scrollTop()
                     };
                     sessionStorage.setItem('list', JSON.stringify(obj));
-                    // location.href = $(this).attr('href');
-                    location.href = 'http://127.0.0.1:8888/article.html' // 开发环境
+                    location.href = $(this).attr('href');
+                    // location.href = 'http://127.0.0.1:8888/article.html' // 开发环境
                 })
             },
             preloadTimer: function(cateId) {

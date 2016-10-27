@@ -1,24 +1,24 @@
-jQuery(function ($) {
+jQuery(function($) {
 
-    var _$ = function (arg) {
+    var _$ = function(arg) {
             var ele = $('#Library');
             return arg ? ele.find(arg) : ele
         },
         Library = {
-            init: function () {
+            init: function() {
                 this.loadContent();
                 this.delItem();
                 window.Common.footer(_$);
 
             },
-            loadContent: function () {
+            loadContent: function() {
                 var that = this,
                     nav = _$('nav'),
                     section = _$('section'),
                     Body = $('body'),
                     num = 1,
                     loading = '<div class="loading-small"><div class="loading-icon"><div class="loading-curve"></div></div>页面加载中...</div>',
-                    successFun = function (data, me) {
+                    successFun = function(data, me) {
                         if (window.Common.verifyData(data)) {
                             var listData = data.data,
                                 _html = '';
@@ -62,15 +62,17 @@ jQuery(function ($) {
                         domLoad: loading,
                         domNoData: '<div class="dropload-noData" style="background-color: #f3f3f3;"></div>'
                     },
-                    loadDownFn: function (me) {
+                    loadDownFn: function(me) {
+                        var url = window.Common.domain + '/wx/collect/list?page=' + num + '&callback=?';
+                        // var url = window.Common.domain + '/wx/collect/list?page=' + num + '&uid=1&callback=?'; //开发环境
                         $.ajax({
                             type: 'GET',
-                            url: window.Common.domain + '/wx/collect/list?page=' + num + '&uid=1&callback=?',
+                            url: url,
                             dataType: 'json',
-                            success: function (data) {
+                            success: function(data) {
                                 successFun(data, me);
                             },
-                            error: function (xhr, type) {
+                            error: function(xhr, type) {
                                 that.dropload.resetload();
                             }
                         });
@@ -78,27 +80,27 @@ jQuery(function ($) {
                 });
             },
 
-            delItem: function () {
+            delItem: function() {
                 // 左滑显示
-                $(document).on('swipeleft', 'section .item', function () {
+                $(document).on('swipeleft', 'section .item', function() {
                     $(this).animate({
                         left: "-80px"
                     }, 200);
 
                 });
                 // 右滑隐藏
-                $(document).on('swiperight', 'section .item', function () {
+                $(document).on('swiperight', 'section .item', function() {
                     $(this).animate({
                         left: 0
                     }, 200);
                 });
                 // 删除
-                $(document).on('tap', 'section .del', function () {
+                $(document).on('tap', 'section .del', function() {
                     var id = $(this).data('id'),
                         url = window.Common.domain + '/wx/collect/collect?id=' + id + '&callback=?',
                         Li = $(this).closest('li');
-                    Li.slideUp(500, function () {
-                        $.getJSON(url, function (resp) {
+                    Li.slideUp(500, function() {
+                        $.getJSON(url, function(resp) {
                             if (window.Common.verifyData(resp)) {
                                 resp.data || window.Common.toastr({
                                     content: '取消收藏成功',
