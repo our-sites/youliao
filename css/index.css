@@ -49,6 +49,7 @@
     -ms-transition: left .3s ease-in-out;
     -o-transition: left .3s ease-in-out;
     transition: left .3s ease-in-out;
+    font-size: 16px;
 }
 
 #Index nav li {
@@ -61,7 +62,7 @@
 
 #Index nav li.active {
     color: #0ec4af;
-    border-bottom-color: #0ec4af;
+    border-bottom: 2px solid #0ec4af;
 }
 
 #Index section {
