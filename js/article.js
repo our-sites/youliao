@@ -14,7 +14,36 @@ jQuery(function ($) {
             },
             initData: function () {
                 var that = this,
-                    data = window.jsonData;
+                    data = window.jsonData,
+                    toQueryParams = function () {
+                        var search = this.replace(/^\s+/, '').replace(/\s+$/, '').match(/([^?#]*)(#.*)?$/);//提取location.search中'?'后面的部分
+                        if (!search) {
+                            return {};
+                        }
+                        var searchStr = search[1];
+                        var searchHash = searchStr.split('&');
+
+                        var ret = {};
+                        for (var i = 0, len = searchHash.length; i < len; i++) { //这里可以调用each方法
+                            var pair = searchHash[i];
+                            if ((pair = pair.split('='))[0]) {
+                                var key = decodeURIComponent(pair.shift());
+                                var value = pair.length > 1 ? pair.join('=') : pair[0];
+                                if (value != undefined) {
+                                    value = decodeURIComponent(value);
+                                }
+                                if (key in ret) {
+                                    if (ret[key].constructor != Array) {
+                                        ret[key] = [ret[key]];
+                                    }
+                                    ret[key].push(value);
+                                } else {
+                                    ret[key] = value;
+                                }
+                            }
+                        }
+                        return ret;
+                    };
                 if (window.Common.verifyData(data)) {
                     data = data.data;
                     //id
@@ -47,10 +76,25 @@ jQuery(function ($) {
                     // 格式化视频
                     if (dataContent.find('.video_iframe').length) {
                         dataContent = dataContent.find('.video_iframe').each(function () {
-                            $(this).css({
-                                'width': '100%',
-                                'height': 'auto'
-                            });
+                            var src = $(this).attr('src'),
+                                dataSrc = $(this).data('src'),
+                                vid,
+                                href;
+                            if (src) {
+                                vid = toQueryParams.call(src).vid;
+                                href = 'http://v.qq.com/iframe/player.html?vid=';
+                                $(this).attr('src', href + vid).css({
+                                    'width': '100%',
+                                    'height': 'auto'
+                                });
+                            } else if (dataSrc) {
+                                vid = toQueryParams.call(dataSrc).vid;
+                                    href = 'http://v.qq.com/iframe/player.html?vid=';
+                                $(this).attr('src', href + vid).css({
+                                    'width': '100%',
+                                    'height': 'auto'
+                                });
+                            }
                         }).parents('#js_content');
                     }
                     // p标签必须换行
