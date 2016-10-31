@@ -1,18 +1,18 @@
-jQuery(function($) {
+jQuery(function ($) {
 
-    var _$ = function(arg) {
+    var _$ = function (arg) {
             var ele = $('#Article');
             return arg ? ele.find(arg) : ele
         },
         Article = {
-            init: function() {
+            init: function () {
                 window.Common.footer(_$);
                 this.initData();
                 this.addComment();
                 this.commentPraise();
 
             },
-            initData: function() {
+            initData: function () {
                 var that = this,
                     data = window.jsonData;
                 if (window.Common.verifyData(data)) {
@@ -31,10 +31,10 @@ jQuery(function($) {
                     var dataContent = $(data.content);
                     var wWidth = $(window).width();
                     // 格式化图片
-                    if($(data.content).find('img').length){
-                        dataContent = dataContent.find('img').each(function(idx) {
+                    if ($(data.content).find('img').length) {
+                        dataContent = dataContent.find('img').each(function (idx) {
                             $(this).removeAttr('style').attr('src', $(this).data('src'));
-                            if ($(this).data('w') > wWidth) {
+                            if ($(this).data('w') >= wWidth) {
                                 $(this).css({
                                     'width': '100%',
                                     'height': 'auto'
@@ -45,12 +45,18 @@ jQuery(function($) {
                         }).parents('#js_content')
                     }
                     // 格式化视频
-                    if(dataContent.find('.video_iframe').length){
-                        dataContent = dataContent.find('.video_iframe').each(function() {
+                    if (dataContent.find('.video_iframe').length) {
+                        dataContent = dataContent.find('.video_iframe').each(function () {
                             $(this).css({
                                 'width': '100%',
                                 'height': 'auto'
                             });
+                        }).parents('#js_content');
+                    }
+                    // p标签必须换行
+                    if (dataContent.find('p').length) {
+                        dataContent = dataContent.find('p').each(function () {
+                            $(this).css("cssText", "max-width: 100% !important;box-sizing: border-box !important;word-wrap: break-word !important;");
                         }).parents('#js_content');
                     }
 
@@ -66,7 +72,7 @@ jQuery(function($) {
 
 
                     //标签
-                    $.getJSON(window.Common.domain + '/wx/article/articleTag?tagid=' + data.tagid + '&callback=?', function(resp) {
+                    $.getJSON(window.Common.domain + '/wx/article/articleTag?tagid=' + data.tagid + '&callback=?', function (resp) {
                         if (window.Common.verifyData(resp)) {
                             var tags = '';
                             resp = resp.data;
@@ -77,7 +83,7 @@ jQuery(function($) {
                         }
                     });
                     // 阅读数和点赞数
-                    $.getJSON(window.Common.domain + '/wx/article/watchinfo?id=' + data.id + '&callback=?', function(resp) {
+                    $.getJSON(window.Common.domain + '/wx/article/watchinfo?id=' + data.id + '&callback=?', function (resp) {
                         if (window.Common.verifyData(resp)) {
                             _$('.article-other .page-view').text(resp.data.readnum);
                             _$('.article-other .praise').text(resp.data.likenum);
@@ -97,19 +103,19 @@ jQuery(function($) {
                 }
             },
 
-            articleFavor: function(id, status) {
+            articleFavor: function (id, status) {
                 var favorBtn = _$('header .favor');
                 //初始化
                 status ? favorBtn.removeClass('active').addClass('active') : favorBtn.removeClass('active');
                 // 点击
-                favorBtn.on('tap', function() {
+                favorBtn.on('tap', function () {
                     var that = $(this),
                         url = window.Common.domain + '/wx/collect/collect?id=' + id + '&callback=?';
                     $.ajax({
                         type: 'GET',
                         url: url,
                         dataType: 'json',
-                        beforeSend: function() {
+                        beforeSend: function () {
                             that.prop('disabled', true);
                             window.Common.toastr({
                                 content: "收藏中...",
@@ -117,7 +123,7 @@ jQuery(function($) {
                                 delay: 'fixed'
                             })
                         },
-                        success: function(resp) {
+                        success: function (resp) {
                             if (window.Common.verifyData(resp)) {
                                 that.prop('disabled', false);
                                 if (resp.data) {
@@ -137,26 +143,26 @@ jQuery(function($) {
                                 }
                             }
                         },
-                        error: function(xhr, type) {
+                        error: function (xhr, type) {
                             console.log(xhr, type)
                         }
                     });
                 })
             },
 
-            articlePraise: function(id, status) {
+            articlePraise: function (id, status) {
                 var praiseBtn = _$('.article-other .praise');
                 //初始化
                 status ? praiseBtn.removeClass('active').addClass('active') : praiseBtn.removeClass('active');
                 // 点击
-                praiseBtn.on('tap', function() {
+                praiseBtn.on('tap', function () {
                     var that = $(this),
                         url = window.Common.domain + '/wx/article/like?id=' + id + '&callback=?';
                     $.ajax({
                         type: 'GET',
                         url: url,
                         dataType: 'json',
-                        beforeSend: function() {
+                        beforeSend: function () {
                             that.prop('disabled', true);
                             window.Common.toastr({
                                 content: "点赞中...",
@@ -164,7 +170,7 @@ jQuery(function($) {
                                 delay: 'fixed'
                             })
                         },
-                        success: function(resp) {
+                        success: function (resp) {
                             if (window.Common.verifyData(resp)) {
                                 that.prop('disabled', false);
                                 if (resp.data) {
@@ -184,35 +190,35 @@ jQuery(function($) {
                                 }
                             }
                         },
-                        error: function(xhr, type) {
+                        error: function (xhr, type) {
                             console.log(xhr, type)
                         }
                     });
                 })
             },
 
-            interestTrack: function(url) {
+            interestTrack: function (url) {
                 //0s
-                $.getJSON(window.Common.domain + '/wx/interest/read0' + url, function(resp) {
+                $.getJSON(window.Common.domain + '/wx/interest/read0' + url, function (resp) {
                     window.Common.verifyData(resp);
                 });
                 //40s
-                setTimeout(function() {
-                    $.getJSON(window.Common.domain + '/wx/interest/read40' + url, function(resp) {
+                setTimeout(function () {
+                    $.getJSON(window.Common.domain + '/wx/interest/read40' + url, function (resp) {
                         window.Common.verifyData(resp);
                     })
                 }, 40 * 1000);
                 //120s
-                setTimeout(function() {
-                    $.getJSON(window.Common.domain + '/wx/interest/read120' + url, function(resp) {
+                setTimeout(function () {
+                    $.getJSON(window.Common.domain + '/wx/interest/read120' + url, function (resp) {
                         window.Common.verifyData(resp);
                     })
                 }, 120 * 1000);
             },
 
-            commentList: function(id) {
+            commentList: function (id) {
                 var url = window.Common.domain + '/wx/comment/articlelist?id=' + id + '&callback=?';
-                $.getJSON(url, function(resp) {
+                $.getJSON(url, function (resp) {
                     if (window.Common.verifyData(resp)) {
                         resp = resp.data;
                         var html = '';
@@ -221,7 +227,7 @@ jQuery(function($) {
                                 like = data.islike ? data.likenum : '',
                                 createTime = data.create_time && new Date(data.create_time * 1000).toLocaleString().replace(/\//g, '.'),
                                 replayTime = data.reply_time && new Date(data.reply_time * 1000).toLocaleDateString().replace(/\//g, '.'),
-                                isLike = data.islike ? 'reviewer-info-liked active' : 　'reviewer-info-liked',
+                                isLike = data.islike ? 'reviewer-info-liked active' : 'reviewer-info-liked',
                                 authorContent = (data.reply_content && replayTime) ? '<div class="author-comment">' +
                                 '<h4>作者回复</h4><div class="author-comment-content">' + data.reply_content + '</div>' +
                                 '<div class="author-comment-date">' + replayTime + '</div></div>' : '';
@@ -238,25 +244,25 @@ jQuery(function($) {
                 })
             },
 
-            addComment: function() {
+            addComment: function () {
                 var that = this;
                 window.Common.comment(_$('.article-comment-new'));
-                $(document).on('tap', '#commentBox .submit', function() {
+                $(document).on('tap', '#commentBox .submit', function () {
                     var commentBox = $('#commentBox'),
                         val = commentBox.find('textarea').val();
                     if (val) {
                         if (val.length < 512) {
                             var url = window.Common.domain + '/wx/comment/add?id=' + that.id + '&content=' + val + '&callback=?';
-                            $.getJSON(url, function(resp) {
+                            $.getJSON(url, function (resp) {
                                 if (window.Common.verifyData(resp)) {
                                     resp = resp.data;
                                     var createTime = resp.create_time && new Date(resp.create_time * 1000).toLocaleString().replace(/\//g, '.'),
                                         html = '<div class="article-comment-item clf"><img src="' + resp.logo + '" alt="" class="reviewer-avatar" ' +
-                                        'width="32" height="32"><div class="article-comment-item-right"><div class="reviewer-info"><h4 class="clf">' +
-                                        '<span class="reviewer-info-name">' + resp.nickname + '</span><span class="reviewer-info-liked" data-id="' +
-                                        resp.cid + '"></span></h4>' +
-                                        '<div class="reviewer-info-content">' + resp.content + '</div><p class="reviewer-info-date">' +
-                                        createTime + '</p></div></div></div>';
+                                            'width="32" height="32"><div class="article-comment-item-right"><div class="reviewer-info"><h4 class="clf">' +
+                                            '<span class="reviewer-info-name">' + resp.nickname + '</span><span class="reviewer-info-liked" data-id="' +
+                                            resp.cid + '"></span></h4>' +
+                                            '<div class="reviewer-info-content">' + resp.content + '</div><p class="reviewer-info-date">' +
+                                            createTime + '</p></div></div></div>';
                                     _$('.article-comment-list').prepend(html);
                                     commentBox.remove();
                                 }
@@ -280,9 +286,9 @@ jQuery(function($) {
             },
 
 
-            commentPraise: function() {
+            commentPraise: function () {
                 // 点击
-                $(document).on('tap', '.article-comment-list .reviewer-info-liked', function() {
+                $(document).on('tap', '.article-comment-list .reviewer-info-liked', function () {
                     var that = $(this),
                         id = that.data('id'),
                         url = window.Common.domain + '/wx/comment/like?cid=' + id + '&callback=?';
@@ -290,7 +296,7 @@ jQuery(function($) {
                         type: 'GET',
                         url: url,
                         dataType: 'json',
-                        beforeSend: function() {
+                        beforeSend: function () {
                             that.prop('disabled', true);
                             window.Common.toastr({
                                 content: "点赞中...",
@@ -298,7 +304,7 @@ jQuery(function($) {
                                 delay: 'fixed'
                             })
                         },
-                        success: function(resp) {
+                        success: function (resp) {
                             if (window.Common.verifyData(resp)) {
                                 that.prop('disabled', false);
                                 if (resp.data) {
@@ -328,7 +334,7 @@ jQuery(function($) {
                                 }
                             }
                         },
-                        error: function(xhr, type) {
+                        error: function (xhr, type) {
                             console.log(xhr, type)
                         }
                     });
