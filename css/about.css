@@ -19,7 +19,7 @@
     padding-top: 8px;
 }
 
-#About section .second{
+#About section .second {
     margin-top: 153px;
 }
 
@@ -44,14 +44,24 @@
     height: 36px;
     line-height: 36px;
     text-align: center;
-    background-color: #ffad4c;
     color: #ffffff;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
+}
+
+#About .first .content .left-icon {
+    background-color: #ffad4c;
     -webkit-box-shadow: 0 10px 15px rgba(255, 173, 76, .49);
     -moz-box-shadow: 0 10px 15px rgba(255, 173, 76, .49);
     box-shadow: 0 10px 15px rgba(255, 173, 76, .49);
+}
+
+#About .second .content .left-icon {
+    background-color: #33d3c1;
+    -webkit-box-shadow: 0 10px 15px rgba(51, 211, 193, .49);
+    -moz-box-shadow: 0 10px 15px rgba(51, 211, 193, .49);
+    box-shadow: 0 10px 15px rgba(51, 211, 193, .49);
 }
 
 #About section .content .right-icon {
@@ -80,7 +90,8 @@
     padding-top: 10px;
 }
 
-#About .feedback{
+
+/* #About .feedback {
     width: 224px;
     height: 36px;
     margin: 0 auto 36px;
@@ -91,4 +102,18 @@
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
+}
+ */
+
+#About .qr-code {
+    width: 224px;
+    margin: 0 auto 35px;
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#About .qr-code p {
+    line-height: 3;
 }
