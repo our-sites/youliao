@@ -29,7 +29,7 @@
     border: 1px solid #FFD199;
     color: #F5A623;
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
     background-color: #fff;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -74,12 +74,12 @@
 
 #Labels .circle-3 {
     top: 113px;
-    left: 234px;
+    left: 237px;
 }
 
 #Labels .circle-4 {
-    top: 118px;
-    left: 68px;
+    top: 131px;
+    left: 72px;
 }
 
 #Labels .circle-5 {
@@ -88,12 +88,12 @@
 }
 
 #Labels .circle-6 {
-    top: 219px;
-    left: 28px;
+    top: 221px;
+    left: 21px;
 }
 
 #Labels .circle-7 {
-    top: 268px;
+    top: 258px;
     left: 131px;
 }
 
