@@ -105,7 +105,9 @@ jQuery(function($) {
                                     view = listData[x]['viewnum'],
                                     author = listData[x]['actname'];
                                 _html += '<li><a href="' + href + '"><img src="' + src + '" alt=""><h4>' + title + '</h4>' +
-                                    '<p><span class="author">' + author + '</span><span class="page-view">' + view + '</span>' +
+                                    '<p><span class="author">' + author +
+                                    '</span><span class="page-view"><img src="./img/eyes.png" width="17" height="12">' +
+                                    view + '</span>' +
                                     '</p></a></li>';
                             }
 
@@ -154,8 +156,8 @@ jQuery(function($) {
 
                         var cateId = _$('nav').find('li.active').data('id');
 
-                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
-                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
+                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
+                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
 
                         $.ajax({
                             type: 'GET',
@@ -175,8 +177,8 @@ jQuery(function($) {
                     loadDownFn: function(me, preload) {
                         var cateId = _$('nav').find('li.active').data('id');
 
-                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
-                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
+                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
+                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
 
                         if (preload) {
                             $.ajax({

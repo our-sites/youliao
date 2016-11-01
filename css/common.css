@@ -282,52 +282,27 @@ footer > a {
     display: block;
     width: 33%;
     height: 45px;
-    padding-top: 24px;
-    text-align: center;
-    font-size: 12px;
-    background: url('../img/footer-icon.png') no-repeat;
-    color: #ababab;
 }
 
-footer > a:focus,
-footer > a:hover {
-    color: #ababab;
-}
-
-footer > a.active {
-    color: #0ec4af;
-}
-
-footer > a span {
-    transform: scale(0.9);
-}
 
 footer .home {
     left: 0;
-    background-position: center top;
 }
 
-footer .home.active {
-    background-position: center -45px;
-}
 
 footer .library {
     left: 33%;
     width: 34%;
-    background-position: center -90px;
-}
-
-footer .library.active {
-    background-position: center -135px;
 }
 
 footer .account {
     right: 0;
-    background-position: center -180px;
 }
 
-footer .account.active {
-    background-position: center -225px;
+footer > a img{
+    display: block;
+    height: 75%;
+    margin: 6px auto 0;
 }
 
 

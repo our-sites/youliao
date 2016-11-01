@@ -82,19 +82,14 @@ jQuery(function ($) {
                                 href;
                             if (src) {
                                 vid = toQueryParams.call(src).vid;
-                                href = 'http://v.qq.com/iframe/player.html?vid=';
-                                $(this).attr('src', href + vid).css({
-                                    'width': '100%',
-                                    'height': 'auto'
-                                });
                             } else if (dataSrc) {
                                 vid = toQueryParams.call(dataSrc).vid;
-                                    href = 'http://v.qq.com/iframe/player.html?vid=';
-                                $(this).attr('src', href + vid).css({
-                                    'width': '100%',
-                                    'height': 'auto'
-                                });
                             }
+                            href = 'http://v.qq.com/iframe/player.html?auto=0&vid=';
+                            $(this).attr('src', href + vid).css({
+                                'width': '100%',
+                                'height': 'auto'
+                            });
                         }).parents('#js_content');
                     }
                     // p标签必须换行

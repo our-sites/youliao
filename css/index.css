@@ -120,9 +120,14 @@
     margin-right: 10px;
 }
 
-#Index section li p .page-view {
-    background: url("../img/eyes.png") no-repeat 0 2px;
-    padding-left: 18px;
+#Index section li p .page-view img{
+    width: 17px;
+    height: 12px;
+    display: inline;
+    float: none;
+    position: relative;
+    top: 1px;
+    margin-right: 2px;
 }
 
 #Index .refresh-node {
