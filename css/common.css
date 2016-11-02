@@ -268,7 +268,7 @@ footer {
     left: 0;
     z-index: 1000;
     width: 100%;
-    height: 45px;
+    height: 48px;
     background-color: #fff;
     -webkit-box-shadow: 0 -1px 0 #e6e6e6;
     -moz-box-shadow: 0 -1px 0 #e6e6e6;
@@ -302,7 +302,7 @@ footer .account {
 footer > a img{
     display: block;
     height: 75%;
-    margin: 6px auto 0;
+    margin: 7px auto 0;
 }
 
 

@@ -124,8 +124,8 @@ jQuery(function($) {
                     // 阅读数和点赞数
                     $.getJSON(window.Common.domain + '/wx/article/watchinfo?id=' + data.id + '&callback=?', function(resp) {
                         if (window.Common.verifyData(resp)) {
-                            _$('.article-other .page-view').text(resp.data.readnum);
-                            _$('.article-other .praise').text(resp.data.likenum);
+                            _$('.article-other .page-view b').text(resp.data.readnum);
+                            _$('.article-other .praise b').text(resp.data.likenum);
                         }
                     });
 
