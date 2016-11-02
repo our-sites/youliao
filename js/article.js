@@ -99,6 +99,11 @@ jQuery(function($) {
                         }).parents('#js_content');
                     }
 
+                    // 处理音频
+                    dataContent = that.rebuildVoice(dataContent);
+
+                    dataContent = '<iframe src="' + dataContent +'"></iframe>'
+
                     _$('.article-content').html(dataContent);
                     // 关注有料 跳转链接
                     _$('.attention-btn').attr('href', data.youliao_follow_url);
@@ -378,6 +383,18 @@ jQuery(function($) {
                         }
                     });
                 })
+            },
+
+
+            rebuildVoice: function (ele) {
+                //  暂时处理单个音频
+                var mpvoice = ele.find('mpvoice'),
+                    id = mpvoice.attr('voice_encode_fileid'),
+                    url = 'http://res.wx.qq.com/voice/getvoice?mediaid=' + id;
+               /* $.getJSON(url, function(resp){
+                    console.log(resp);
+                })*/
+                return url
             }
 
         };
