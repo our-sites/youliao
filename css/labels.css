@@ -8,6 +8,10 @@
     overflow: hidden;
 }
 
+#Labels .tags{
+    position: relative;
+}
+
 #Labels .tags > div {
     position: absolute;
 }
@@ -23,8 +27,8 @@
 }
 
 #Labels .yellow {
-    width: 58px;
-    height: 58px;
+    width: 62px;
+    height: 62px;
     line-height: 58px;
     border: 1px solid #FFD199;
     color: #F5A623;
@@ -43,9 +47,9 @@
 }
 
 #Labels .cyan {
-    width: 49px;
-    height: 49px;
-    line-height: 49px;
+    width: 52px;
+    height: 52px;
+    line-height: 48px;
     border: 1px solid #73e6d8;
     color: #0EC4AF;
     text-align: center;
@@ -54,7 +58,7 @@
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
-    box-shadow: 0 6px 10px rgba(115, 230, 216, .3);
+    box-shadow: 0 6px 10px rgba(115, 230, 216, .4);
 }
 
 #Labels .cyan.active {
@@ -63,28 +67,33 @@
 }
 
 #Labels .circle-1 {
-    top: 44px;
-    left: 48px;
+    top: 50px;
+    left: 52px;
+    font-size: 16px;
 }
 
 #Labels .circle-2 {
-    top: 65px;
-    left: 151px;
+    width: 60px;
+    height: 60px;
+    line-height: 56px;
+    top: 71px;
+    left: 169px;
+    font-size: 18px;
 }
 
 #Labels .circle-3 {
-    top: 113px;
-    left: 237px;
+    top: 111px;
+    left: 261px;
 }
 
 #Labels .circle-4 {
-    top: 131px;
-    left: 72px;
+    top: 155px;
+    left: 80px;
 }
 
 #Labels .circle-5 {
-    top: 195px;
-    left: 218px;
+    top: 222px;
+    left: 294px;
 }
 
 #Labels .circle-6 {
@@ -93,21 +102,21 @@
 }
 
 #Labels .circle-7 {
-    top: 258px;
-    left: 131px;
+    top: 290px;
+    left: 149px;
 }
 
 #Labels .circle-8 {
-    top: 252px;
-    left: 220px;
+    top: 345px;
+    left: 275px;
 }
 
 #Labels .circle-9 {
-    top: 303px;
-    left: 38px;
+    top: 345px;
+    left: 49px;
 }
 
 #Labels .circle-10 {
-    top: 347px;
-    left: 170px;
+    top: 395px;
+    left: 178px;
 }
