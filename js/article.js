@@ -100,9 +100,9 @@ jQuery(function($) {
                     }
 
                     // 处理音频
-                    dataContent = that.rebuildVoice(dataContent);
+                    // dataContent = that.rebuildVoice(dataContent);
 
-                    dataContent = '<iframe src="' + dataContent +'"></iframe>'
+                    // dataContent = '<iframe src="' + dataContent +'"></iframe>';
 
                     _$('.article-content').html(dataContent);
                     // 关注有料 跳转链接
