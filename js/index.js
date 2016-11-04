@@ -106,7 +106,7 @@ jQuery(function($) {
                                     author = listData[x]['actname'];
                                 _html += '<li><a href="' + href + '"><img src="' + src + '" alt=""><h4>' + title + '</h4>' +
                                     '<p><span class="author">' + author +
-                                    '</span><span class="page-view"><img src="./img/eyes.png" width="17" height="12">' +
+                                    '</span><span class="page-view"><img src="http://yl-static.b0.upaiyun.com/img/eyes.png" width="17" height="12">' +
                                     view + '</span>' +
                                     '</p></a></li>';
                             }
