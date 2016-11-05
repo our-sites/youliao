@@ -2,7 +2,7 @@
     width: 100%;
     height: 100%;
     position: relative;
-    padding: 40px 0;
+    padding: 48px 0;
     background-color: #f3f3f3;
 }
 
@@ -13,8 +13,8 @@
     z-index: 1000;
     overflow: hidden;
     width: 100%;
-    height: 40px;
-    line-height: 40px;
+    height: 48px;
+    line-height: 48px;
     background-color: #fff;
     -webkit-box-shadow: 0 1px 0 #e6e6e6;
     -moz-box-shadow: 0 1px 0 #e6e6e6;
@@ -24,10 +24,11 @@
 
 #Library nav > a {
     display: inline-block;
-    height: 40px;
+    height: 48px;
     padding: 0 3px;
     color: #4d4d4d;
-    border-bottom: 1px solid transparent;
+    border-bottom: 2px solid transparent;
+    font-size: 17px;
 }
 
 #Library nav > a.active {
@@ -54,7 +55,7 @@
 #Library section li {
     position: relative;
     width: 100%;
-    height: 95px;
+    height: 112px;
     -webkit-box-shadow: 0 1px 0 #e6e6e6;
     -moz-box-shadow: 0 1px 0 #e6e6e6;
     box-shadow: 0 1px 0 #e6e6e6;
@@ -67,8 +68,8 @@
     left: 0;
     z-index: 2;
     width: 100%;
-    height: 95px;
-    padding: 15px;
+    height: 112px;
+    padding: 17px;
     background-color: #fff;
 
 }
@@ -80,16 +81,16 @@
 #Library section .item img {
     display: block;
     float: left;
-    width: 95px;
-    height: 65px;
+    width: 111px;
+    height: 78px;
     margin-right: 10px;
 }
 
 #Library section .item h4 {
-    font-size: 16px;
-    height: 40px;
-    line-height: 20px;
-    margin-bottom: 10px;
+    font-size: 17px;
+    height: 48px;
+    line-height: 24px;
+    margin-bottom: 16px;
     overflow: hidden;
 }
 
@@ -115,11 +116,21 @@
 }
 
 #Library section .item p .page-view {
-    background: url("../img/eyes.png") no-repeat 0 2px;
-    padding-left: 18px;
     float: right;
     margin-right: 6px;
 }
+
+#Library section .item p .page-view img{
+    width: 17px;
+    height: 12px;
+    display: inline;
+    float: none;
+    position: relative;
+    top: 1px;
+    margin-right: 2px;
+}
+
+
 
 #Library section li .del{
     position: absolute;

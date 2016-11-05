@@ -133,6 +133,10 @@ jQuery(function($) {
                                     console.log('choose the type first')
                                 }
                             }
+                            // dotdotdot
+                            $('section h4').dotdotdot({
+                                height: 48
+                            });
 
 
                             that.dropload.resetload();
@@ -197,6 +201,10 @@ jQuery(function($) {
                             if (that.preload[cateId]) {
                                 var el = 'ul[data-id="' + cateId + '"]';
                                 _$('section').find(el).append(that.preload[cateId]);
+                                // dotdotdot
+                                $('section h4').dotdotdot({
+                                    height: 48
+                                });
                                 that.preload[cateId] = '';
                                 that.dropload.resetload();
                                 me.unlock();
@@ -232,8 +240,10 @@ jQuery(function($) {
                 })
             },
             storePage: function() {
-                $(document).on('tap', 'section li a', function(e) {
+                $(document).on('click', 'section li a', function(e) {
                     e.preventDefault();
+                    $(this).hasClass('visited') || $(this).addClass('visited');
+
                     _$('section').find('.dropload-down').remove();
                     var obj = {
                         nav: _$('nav').html(),

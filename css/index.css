@@ -86,6 +86,10 @@
     height: 100%;
 }
 
+#Index section li a.visited h4{
+    color: #919191;
+}
+
 #Index section li img {
     display: block;
     float: left;

@@ -32,7 +32,8 @@ jQuery(function($) {
                                         view = listData[x]['viewnum'],
                                         author = listData[x]['actname'];
                                     _html += '<li><div class="item clf"><a href="' + href + '"><img src="' + src + '" alt="">' +
-                                        '<h4>' + title + '</h4><p><span class="author">' + author + '</span><span class="page-view">' +
+                                        '<h4>' + title + '</h4><p><span class="author">' + author + 
+                                        '</span><span class="page-view"><img src="http://yl-static.b0.upaiyun.com/img/eyes.png" width="17" height="12">' +
                                         view + '</span></p></div><div class="del" data-id="' + id + '">删除</div></a></li>';
                                 }
 
@@ -42,6 +43,10 @@ jQuery(function($) {
                                 section.find('ul').append(_html);
                                 num += 1;
 
+                                // dotdotdot
+                                $('section h4').dotdotdot({
+                                    height: 48
+                                });
 
                                 that.dropload.resetload();
                                 me.unlock();
