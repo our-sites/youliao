@@ -79,6 +79,8 @@ jQuery(function ($) {
                         dataContent = dataContent.find('.video_iframe').each(function () {
                             var src = $(this).attr('src'),
                                 dataSrc = $(this).data('src'),
+                                width = _$('.article-content').width(),
+                                height = Number($(this).attr('height'))/Number($(this).attr('width'))*width,
                                 vid,
                                 href;
                             if (src) {
@@ -87,9 +89,10 @@ jQuery(function ($) {
                                 vid = toQueryParams.call(dataSrc).vid;
                             }
                             href = 'http://v.qq.com/iframe/player.html?auto=0&vid=';
+
                             $(this).attr('src', href + vid).css({
-                                'width': '100%',
-                                'height': 'auto'
+                                'width': width,
+                                'height': height
                             });
                         }).parents('#js_content');
                     }
@@ -101,7 +104,9 @@ jQuery(function ($) {
                     }
 
                     // 处理音频
-                    dataContent = that.rebuildVoice(dataContent,that);
+                    if(dataContent.find('mpvoice').length){
+                        dataContent = that.rebuildVoice(dataContent.find('mpvoice'),that,data.actname);
+                    }
 
                     _$('.article-content').html(dataContent);
 
@@ -395,11 +400,8 @@ jQuery(function ($) {
             },
 
 
-            rebuildVoice: function (ele, that) {
-                //  暂时处理单个音频
-                var mpvoices = ele.find('mpvoice'),
-                    arr = [];
-                    
+            rebuildVoice: function (mpvoices, that, author) {
+                //  处理音频                    
                 mpvoices.each(function () {
                     var mpvoice = $(this),
                         name = decodeURIComponent(mpvoice.attr('name')),
@@ -412,14 +414,13 @@ jQuery(function ($) {
                         })(),
                         id = mpvoice.attr('voice_encode_fileid'),
                         url = 'http://res.wx.qq.com/voice/getvoice?mediaid=' + id,
-                        author = '',
                         html = '<div class="audio-box clf"><audio preload="auto"><source src="' +
                         url + 
                         '"></audio><div class="audio-start"><div class="audio-read"></div></div><span class="audio-time">' +
                         time +
                         '</span><div class="audio-info"><p>' +
                         name +
-                        '</p><span>' +
+                        '</p><span>来自' +
                         author +
                         '</span></div><div class="progress-bar"></div></div>';
                     mpvoice.after(html);
