@@ -7,27 +7,34 @@
 }
 
 #About section {
-    margin-top: 16px;
+    margin: 28px auto 38px;
     background: url("../img/about-bg.png") no-repeat center center;
     background-size: 100%;
-    height: 640px;
+    overflow: hidden;
+}
+
+
+#About section .bg img{
+    width: 100%;
 }
 
 #About section .part {
     width: 100%;
-    height: 220px;
     padding-top: 8px;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 20px;
 }
 
 #About section .second {
-    margin-top: 153px;
+    margin-top: 160px;
 }
 
 #About section .part .content {
     position: relative;
-    width: 224px;
-    height: 212px;
-    padding: 30px;
+    width: 263px;
+    height: 249px;
+    padding: 45px 38px 30px;
     margin: 8px auto 0;
     background-color: #fff;
     -webkit-border-radius: 5px;
@@ -37,12 +44,13 @@
 
 #About section .content .left-icon {
     position: absolute;
-    top: -8px;
-    left: -16px;
+    top: -5px;
+    left: -19px;
     z-index: 2;
-    width: 36px;
-    height: 36px;
-    line-height: 36px;
+    width: 43px;
+    height: 43px;
+    line-height: 43px;
+    font-size: 18px;
     text-align: center;
     color: #ffffff;
     -webkit-border-radius: 50%;
@@ -66,17 +74,17 @@
 
 #About section .content .right-icon {
     position: absolute;
-    top: 3px;
-    right: -26px;
+    top: 4px;
+    right: -31px;
     z-index: 2;
-    width: 49px;
-    height: 28px;
+    width: 58px;
+    height: 32px;
 }
 
 #About section .content p {
-    font-size: 12px;
+    font-size: 14px;
     color: #999999;
-    margin-bottom: 9px;
+    margin-bottom: 12px;
 }
 
 #About section .content p span {
@@ -104,7 +112,7 @@
     border-radius: 2px;
 }
  */
-
+/* 
 #About .qr-code {
     width: 224px;
     margin: 0 auto 35px;
@@ -117,3 +125,4 @@
 #About .qr-code p {
     line-height: 3;
 }
+ */
