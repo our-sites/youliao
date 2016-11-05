@@ -459,3 +459,69 @@
     -webkit-box-sizing: border-box!important;
     word-wrap: break-word!important;
 }
+
+/*未登录*/
+#Article.role-tourist{
+    padding-bottom: 100px;
+}
+#Article .tourist{
+    display: none;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 3333;
+    width: 100%;
+    height: 100px;
+    background-color: rgba(255,255,255,.8);
+}
+#Article .tourist-close{
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    z-index: 2;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    line-height: 20px;
+    text-align: center;
+    background-color: #fff;
+    color: #9B9B9B;
+}
+
+#Article .tourist-close:focus{
+    background-color: #4fe3c1;
+    color: #fff;
+}
+
+#Article .tourist-logo{
+    float: left;
+    width: 64px;
+    height: 64px;
+    margin: 18px 15px 18px 30px;
+}
+#Article .tourist-info{
+    margin: 26px 0;
+    font-size: 16px;
+    color: #999;
+}
+
+#Article .tourist-qrcode{
+    position: absolute;
+    top: 12px;
+    right: 17%;
+    z-index: 2;
+    width: 76px;
+    height: 75px;
+}
+
+
+
+
+
+
+
+
+
+#Article.role-tourist .tourist{
+    display: block;
+}

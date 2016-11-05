@@ -46,6 +46,9 @@ jQuery(function ($) {
                     };
                 if (window.Common.verifyData(data)) {
                     data = data.data;
+
+                    // 判读是否登录
+                    data.isLogin || _$().hasClass('role-tourist') || _$().addClass('role-tourist')
                     //id
                     that.id = data.id;
                     //标题
@@ -153,6 +156,10 @@ jQuery(function ($) {
                     that.interestTrack('?tagid=' + data.tagid + '&id=' + data.id + '&callback=?');
                     //评论列表
                     that.commentList(data.id);
+                    // 关闭底部提示
+                    _$('.tourist-close').on('tap', function () {
+                         _$().removeClass('role-tourist'); 
+                    })
                 }
             },
 
