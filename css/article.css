@@ -452,3 +452,10 @@
     width: 0;
     height: 2px
 }
+
+.rich_media_content *{
+    max-width: 100%!important;
+    box-sizing: border-box!important;
+    -webkit-box-sizing: border-box!important;
+    word-wrap: break-word!important;
+}

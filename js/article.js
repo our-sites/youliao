@@ -64,12 +64,13 @@ jQuery(function ($) {
                         dataContent = dataContent.find('img').each(function (idx) {
                             $(this).removeAttr('style').attr('src', $(this).data('src'));
                             if ($(this).data('w') >= wWidth) {
-                                $(this).css({
-                                    'width': '100%',
+                                /*$(this).css({
+                                    'width': 'auto!',
                                     'height': 'auto'
-                                });
+                                });*/
+                                // $(this).css('cssText','width: auto !important;height: auto !important;')
                             } else {
-                                $(this).css('width', $(this).data('w'));
+                                // $(this).css('width', $(this).data('w'));
                             }
                         }).parents('#js_content')
                     }
@@ -100,12 +101,14 @@ jQuery(function ($) {
                     }
 
                     // 处理音频
-                    // dataContent = that.rebuildVoice(dataContent);
-
-                    // dataContent = '<iframe src="' + dataContent +'"></iframe>';
-                    that.controlAudio($('.audio-box'));
+                    dataContent = that.rebuildVoice(dataContent,that);
 
                     _$('.article-content').html(dataContent);
+
+                    // 音频事件添加
+                    $('.audio-box').each(function () {
+                        that.controlAudio($(this));
+                    })
                     // 关注有料 跳转链接
                     _$('.attention-btn').attr('href', data.youliao_follow_url);
                     // 关注内容来源公众号 跳转链接
@@ -156,6 +159,7 @@ jQuery(function ($) {
                 favorBtn.on('tap', function () {
                     var that = $(this),
                         url = window.Common.domain + '/wx/collect/collect?id=' + id + '&callback=?';
+                        // url = window.Common.domain + '/wx/collect/collect?id=' + id + '&uid=1&callback=?';
                     $.ajax({
                         type: 'GET',
                         url: url,
@@ -292,12 +296,14 @@ jQuery(function ($) {
             addComment: function () {
                 var that = this;
                 window.Common.comment(_$('.article-comment-new'));
+                window.Common.comment(_$('header .commit'));
                 $(document).on('tap', '#commentBox .submit', function () {
                     var commentBox = $('#commentBox'),
                         val = commentBox.find('textarea').val();
                     if (val) {
                         if (val.length < 512) {
                             var url = window.Common.domain + '/wx/comment/add?id=' + that.id + '&content=' + val + '&callback=?';
+                            // var url = window.Common.domain + '/wx/comment/add?id=' + that.id + '&content=' + val + '&uid=1&callback=?';
                             $.getJSON(url, function (resp) {
                                 if (window.Common.verifyData(resp)) {
                                     resp = resp.data;
@@ -310,6 +316,8 @@ jQuery(function ($) {
                                             createTime + '</p></div></div></div>';
                                     _$('.article-comment-list').prepend(html);
                                     commentBox.remove();
+                                    // 滑动到评论区域
+                                    $('body').scrollTop($('.article-comment').offset().top);
                                 }
                             })
                         } else {
@@ -387,15 +395,37 @@ jQuery(function ($) {
             },
 
 
-            rebuildVoice: function (ele) {
+            rebuildVoice: function (ele, that) {
                 //  暂时处理单个音频
-                var mpvoice = ele.find('mpvoice'),
-                    id = mpvoice.attr('voice_encode_fileid'),
-                    url = 'http://res.wx.qq.com/voice/getvoice?mediaid=' + id;
-                /* $.getJSON(url, function(resp){
-                 console.log(resp);
-                 })*/
-                return url
+                var mpvoices = ele.find('mpvoice'),
+                    arr = [];
+                    
+                mpvoices.each(function () {
+                    var mpvoice = $(this),
+                        name = decodeURIComponent(mpvoice.attr('name')),
+                        time = (function () {
+                            var o = mpvoice.attr('play_length')/(60*1000),
+                                p = parseInt(o),
+                                q = Math.round((o - p)*60);
+                            q < 10 && (q = '0' + String(q));
+                            return String(p) + ':' + q
+                        })(),
+                        id = mpvoice.attr('voice_encode_fileid'),
+                        url = 'http://res.wx.qq.com/voice/getvoice?mediaid=' + id,
+                        author = '',
+                        html = '<div class="audio-box clf"><audio preload="auto"><source src="' +
+                        url + 
+                        '"></audio><div class="audio-start"><div class="audio-read"></div></div><span class="audio-time">' +
+                        time +
+                        '</span><div class="audio-info"><p>' +
+                        name +
+                        '</p><span>' +
+                        author +
+                        '</span></div><div class="progress-bar"></div></div>';
+                    mpvoice.after(html);
+                });
+                
+                return mpvoices.parents('#js_content');
             },
 
             controlAudio: function (box) {
