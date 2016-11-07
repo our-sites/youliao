@@ -34,7 +34,7 @@ jQuery(function($) {
                                     _html += '<li><div class="item clf"><a href="' + href + '"><img src="' + src + '" alt="">' +
                                         '<h4>' + title + '</h4><p><span class="author">' + author + 
                                         '</span><span class="page-view"><img src="http://yl-static.b0.upaiyun.com/img/eyes.png" width="17" height="12">' +
-                                        view + '</span></p></div><div class="del" data-id="' + id + '">删除</div></a></li>';
+                                        view + '</span></p></div></a><div class="del" data-id="' + id + '">删除</div></li>';
                                 }
 
 
@@ -68,8 +68,8 @@ jQuery(function($) {
                         domNoData: '<div class="dropload-noData" style="background-color: #f3f3f3;"></div>'
                     },
                     loadDownFn: function(me) {
-                        var url = window.Common.domain + '/wx/collect/list?page=' + num + '&callback=?';
-                        // var url = window.Common.domain + '/wx/collect/list?page=' + num + '&uid=1&callback=?'; //开发环境
+                        // var url = window.Common.domain + '/wx/collect/list?page=' + num + '&callback=?';
+                        var url = window.Common.domain + '/wx/collect/list?page=' + num + '&uid=1&callback=?'; //开发环境
                         $.ajax({
                             type: 'GET',
                             url: url,

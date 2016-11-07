@@ -47,8 +47,8 @@ jQuery(function ($) {
                 if (window.Common.verifyData(data)) {
                     data = data.data;
 
-                    // 判读是否登录
-                    data.isLogin || _$().hasClass('role-tourist') || _$().addClass('role-tourist')
+                    // 游客模式
+                    data.isLogin || _$().hasClass('role-tourist') || _$().addClass('role-tourist');
                     //id
                     that.id = data.id;
                     //标题
@@ -68,9 +68,9 @@ jQuery(function ($) {
                             $(this).removeAttr('style').attr('src', $(this).data('src'));
                             if ($(this).data('w') >= wWidth) {
                                 /*$(this).css({
-                                    'width': 'auto!',
-                                    'height': 'auto'
-                                });*/
+                                 'width': 'auto!',
+                                 'height': 'auto'
+                                 });*/
                                 // $(this).css('cssText','width: auto !important;height: auto !important;')
                             } else {
                                 // $(this).css('width', $(this).data('w'));
@@ -83,7 +83,7 @@ jQuery(function ($) {
                             var src = $(this).attr('src'),
                                 dataSrc = $(this).data('src'),
                                 width = _$('.article-content').width(),
-                                height = Number($(this).attr('height'))/Number($(this).attr('width'))*width,
+                                height = Number($(this).attr('height')) / Number($(this).attr('width')) * width,
                                 vid,
                                 href;
                             if (src) {
@@ -107,8 +107,8 @@ jQuery(function ($) {
                     }
 
                     // 处理音频
-                    if(dataContent.find('mpvoice').length){
-                        dataContent = that.rebuildVoice(dataContent.find('mpvoice'),that,data.actname);
+                    if (dataContent.find('mpvoice').length) {
+                        dataContent = that.rebuildVoice(dataContent.find('mpvoice'), that, data.actname);
                     }
 
                     _$('.article-content').html(dataContent);
@@ -158,9 +158,23 @@ jQuery(function ($) {
                     that.commentList(data.id);
                     // 关闭底部提示
                     _$('.tourist-close').on('tap', function () {
-                         _$().removeClass('role-tourist'); 
+                        _$('.tourist').hide();
                     })
                 }
+            },
+
+            remindLogin: function () {
+                var time = 1000;
+                window.Common.toastr({
+                    content: '请先登录',
+                    time: time
+                });
+
+                setTimeout(function () {
+                    _$('.tourist').is(':visible') || _$('.tourist').show();
+                }, time);
+
+
             },
 
             articleFavor: function (id, status) {
@@ -169,45 +183,52 @@ jQuery(function ($) {
                 status ? favorBtn.removeClass('active').addClass('active') : favorBtn.removeClass('active');
                 // 点击
                 favorBtn.on('tap', function () {
-                    var that = $(this),
-                        url = window.Common.domain + '/wx/collect/collect?id=' + id + '&callback=?';
+                    // 判断是否登录
+                    if (window.jsonData.isLogin) {
+                        var that = $(this),
+                            url = window.Common.domain + '/wx/collect/collect?id=' + id + '&callback=?';
                         // url = window.Common.domain + '/wx/collect/collect?id=' + id + '&uid=1&callback=?';
-                    $.ajax({
-                        type: 'GET',
-                        url: url,
-                        dataType: 'json',
-                        beforeSend: function () {
-                            that.prop('disabled', true);
-                            window.Common.toastr({
-                                content: "收藏中...",
-                                pos: 'bottom',
-                                delay: 'fixed'
-                            })
-                        },
-                        success: function (resp) {
-                            if (window.Common.verifyData(resp)) {
-                                that.prop('disabled', false);
-                                if (resp.data) {
-                                    that.removeClass('active').addClass('active');
-                                    window.Common.toastr({
-                                        content: "收藏成功",
-                                        pos: 'bottom',
-                                        delay: '500'
-                                    })
-                                } else {
-                                    that.removeClass('active');
-                                    window.Common.toastr({
-                                        content: "取消收藏成功",
-                                        pos: 'bottom',
-                                        delay: '500'
-                                    })
+                        $.ajax({
+                            type: 'GET',
+                            url: url,
+                            dataType: 'json',
+                            beforeSend: function () {
+                                that.prop('disabled', true);
+                                window.Common.toastr({
+                                    content: "收藏中...",
+                                    pos: 'bottom',
+                                    delay: 'fixed'
+                                })
+                            },
+                            success: function (resp) {
+                                if (window.Common.verifyData(resp)) {
+                                    that.prop('disabled', false);
+                                    if (resp.data) {
+                                        that.removeClass('active').addClass('active');
+                                        window.Common.toastr({
+                                            content: "收藏成功",
+                                            pos: 'bottom',
+                                            delay: '500'
+                                        })
+                                    } else {
+                                        that.removeClass('active');
+                                        window.Common.toastr({
+                                            content: "取消收藏成功",
+                                            pos: 'bottom',
+                                            delay: '500'
+                                        })
+                                    }
                                 }
+                            },
+                            error: function (xhr, type) {
+                                console.log(xhr, type)
                             }
-                        },
-                        error: function (xhr, type) {
-                            console.log(xhr, type)
-                        }
-                    });
+                        });
+                    } else {
+                        Article.remindLogin();
+                    }
+
+
                 })
             },
 
@@ -217,44 +238,51 @@ jQuery(function ($) {
                 status ? praiseBtn.removeClass('active').addClass('active') : praiseBtn.removeClass('active');
                 // 点击
                 praiseBtn.on('tap', function () {
-                    var that = $(this),
-                        url = window.Common.domain + '/wx/article/like?id=' + id + '&callback=?';
-                    $.ajax({
-                        type: 'GET',
-                        url: url,
-                        dataType: 'json',
-                        beforeSend: function () {
-                            that.prop('disabled', true);
-                            window.Common.toastr({
-                                content: "点赞中...",
-                                pos: 'bottom',
-                                delay: 'fixed'
-                            })
-                        },
-                        success: function (resp) {
-                            if (window.Common.verifyData(resp)) {
-                                that.prop('disabled', false);
-                                if (resp.data) {
-                                    that.removeClass('active').addClass('active');
-                                    window.Common.toastr({
-                                        content: "点赞成功",
-                                        pos: 'bottom',
-                                        delay: '500'
-                                    })
-                                } else {
-                                    that.removeClass('active');
-                                    window.Common.toastr({
-                                        content: "取消点赞成功",
-                                        pos: 'bottom',
-                                        delay: '500'
-                                    })
+                    // 判断是否登录
+                    if (window.jsonData.isLogin) {
+                        var that = $(this),
+                            url = window.Common.domain + '/wx/article/like?id=' + id + '&callback=?';
+
+                        $.ajax({
+                            type: 'GET',
+                            url: url,
+                            dataType: 'json',
+                            beforeSend: function () {
+                                that.prop('disabled', true);
+                                window.Common.toastr({
+                                    content: "点赞中...",
+                                    pos: 'bottom',
+                                    delay: 'fixed'
+                                })
+                            },
+                            success: function (resp) {
+                                if (window.Common.verifyData(resp)) {
+                                    that.prop('disabled', false);
+                                    if (resp.data) {
+                                        that.removeClass('active').addClass('active');
+                                        window.Common.toastr({
+                                            content: "点赞成功",
+                                            pos: 'bottom',
+                                            delay: '500'
+                                        })
+                                    } else {
+                                        that.removeClass('active');
+                                        window.Common.toastr({
+                                            content: "取消点赞成功",
+                                            pos: 'bottom',
+                                            delay: '500'
+                                        })
+                                    }
                                 }
+                            },
+                            error: function (xhr, type) {
+                                console.log(xhr, type)
                             }
-                        },
-                        error: function (xhr, type) {
-                            console.log(xhr, type)
-                        }
-                    });
+                        });
+                    } else {
+                        Article.remindLogin();
+                    }
+
                 })
             },
 
@@ -307,43 +335,48 @@ jQuery(function ($) {
 
             addComment: function () {
                 var that = this;
-                window.Common.comment(_$('.article-comment-new'));
-                window.Common.comment(_$('header .commit'));
+                window.Common.comment(_$('.article-comment-new'), window.jsonData.isLogin, Article.remindLogin);
+                window.Common.comment(_$('header .commit'), window.jsonData.isLogin, Article.remindLogin);
                 $(document).on('tap', '#commentBox .submit', function () {
-                    var commentBox = $('#commentBox'),
-                        val = commentBox.find('textarea').val();
-                    if (val) {
-                        if (val.length < 512) {
-                            var url = window.Common.domain + '/wx/comment/add?id=' + that.id + '&content=' + val + '&callback=?';
-                            // var url = window.Common.domain + '/wx/comment/add?id=' + that.id + '&content=' + val + '&uid=1&callback=?';
-                            $.getJSON(url, function (resp) {
-                                if (window.Common.verifyData(resp)) {
-                                    resp = resp.data;
-                                    var createTime = resp.create_time && new Date(resp.create_time * 1000).toLocaleString().replace(/\//g, '.'),
-                                        html = '<div class="article-comment-item clf"><img src="' + resp.logo + '" alt="" class="reviewer-avatar" ' +
-                                            'width="32" height="32"><div class="article-comment-item-right"><div class="reviewer-info"><h4 class="clf">' +
-                                            '<span class="reviewer-info-name">' + resp.nickname + '</span><span class="reviewer-info-liked" data-id="' +
-                                            resp.cid + '"></span></h4>' +
-                                            '<div class="reviewer-info-content">' + resp.content + '</div><p class="reviewer-info-date">' +
-                                            createTime + '</p></div></div></div>';
-                                    _$('.article-comment-list').prepend(html);
-                                    commentBox.remove();
-                                    // 滑动到评论区域
-                                    $('body').scrollTop($('.article-comment').offset().top);
-                                }
-                            })
+                    // 判断是否登录
+                    if (window.jsonData.isLogin) {
+                        var commentBox = $('#commentBox'),
+                            val = commentBox.find('textarea').val();
+                        if (val) {
+                            if (val.length < 512) {
+                                var url = window.Common.domain + '/wx/comment/add?id=' + that.id + '&content=' + val + '&callback=?';
+                                // var url = window.Common.domain + '/wx/comment/add?id=' + that.id + '&content=' + val + '&uid=1&callback=?';
+                                $.getJSON(url, function (resp) {
+                                    if (window.Common.verifyData(resp)) {
+                                        resp = resp.data;
+                                        var createTime = resp.create_time && new Date(resp.create_time * 1000).toLocaleString().replace(/\//g, '.'),
+                                            html = '<div class="article-comment-item clf"><img src="' + resp.logo + '" alt="" class="reviewer-avatar" ' +
+                                                'width="32" height="32"><div class="article-comment-item-right"><div class="reviewer-info"><h4 class="clf">' +
+                                                '<span class="reviewer-info-name">' + resp.nickname + '</span><span class="reviewer-info-liked" data-id="' +
+                                                resp.cid + '"></span></h4>' +
+                                                '<div class="reviewer-info-content">' + resp.content + '</div><p class="reviewer-info-date">' +
+                                                createTime + '</p></div></div></div>';
+                                        _$('.article-comment-list').prepend(html);
+                                        commentBox.remove();
+                                        // 滑动到评论区域
+                                        $('body').scrollTop($('.article-comment').offset().top);
+                                    }
+                                })
+                            } else {
+                                window.Common.toastr({
+                                    content: '超出最大字符限制',
+                                    pos: 'bottom'
+                                })
+                            }
+
                         } else {
                             window.Common.toastr({
-                                content: '超出最大字符限制',
+                                content: '请输入你的评论',
                                 pos: 'bottom'
                             })
                         }
-
                     } else {
-                        window.Common.toastr({
-                            content: '请输入你的评论',
-                            pos: 'bottom'
-                        })
+                        Article.remindLogin();
                     }
 
 
@@ -354,55 +387,60 @@ jQuery(function ($) {
             commentPraise: function () {
                 // 点击
                 $(document).on('tap', '.article-comment-list .reviewer-info-liked', function () {
-                    var that = $(this),
-                        id = that.data('id'),
-                        url = window.Common.domain + '/wx/comment/like?cid=' + id + '&callback=?';
-                    $.ajax({
-                        type: 'GET',
-                        url: url,
-                        dataType: 'json',
-                        beforeSend: function () {
-                            that.prop('disabled', true);
-                            window.Common.toastr({
-                                content: "点赞中...",
-                                pos: 'bottom',
-                                delay: 'fixed'
-                            })
-                        },
-                        success: function (resp) {
-                            if (window.Common.verifyData(resp)) {
-                                that.prop('disabled', false);
-                                if (resp.data) {
-                                    that.removeClass('active').addClass('active');
-                                    if (that.text()) {
-                                        that.text(Number(that.text()) + 1)
+                    // 判断是否登录
+                    if (window.jsonData.isLogin) {
+                        var that = $(this),
+                            id = that.data('id'),
+                            url = window.Common.domain + '/wx/comment/like?cid=' + id + '&callback=?';
+                        $.ajax({
+                            type: 'GET',
+                            url: url,
+                            dataType: 'json',
+                            beforeSend: function () {
+                                that.prop('disabled', true);
+                                window.Common.toastr({
+                                    content: "点赞中...",
+                                    pos: 'bottom',
+                                    delay: 'fixed'
+                                })
+                            },
+                            success: function (resp) {
+                                if (window.Common.verifyData(resp)) {
+                                    that.prop('disabled', false);
+                                    if (resp.data) {
+                                        that.removeClass('active').addClass('active');
+                                        if (that.text()) {
+                                            that.text(Number(that.text()) + 1)
+                                        } else {
+                                            that.text(1)
+                                        }
+                                        window.Common.toastr({
+                                            content: "点赞成功",
+                                            pos: 'bottom',
+                                            delay: '500'
+                                        })
                                     } else {
-                                        that.text(1)
+                                        that.removeClass('active');
+                                        if (Number(that.text()) > 1) {
+                                            that.text(Number(that.text()) - 1)
+                                        } else {
+                                            that.text('')
+                                        }
+                                        window.Common.toastr({
+                                            content: "取消点赞成功",
+                                            pos: 'bottom',
+                                            delay: '500'
+                                        })
                                     }
-                                    window.Common.toastr({
-                                        content: "点赞成功",
-                                        pos: 'bottom',
-                                        delay: '500'
-                                    })
-                                } else {
-                                    that.removeClass('active');
-                                    if (Number(that.text()) > 1) {
-                                        that.text(Number(that.text()) - 1)
-                                    } else {
-                                        that.text('')
-                                    }
-                                    window.Common.toastr({
-                                        content: "取消点赞成功",
-                                        pos: 'bottom',
-                                        delay: '500'
-                                    })
                                 }
+                            },
+                            error: function (xhr, type) {
+                                console.log(xhr, type)
                             }
-                        },
-                        error: function (xhr, type) {
-                            console.log(xhr, type)
-                        }
-                    });
+                        });
+                    } else {
+                        Article.remindLogin();
+                    }
                 })
             },
 
@@ -413,26 +451,26 @@ jQuery(function ($) {
                     var mpvoice = $(this),
                         name = decodeURIComponent(mpvoice.attr('name')),
                         time = (function () {
-                            var o = mpvoice.attr('play_length')/(60*1000),
+                            var o = mpvoice.attr('play_length') / (60 * 1000),
                                 p = parseInt(o),
-                                q = Math.round((o - p)*60);
+                                q = Math.round((o - p) * 60);
                             q < 10 && (q = '0' + String(q));
                             return String(p) + ':' + q
                         })(),
                         id = mpvoice.attr('voice_encode_fileid'),
                         url = 'http://res.wx.qq.com/voice/getvoice?mediaid=' + id,
                         html = '<div class="audio-box clf"><audio preload="auto"><source src="' +
-                        url + 
-                        '"></audio><div class="audio-start"><div class="audio-read"></div></div><span class="audio-time">' +
-                        time +
-                        '</span><div class="audio-info"><p>' +
-                        name +
-                        '</p><span>来自' +
-                        author +
-                        '</span></div><div class="progress-bar"></div></div>';
+                            url +
+                            '"></audio><div class="audio-start"><div class="audio-read"></div></div><span class="audio-time">' +
+                            time +
+                            '</span><div class="audio-info"><p>' +
+                            name +
+                            '</p><span>来自' +
+                            author +
+                            '</span></div><div class="progress-bar"></div></div>';
                     mpvoice.after(html);
                 });
-                
+
                 return mpvoices.parents('#js_content');
             },
 
@@ -453,7 +491,7 @@ jQuery(function ($) {
                         audio.play();
                         clearInterval(timer);
                         timer = setInterval(function () {
-                            var width = audio.currentTime*100 / audio.duration;
+                            var width = audio.currentTime * 100 / audio.duration;
                             progress.css('width', width + '%')
                         }, 100)
                     }
