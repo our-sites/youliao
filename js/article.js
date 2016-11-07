@@ -184,7 +184,7 @@ jQuery(function ($) {
                 // 点击
                 favorBtn.on('tap', function () {
                     // 判断是否登录
-                    if (window.jsonData.isLogin) {
+                    if (window.jsonData.data.isLogin) {
                         var that = $(this),
                             url = window.Common.domain + '/wx/collect/collect?id=' + id + '&callback=?';
                         // url = window.Common.domain + '/wx/collect/collect?id=' + id + '&uid=1&callback=?';
@@ -239,7 +239,7 @@ jQuery(function ($) {
                 // 点击
                 praiseBtn.on('tap', function () {
                     // 判断是否登录
-                    if (window.jsonData.isLogin) {
+                    if (window.jsonData.data.isLogin) {
                         var that = $(this),
                             url = window.Common.domain + '/wx/article/like?id=' + id + '&callback=?';
 
@@ -335,11 +335,11 @@ jQuery(function ($) {
 
             addComment: function () {
                 var that = this;
-                window.Common.comment(_$('.article-comment-new'), window.jsonData.isLogin, Article.remindLogin);
-                window.Common.comment(_$('header .commit'), window.jsonData.isLogin, Article.remindLogin);
+                window.Common.comment(_$('.article-comment-new'), window.jsonData.data.isLogin, Article.remindLogin);
+                window.Common.comment(_$('header .commit'), window.jsonData.data.isLogin, Article.remindLogin);
                 $(document).on('tap', '#commentBox .submit', function () {
                     // 判断是否登录
-                    if (window.jsonData.isLogin) {
+                    if (window.jsonData.data.isLogin) {
                         var commentBox = $('#commentBox'),
                             val = commentBox.find('textarea').val();
                         if (val) {
@@ -388,7 +388,7 @@ jQuery(function ($) {
                 // 点击
                 $(document).on('tap', '.article-comment-list .reviewer-info-liked', function () {
                     // 判断是否登录
-                    if (window.jsonData.isLogin) {
+                    if (window.jsonData.data.isLogin) {
                         var that = $(this),
                             id = that.data('id'),
                             url = window.Common.domain + '/wx/comment/like?cid=' + id + '&callback=?';
