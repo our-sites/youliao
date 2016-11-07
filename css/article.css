@@ -10,7 +10,7 @@
 }
 
 #Article header h1 {
-    font-size: 20px;
+    font-size: 25px;
     color: #000000;
     margin-bottom: 10px;
 }
@@ -51,7 +51,7 @@
 }
 
 #Article header .commit {
-    top: 140px;
+    top: 150px;
 }
 
 #Article header .commit img.active,

@@ -104,7 +104,7 @@ jQuery(function($) {
                                     title = listData[x]['title'],
                                     view = listData[x]['viewnum'],
                                     author = listData[x]['actname'];
-                                _html += '<li><a href="' + href + '"><img src="' + src + '" alt=""><h4>' + title + '</h4>' +
+                                _html += '<li><a data-href="' + href + '" href="javascript:;"><img src="' + src + '" alt=""><h4>' + title + '</h4>' +
                                     '<p><span class="author">' + author +
                                     '</span><span class="page-view"><img src="http://yl-static.b0.upaiyun.com/img/eyes.png" width="17" height="12">' +
                                     view + '</span>' +
@@ -252,7 +252,7 @@ jQuery(function($) {
                         scrollTop: $('body').scrollTop()
                     };
                     sessionStorage.setItem('list', JSON.stringify(obj));
-                    location.href = $(this).attr('href');
+                    location.href = $(this).data('href');
                     // location.href = 'http://127.0.0.1:8888/article.html' // 开发环境
                 })
             },
