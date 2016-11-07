@@ -11,7 +11,7 @@ jQuery(function ($) {
             },
             feedback: function () {
                 window.Common.feedback(_$('.feedback'));
-                $(document).on('tap', '#feedbackBox .submit', function () {
+                $(document).on('click', '#feedbackBox .submit', function () {
                     var feedbackBox = $('#feedbackBox'),
                         contentVal = feedbackBox.find('textarea').val(),
                         connectVal = feedbackBox.find('input').val();

@@ -51,7 +51,7 @@ jQuery(function($) {
                 });
 
                 // 点击 切换
-                Ul.find('li').on('tap', function() {
+                Ul.find('li').on('click', function() {
                     var cateId = $(this).data('id'),
                         el = 'ul[data-id="' + cateId + '"]',
                         key = 'tabs' + cateId,
@@ -148,6 +148,7 @@ jQuery(function($) {
 
                 that.dropload = section.dropload({
                     scrollArea: window,
+                    autoLoad: window.index.autoLoad,
                     domUp: {
                         domClass: 'dropload-up',
                         domLoad: loading
@@ -235,7 +236,7 @@ jQuery(function($) {
             },
             refreshNode: function() {
                 var that = this;
-                $(document).on('tap', '.refresh-node', function() {
+                $(document).on('click', '.refresh-node', function() {
                     that.dropload.opts.loadUpFn(that.dropload);
                 })
             },
@@ -251,7 +252,7 @@ jQuery(function($) {
                         section: _$('section').html(),
                         scrollTop: $('body').scrollTop()
                     };
-                    sessionStorage.setItem('list', JSON.stringify(obj));
+                    sessionStorage.setItem('index', JSON.stringify(obj));
                     location.href = $(this).data('href');
                     // location.href = 'http://127.0.0.1:8888/article.html' // 开发环境
                 })

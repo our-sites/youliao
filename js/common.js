@@ -62,7 +62,7 @@ jQuery(function ($) {
                 }
             });
 
-            $(document).on('tap', '.feedback-mask', function () {
+            $(document).on('click', '.feedback-mask', function () {
                 $('#feedbackBox').hide();
             })
         },
@@ -82,7 +82,7 @@ jQuery(function ($) {
                 }
             });
 
-            $(document).on('tap', '.comment-mask', function () {
+            $(document).on('click', '.comment-mask', function () {
                 $('#commentBox').hide();
             })
         },

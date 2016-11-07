@@ -6,9 +6,11 @@ jQuery(function($) {
         },
         Library = {
             init: function() {
+                window.Common.footer(_$);
                 this.loadContent();
                 this.delItem();
-                window.Common.footer(_$);
+                this.storePage();
+                
 
             },
             loadContent: function() {
@@ -62,14 +64,15 @@ jQuery(function($) {
 
                 that.dropload = section.dropload({
                     scrollArea: window,
+                    autoLoad: window.library.autoLoad,
                     domDown: {
                         domClass: 'dropload-down',
                         domLoad: loading,
                         domNoData: '<div class="dropload-noData" style="background-color: #f3f3f3;"></div>'
                     },
                     loadDownFn: function(me) {
-                        // var url = window.Common.domain + '/wx/collect/list?page=' + num + '&callback=?';
-                        var url = window.Common.domain + '/wx/collect/list?page=' + num + '&uid=1&callback=?'; //开发环境
+                        var url = window.Common.domain + '/wx/collect/list?page=' + num + '&callback=?';
+                        // var url = window.Common.domain + '/wx/collect/list?page=' + num + '&uid=1&callback=?'; //开发环境
                         $.ajax({
                             type: 'GET',
                             url: url,
@@ -100,7 +103,7 @@ jQuery(function($) {
                     }, 200);
                 });
                 // 删除
-                $(document).on('tap', 'section .del', function() {
+                $(document).on('click', 'section .del', function() {
                     var id = $(this).data('id'),
                         url = window.Common.domain + '/wx/collect/collect?id=' + id + '&callback=?',
                         Li = $(this).closest('li');
@@ -120,6 +123,22 @@ jQuery(function($) {
 
 
                 });
+            },
+
+            storePage: function() {
+                $(document).on('click', 'section li a', function(e) {
+                    e.preventDefault();
+                    $(this).hasClass('visited') || $(this).addClass('visited');
+
+                    _$('section').find('.dropload-down').remove();
+                    var obj = {
+                        section: _$('section').html(),
+                        scrollTop: $('body').scrollTop()
+                    };
+                    sessionStorage.setItem('library', JSON.stringify(obj));
+                    // location.href = $(this).data('href');
+                    location.href = 'http://127.0.0.1:8888/article.html' // 开发环境
+                })
             },
 
         };

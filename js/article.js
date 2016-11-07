@@ -157,7 +157,7 @@ jQuery(function ($) {
                     //评论列表
                     that.commentList(data.id);
                     // 关闭底部提示
-                    _$('.tourist-close').on('tap', function () {
+                    _$('.tourist-close').on('click', function () {
                         _$('.tourist').hide();
                     })
                 }
@@ -182,12 +182,12 @@ jQuery(function ($) {
                 //初始化
                 status ? favorBtn.removeClass('active').addClass('active') : favorBtn.removeClass('active');
                 // 点击
-                favorBtn.on('tap', function () {
+                favorBtn.on('click', function () {
                     // 判断是否登录
                     if (window.jsonData.data.isLogin) {
                         var that = $(this),
-                            url = window.Common.domain + '/wx/collect/collect?id=' + id + '&callback=?';
-                        // url = window.Common.domain + '/wx/collect/collect?id=' + id + '&uid=1&callback=?';
+                            // url = window.Common.domain + '/wx/collect/collect?id=' + id + '&callback=?';
+                        url = window.Common.domain + '/wx/collect/collect?id=' + id + '&uid=1&callback=?';
                         $.ajax({
                             type: 'GET',
                             url: url,
@@ -237,7 +237,7 @@ jQuery(function ($) {
                 //初始化
                 status ? praiseBtn.removeClass('active').addClass('active') : praiseBtn.removeClass('active');
                 // 点击
-                praiseBtn.on('tap', function () {
+                praiseBtn.on('click', function () {
                     // 判断是否登录
                     if (window.jsonData.data.isLogin) {
                         var that = $(this),
@@ -337,7 +337,7 @@ jQuery(function ($) {
                 var that = this;
                 window.Common.comment(_$('.article-comment-new'), window.jsonData.data.isLogin, Article.remindLogin);
                 window.Common.comment(_$('header .commit'), window.jsonData.data.isLogin, Article.remindLogin);
-                $(document).on('tap', '#commentBox .submit', function () {
+                $(document).on('click', '#commentBox .submit', function () {
                     // 判断是否登录
                     if (window.jsonData.data.isLogin) {
                         var commentBox = $('#commentBox'),
@@ -386,7 +386,7 @@ jQuery(function ($) {
 
             commentPraise: function () {
                 // 点击
-                $(document).on('tap', '.article-comment-list .reviewer-info-liked', function () {
+                $(document).on('click', '.article-comment-list .reviewer-info-liked', function () {
                     // 判断是否登录
                     if (window.jsonData.data.isLogin) {
                         var that = $(this),

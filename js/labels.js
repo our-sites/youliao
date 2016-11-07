@@ -44,7 +44,7 @@ jQuery(function ($) {
                 })
             },
             selectLabels: function () {
-                _$('#tags div').on('tap', function () {
+                _$('#tags div').on('click', function () {
                     if ($(this).hasClass('active')) {
                         $(this).removeClass('active')
                     } else {
