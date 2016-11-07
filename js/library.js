@@ -136,8 +136,9 @@ jQuery(function($) {
                         scrollTop: $('body').scrollTop()
                     };
                     sessionStorage.setItem('library', JSON.stringify(obj));
-                    // location.href = $(this).data('href');
-                    location.href = 'http://127.0.0.1:8888/article.html' // 开发环境
+                     location.href = $(this).attr('href');
+                     //location.href = $(this).data('href');
+                    //location.href = 'http://127.0.0.1:8888/article.html' // 开发环境
                 })
             },
 
