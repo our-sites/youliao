@@ -476,6 +476,9 @@ footer > a img{
     background: url("../img/loading-small-curve.png") no-repeat 0 0;
     transform-origin: 6px -1px;
     animation: loading-small-semicircle 2.4s infinite ease-in-out;
+    -webkit-animation: loading-big-semicircle 2.4s infinite ease-in-out;
+    -o-animation: loading-big-semicircle 2.4s infinite ease-in-out;
+    -moz-animation: loading-big-semicircle 2.4s infinite ease-in-out;
 }
 
 @keyframes loading-small-semicircle {
@@ -526,9 +529,81 @@ footer > a img{
     background: url("../img/loading-big-curve.png") no-repeat 0 0;
     transform-origin: 12px -2px;
     animation: loading-big-semicircle 2.4s infinite ease-in-out;
+    -webkit-animation: loading-big-semicircle 2.4s infinite ease-in-out;
+    -moz-animation: loading-big-semicircle 2.4s infinite ease-in-out;
+    -o-animation: loading-big-semicircle 2.4s infinite ease-in-out;
 }
 
 @keyframes loading-big-semicircle {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    50% {
+        -webkit-transform: rotate(-100deg);
+        -moz-transform: rotate(-100deg);
+        -ms-transform: rotate(-100deg);
+        -o-transform: rotate(-100deg);
+        transform: rotate(-100deg);
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+}
+@-webkit-keyframes loading-big-semicircle {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    50% {
+        -webkit-transform: rotate(-100deg);
+        -moz-transform: rotate(-100deg);
+        -ms-transform: rotate(-100deg);
+        -o-transform: rotate(-100deg);
+        transform: rotate(-100deg);
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+}
+@-moz-keyframes loading-big-semicircle {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    50% {
+        -webkit-transform: rotate(-100deg);
+        -moz-transform: rotate(-100deg);
+        -ms-transform: rotate(-100deg);
+        -o-transform: rotate(-100deg);
+        transform: rotate(-100deg);
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+}
+@-o-keyframes loading-big-semicircle {
     0% {
         -webkit-transform: rotate(0deg);
         -moz-transform: rotate(0deg);
