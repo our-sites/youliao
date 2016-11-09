@@ -10,13 +10,14 @@
 }
 
 #Article header h1 {
-    font-size: 25px;
+    font-size: 27px;
     color: #000000;
     margin-bottom: 10px;
+    line-height: 36px;
 }
 
 #Article header .clf {
-    font-size: 12px;
+    font-size: 13px;
 }
 
 #Article header .author {
@@ -80,7 +81,7 @@
     height: 35px;
     padding: 6px 15px;
     border-bottom: 1px solid #e6e6e6;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 #Article .article-other .tags {
@@ -92,7 +93,10 @@
     margin-right: 6px;
     padding: 0 6px;
     color: #9b9b9b;
-    border: 1px solid #9b9b9b;
+    -webkit-box-shadow: 0 0 0.5px #9b9b9b;
+    -moz-box-shadow: 0 0 0.5px #9b9b9b;
+    box-shadow: 0 0 0.5px #9b9b9b;
+    /*border: 1px solid #9b9b9b;*/
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
@@ -185,7 +189,7 @@
 
 #Article .article-source p {
     color: #999999;
-    font-size: 12px;
+    font-size: 13px;
     border-bottom: 1px solid #e6e6e6;
     padding-bottom: 6px;
     margin-bottom: 12px;
@@ -302,7 +306,7 @@
 #Article .reviewer-info-date {
     margin-top: 3px;
     color: #8d8d8d;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 #Article .author-comment {
@@ -326,7 +330,7 @@
     margin-top: 3px;
     padding-left: 9px;
     color: #8d8d8d;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 #Article .article-statement {
@@ -334,7 +338,7 @@
     color: #999999;
     padding: 15px 0;
     line-height: 1.8;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 #Article .article-statement a {
@@ -473,7 +477,9 @@
     z-index: 3333;
     width: 100%;
     height: 100px;
-    background-color: rgba(255,255,255,.8);
+    background: transparent no-repeat 0 0 url("../img/article-tourist-bg.png");
+    -webkit-background-size: 100%;
+    background-size: 100%;
 }
 #Article .tourist-close{
     position: absolute;
