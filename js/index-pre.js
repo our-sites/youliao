@@ -31,6 +31,8 @@ if (index.length && indexSess) {
     library.find('section').show().html(librarySess.section);
     // 初始化滚动位置
     $('body').scrollTop(librarySess.scrollTop);
+    // 初始化当前页码
+    window.libraryPageNum = librarySess.pageNum;
     // 清除缓存
     sessionStorage.clear('library');
     // 取消自动加载

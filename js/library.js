@@ -1,26 +1,26 @@
-jQuery(function($) {
+jQuery(function ($) {
 
-    var _$ = function(arg) {
+    var _$ = function (arg) {
             var ele = $('#Library');
             return arg ? ele.find(arg) : ele
         },
         Library = {
-            init: function() {
+            init: function () {
                 window.Common.footer(_$);
                 this.loadContent();
                 this.delItem();
                 this.storePage();
-                
+
 
             },
-            loadContent: function() {
+            loadContent: function () {
+                window.libraryPageNum = window.libraryPageNum ? window.libraryPageNum : 1;
                 var that = this,
                     nav = _$('nav'),
                     section = _$('section'),
                     Body = $('body'),
-                    num = 1,
                     loading = '<div class="loading-small"><div class="loading-icon"><div class="loading-curve"></div></div>页面加载中...</div>',
-                    successFun = function(data, me) {
+                    successFun = function (data, me) {
                         if (window.Common.verifyData(data)) {
                             var listData = data.data,
                                 _html = '';
@@ -33,8 +33,8 @@ jQuery(function($) {
                                         title = listData[x]['title'],
                                         view = listData[x]['viewnum'],
                                         author = listData[x]['actname'];
-                                    _html += '<li><div class="item clf"><a href="' + href + '"><img src="' + src + '" alt="">' +
-                                        '<h4>' + title + '</h4><p><span class="author">' + author + 
+                                    _html += '<li><div class="item clf"><a data-href="' + href + '" href="javascript:;"><img src="' + src + '" alt="">' +
+                                        '<h4>' + title + '</h4><p><span class="author">' + author +
                                         '</span><span class="page-view"><img src="http://yl-static.b0.upaiyun.com/img/eyes.png" width="17" height="12">' +
                                         view + '</span></p></div></a><div class="del" data-id="' + id + '">删除</div></li>';
                                 }
@@ -43,7 +43,7 @@ jQuery(function($) {
                                 _$('.loading-big').hide();
                                 section.show();
                                 section.find('ul').append(_html);
-                                num += 1;
+                                window.libraryPageNum += 1;
 
                                 // dotdotdot
                                 $('section h4').dotdotdot({
@@ -70,17 +70,17 @@ jQuery(function($) {
                         domLoad: loading,
                         domNoData: '<div class="dropload-noData" style="background-color: #f3f3f3;"></div>'
                     },
-                    loadDownFn: function(me) {
-                        var url = window.Common.domain + '/wx/collect/list?page=' + num + '&callback=?';
-                        // var url = window.Common.domain + '/wx/collect/list?page=' + num + '&uid=1&callback=?'; //开发环境
+                    loadDownFn: function (me) {
+                        var url = window.Common.domain + '/wx/collect/list?page=' + window.libraryPageNum + '&callback=?';
+                        // var url = window.Common.domain + '/wx/collect/list?page=' + window.libraryPageNum + '&uid=1&callback=?'; //开发环境
                         $.ajax({
                             type: 'GET',
                             url: url,
                             dataType: 'json',
-                            success: function(data) {
+                            success: function (data) {
                                 successFun(data, me);
                             },
-                            error: function(xhr, type) {
+                            error: function (xhr, type) {
                                 that.dropload.resetload();
                             }
                         });
@@ -88,27 +88,27 @@ jQuery(function($) {
                 });
             },
 
-            delItem: function() {
+            delItem: function () {
                 // 左滑显示
-                $(document).on('swipeleft', 'section .item', function() {
+                $(document).on('swipeleft', 'section .item', function () {
                     $(this).animate({
                         left: "-80px"
                     }, 200);
 
                 });
                 // 右滑隐藏
-                $(document).on('swiperight', 'section .item', function() {
+                $(document).on('swiperight', 'section .item', function () {
                     $(this).animate({
                         left: 0
                     }, 200);
                 });
                 // 删除
-                $(document).on('click', 'section .del', function() {
+                $(document).on('click', 'section .del', function () {
                     var id = $(this).data('id'),
                         url = window.Common.domain + '/wx/collect/collect?id=' + id + '&callback=?',
                         Li = $(this).closest('li');
-                    Li.slideUp(500, function() {
-                        $.getJSON(url, function(resp) {
+                    Li.slideUp(500, function () {
+                        $.getJSON(url, function (resp) {
                             if (window.Common.verifyData(resp)) {
                                 resp.data || window.Common.toastr({
                                     content: '取消收藏成功',
@@ -125,19 +125,19 @@ jQuery(function($) {
                 });
             },
 
-            storePage: function() {
-                $(document).on('click', 'section li a', function(e) {
+            storePage: function () {
+                $(document).on('click', 'section li a', function (e) {
                     e.preventDefault();
                     $(this).hasClass('visited') || $(this).addClass('visited');
 
                     _$('section').find('.dropload-down').remove();
                     var obj = {
+                        pageNum: window.libraryPageNum,
                         section: _$('section').html(),
                         scrollTop: $('body').scrollTop()
                     };
                     sessionStorage.setItem('library', JSON.stringify(obj));
-                     location.href = $(this).attr('href');
-                     //location.href = $(this).data('href');
+                    location.href = $(this).data('href');
                     //location.href = 'http://127.0.0.1:8888/article.html' // 开发环境
                 })
             },
