@@ -82,7 +82,7 @@ jQuery(function ($) {
                 }
             });
 
-            $(document).on('click', '.comment-mask', function () {
+            $(document).on('tap', '.comment-mask', function () {
                 $('#commentBox').hide();
             })
         },

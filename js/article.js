@@ -337,7 +337,7 @@ jQuery(function ($) {
                 var that = this;
                 window.Common.comment(_$('.article-comment-new'), window.jsonData.data.isLogin, Article.remindLogin);
                 window.Common.comment(_$('header .commit'), window.jsonData.data.isLogin, Article.remindLogin);
-                $(document).on('click', '#commentBox .submit', function () {
+                $(document).on('tap', '#commentBox .submit', function () {
                     // 判断是否登录
                     if (window.jsonData.data.isLogin) {
                         var commentBox = $('#commentBox'),
@@ -481,7 +481,7 @@ jQuery(function ($) {
                     progress = box.find('.progress-bar'),
                     timer;
 
-                btn.on('click', function () {
+                btn.on('tap', function () {
                     if (read.hasClass('ing')) {
                         read.removeClass('ing');
                         audio.pause();
