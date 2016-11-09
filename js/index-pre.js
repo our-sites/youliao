@@ -3,7 +3,7 @@ var index = $('#Index'),
 	indexSess = sessionStorage.getItem('index'),
 	librarySess = sessionStorage.getItem('library');
 // 默认 首页和文库页面都是自动加载
-	window.index.autoLoad = true;
+// 	window.index.autoLoad = true;
 	window.library.autoLoad = true;
 
 
@@ -21,7 +21,7 @@ if (index.length && indexSess) {
     // 清除缓存
     sessionStorage.clear('index');
     // 取消自动加载
-    window.index.autoLoad = false;
+    // window.index.autoLoad = false;
 }else if (library.length && librarySess) {
 // 我的文库 
 	librarySess = JSON.parse(librarySess);

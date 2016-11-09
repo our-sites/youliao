@@ -73,6 +73,7 @@ jQuery(function($) {
                         _$('.loading-big').show();
                     }
 
+
                     // 重置
                     that.dropload.unlock();
                     that.dropload.noData(false);
@@ -148,7 +149,7 @@ jQuery(function($) {
 
                 that.dropload = section.dropload({
                     scrollArea: window,
-                    autoLoad: window.index.autoLoad,
+                    // autoLoad: window.index.autoLoad,
                     domUp: {
                         domClass: 'dropload-up',
                         domLoad: loading
