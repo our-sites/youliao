@@ -106,6 +106,9 @@
     margin-bottom: 16px;
     overflow: hidden;
     color: #000000;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 #Index section li p {
@@ -119,10 +122,17 @@
     display: inline-block;
     height: 15px;
     line-height: 15px;
+    overflow: hidden;
 }
 
 #Index section li p .author {
     margin-right: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#Index section li p .page-view{
+    max-width: 68px;
 }
 
 #Index section li p .page-view img{

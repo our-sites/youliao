@@ -103,7 +103,7 @@ jQuery(function($) {
                                     href = detail + '?id=' + listData[x]['id'],
                                     src = listData[x]['cover'],
                                     title = listData[x]['title'],
-                                    view = listData[x]['viewnum'],
+                                    view = (Number(listData[x]['viewnum']) > 10*10000) ?　'100000+' : listData[x]['viewnum'],
                                     author = listData[x]['actname'];
                                 _html += '<li><a data-href="' + href + '" href="javascript:;"><img src="' + src + '" alt=""><h4>' + title + '</h4>' +
                                     '<p><span class="author">' + author +
@@ -135,9 +135,13 @@ jQuery(function($) {
                                 }
                             }
                             // dotdotdot
-                            $('section h4').dotdotdot({
+                            /*$('section h4').dotdotdot({
                                 height: 48
-                            });
+                            });*/
+                            var maxWidth = _$('section li h4').width()
+                                - parseInt(_$('section li .author').css('margin-right'))
+                                - parseInt(_$('section li .page-view').css('max-width'));
+                            _$('section li .author').css('max-width',maxWidth);
 
 
                             that.dropload.resetload();
@@ -204,9 +208,14 @@ jQuery(function($) {
                                 var el = 'ul[data-id="' + cateId + '"]';
                                 _$('section').find(el).append(that.preload[cateId]);
                                 // dotdotdot
-                                $('section h4').dotdotdot({
+                               /* $('section h4').dotdotdot({
                                     height: 48
-                                });
+                                });*/
+                                var maxWidth = _$('section li h4').width()
+                                    - parseInt(_$('section li .author').css('margin-right'))
+                                    - parseInt(_$('section li .page-view').css('max-width'));
+                                _$('section li .author').css('max-width',maxWidth);
+
                                 that.preload[cateId] = '';
                                 that.dropload.resetload();
                                 me.unlock();

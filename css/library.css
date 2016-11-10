@@ -94,10 +94,10 @@
     line-height: 24px;
     margin-bottom: 16px;
     overflow: hidden;
-}
-
-#Library section .item h4{
     color: #000000;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 #Library section .item p {
@@ -111,10 +111,17 @@
     display: inline-block;
     height: 15px;
     line-height: 15px;
+    overflow: hidden;
 }
 
 #Library section .item p .author {
     margin-right: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#Library section li p .page-view{
+    max-width: 68px;
 }
 
 #Library section .item p .page-view {
