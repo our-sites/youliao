@@ -213,7 +213,7 @@ jQuery(function ($) {
                     if (window.jsonData.data.isLogin) {
                         var that = $(this),
                             // url = window.Common.domain + '/wx/collect/collect?id=' + id + '&callback=?';
-                        url = window.Common.domain + '/wx/collect/collect?id=' + id + '&uid=1&callback=?';
+                        url = window.Common.domain + '/wx/collect/collect?id=' + id + '&callback=?';
                         $.ajax({
                             type: 'GET',
                             url: url,
