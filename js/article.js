@@ -78,6 +78,7 @@ jQuery(function ($) {
                         }).parents('#js_content')
                     }
                     // 格式化视频
+                    // 如果视频有class .dataContent
                     if (dataContent.find('.video_iframe').length) {
                         dataContent = dataContent.find('.video_iframe').each(function () {
                             var src = $(this).attr('src'),
@@ -98,7 +99,32 @@ jQuery(function ($) {
                                 'height': height
                             });
                         }).parents('#js_content');
+                    } else if(dataContent.find('iframe').length){
+                        // 如果没有 class 以data-src中是否含有 v.qq.com/iframe/ vid=等字段判断
+                        dataContent = dataContent.find('iframe').each(function () {
+                            var src= $(this).data('src'),
+                                width = _$('.article-content').width(),
+                                height = $(this).attr('height') && (Number($(this).attr('height')) / Number($(this).attr('width')) * width),
+                                vid,
+                                href;
+                            if(src && src.match(/[v\.qq\.com\/iframe]/g) && src.match(/[vid\=]/g)){
+                                vid = toQueryParams.call(src).vid;
+                                var paramWidth = toQueryParams.call(src).width,
+                                    paramHeight = toQueryParams.call(src).height;
+                                if(paramWidth && paramHeight){
+                                    height = height || paramHeight/paramWidth*width;
+                                }
+
+                            }
+                            href = 'http://v.qq.com/iframe/player.html?auto=0&vid=';
+
+                            $(this).attr('src', href + vid).css({
+                                'width': width,
+                                'height': height
+                            });
+                        }).parents('#js_content');
                     }
+
                     // p标签必须换行
                     if (dataContent.find('p').length) {
                         dataContent = dataContent.find('p').each(function () {
