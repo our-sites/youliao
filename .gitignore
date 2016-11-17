@@ -19,6 +19,7 @@ local.properties
 .idea/
 source/
 test/
+node_modules/
 
 # External tool builders
 .externalToolBuilders/
