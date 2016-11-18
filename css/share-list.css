@@ -1,0 +1,157 @@
+#Library {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 48px 0;
+    background-color: #f3f3f3;
+}
+
+#Library nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    overflow: hidden;
+    width: 100%;
+    height: 48px;
+    line-height: 48px;
+    background-color: #fff;
+    -webkit-box-shadow: 0 0.5px 0 #e6e6e6;
+    -moz-box-shadow: 0 0.5px 0 #e6e6e6;
+    box-shadow: 0 0.5px 0 #e6e6e6;
+
+}
+
+#Library nav > a {
+    display: inline-block;
+    height: 48px;
+    padding: 0 3px;
+    color: #4d4d4d;
+    border-bottom: 2px solid transparent;
+    font-size: 17px;
+}
+
+#Library nav > a.active {
+    color: #0ec4af;
+    border-bottom-color: #0ec4af;
+}
+
+#Library nav .share {
+    float: right;
+    margin-right: 15px;
+}
+
+#Library nav .favor {
+    margin-left: 15px;
+}
+
+
+#Library section{
+    display: none;
+    margin-top: 10px;
+    background-color: #fff;
+}
+
+#Library section li {
+    position: relative;
+    width: 100%;
+    height: 112px;
+    -webkit-box-shadow: 0 0.5px 0 #e6e6e6;
+    -moz-box-shadow: 0 0.5px 0 #e6e6e6;
+    box-shadow: 0 0.5px 0 #e6e6e6;
+    margin-bottom: 1px;
+}
+
+#Library section .item{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 112px;
+    padding: 17px;
+    background-color: #fff;
+
+}
+
+#Library section .item a{
+    display: block;
+}
+#Library section li a.visited h4{
+    color: #919191;
+}
+#Library section .item img {
+    display: block;
+    float: left;
+    width: 111px;
+    height: 78px;
+    margin-right: 10px;
+}
+
+#Library section .item h4 {
+    font-size: 17px;
+    height: 48px;
+    line-height: 24px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    color: #000000;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+#Library section .item p {
+    height: 15px;
+    line-height: 15px;
+    font-size: 13px;
+    color: #9b9b9b;
+}
+
+#Library section .item p span {
+    display: inline-block;
+    height: 15px;
+    line-height: 15px;
+    overflow: hidden;
+}
+
+#Library section .item p .author {
+    margin-right: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#Library section li p .page-view{
+    max-width: 68px;
+}
+
+#Library section .item p .page-view {
+    float: right;
+    margin-right: 6px;
+}
+
+#Library section .item p .page-view img{
+    width: 17px;
+    height: 12px;
+    display: inline;
+    float: none;
+    position: relative;
+    top: 1px;
+    margin-right: 2px;
+}
+
+
+
+#Library section li .del{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 80px;
+    height: 112px;
+    line-height: 112px;
+    text-align: center;
+    background-color: #4fe3c1;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+
