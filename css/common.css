@@ -325,6 +325,7 @@ footer > a img{
     left: 0;
     width: 100%;
     height: 100%;
+    cursor: pointer;
 }
 
 #feedbackBox .feedback-body {
@@ -379,6 +380,7 @@ footer > a img{
     -moz-border-radius: 5px;
     border-radius: 5px;
     background-color: #0ec4ae;
+    cursor: pointer;
 }
 
 
@@ -401,6 +403,7 @@ footer > a img{
     left: 0;
     width: 100%;
     height: 100%;
+    cursor: pointer;
 }
 
 #commentBox .comment-body {
@@ -442,6 +445,7 @@ footer > a img{
     -moz-border-radius: 5px;
     border-radius: 5px;
     background-color: #0ec4ae;
+    cursor: pointer;
 }
 
 

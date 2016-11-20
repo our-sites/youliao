@@ -59,6 +59,7 @@
     padding: 0 3px;
     margin-left: 15px;
     border-bottom: 1px solid transparent;
+    cursor: pointer;
 }
 
 #Index nav li.active {

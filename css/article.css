@@ -44,6 +44,7 @@
 #Article header .commit {
     position: fixed;
     right: 18px;
+    cursor: pointer;
 
 }
 
@@ -261,6 +262,7 @@
 #Article .article-comment-header p a {
     font-size: 17px;
     color: #6684aa;
+    cursor: pointer;
 }
 
 #Article .article-comment-list {
