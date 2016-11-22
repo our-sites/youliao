@@ -1,11 +1,11 @@
-jQuery(function($) {
+jQuery(function ($) {
 
-    var _$ = function(arg) {
+    var _$ = function (arg) {
             var ele = $('#Index');
             return arg ? ele.find(arg) : ele
         },
         Index = {
-            init: function() {
+            init: function () {
                 this.navSwipe();
 
                 this.loadContent();
@@ -14,25 +14,24 @@ jQuery(function($) {
 
                 this.storePage();
 
+                this.horizontalScroll();
+
                 window.Common.footer(_$);
             },
             preload: {},
-            navSwipe: function() {
+            navSwipe: function () {
                 var that = this,
                     Nav = _$('nav'),
                     Ul = Nav.find('ul'),
                     Plus = Nav.find('.plus'),
-                    Body = $('body'),
-                    rate = 1.2,
-                    boursLength = 20,
-                    limitWidth = Nav.width() - Plus.width();
+                    Body = $('body');
 
                 // 取得ul的真实宽度
                 var width = 0,
                     Li = Ul.find('li'),
                     Padding = Number(Li.css('padding-left').replace('px', '')) * 2,
                     Margin = Number(Li.css('margin-left').replace('px', ''));
-                Li.each(function() {
+                Li.each(function () {
                     width += $(this).width() + Padding + Margin
                 });
 
@@ -40,18 +39,18 @@ jQuery(function($) {
                 Ul.css('width', width + 15);
 
                 // 初始化一些值
-                Ul.find('li').each(function() {
+                Ul.find('li').each(function () {
                     var key = 'tabs' + $(this).data('id');
                     that[key] = false;
                 });
                 // 用于预加载 关闭定时器
                 that.cateIds = [];
-                Ul.find('li').each(function() {
+                Ul.find('li').each(function () {
                     that.cateIds.push($(this).data('id'))
                 });
 
                 // 点击 切换
-                Ul.find('li').on('click', function() {
+                Ul.find('li').on('click', function () {
                     var cateId = $(this).data('id'),
                         el = 'ul[data-id="' + cateId + '"]',
                         key = 'tabs' + cateId,
@@ -86,13 +85,13 @@ jQuery(function($) {
                 });
 
             },
-            loadContent: function() {
+            loadContent: function () {
                 var that = this,
                     section = _$('section'),
                     Body = $('body'),
                     url = window.Common.domain + '/wx/article/interest' + '?callback=?',
                     loading = '<div class="loading-small"><div class="loading-icon"><div class="loading-curve"></div></div>页面加载中...</div>',
-                    successFun = function(data, me, cateId, type, preload) {
+                    successFun = function (data, me, cateId, type, preload) {
                         if (window.Common.verifyData(data)) {
                             var listData = data.data.list,
                                 key = 'tabs' + cateId,
@@ -103,7 +102,7 @@ jQuery(function($) {
                                     href = detail + '?id=' + listData[x]['id'],
                                     src = listData[x]['cover'],
                                     title = listData[x]['title'],
-                                    view = (Number(listData[x]['viewnum']) > 10*10000) ?　'100000+' : listData[x]['viewnum'],
+                                    view = (Number(listData[x]['viewnum']) > 10 * 10000) ? '100000+' : listData[x]['viewnum'],
                                     author = listData[x]['actname'];
                                 _html += '<li><a data-href="' + href + '" href="javascript:;"><img src="' + src + '" alt=""><h4>' + title + '</h4>' +
                                     '<p><span class="author">' + author +
@@ -134,14 +133,10 @@ jQuery(function($) {
                                     console.log('choose the type first')
                                 }
                             }
-                            // dotdotdot
-                            /*$('section h4').dotdotdot({
-                                height: 48
-                            });*/
                             var maxWidth = _$('section li h4').width()
                                 - parseInt(_$('section li .author').css('margin-right'))
                                 - parseInt(_$('section li .page-view').css('max-width'));
-                            _$('section li .author').css('max-width',maxWidth);
+                            _$('section li .author').css('max-width', maxWidth);
 
 
                             that.dropload.resetload();
@@ -160,23 +155,23 @@ jQuery(function($) {
                     },
                     domDown: {
                         domClass: 'dropload-down',
-                        domLoad: loading,
+                        domLoad: loading
                     },
-                    loadUpFn: function(me) {
+                    loadUpFn: function (me) {
 
                         var cateId = _$('nav').find('li.active').data('id');
 
-                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
-                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
+                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
+                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
 
                         $.ajax({
                             type: 'GET',
                             url: url,
                             dataType: 'json',
-                            success: function(data) {
+                            success: function (data) {
                                 successFun(data, me, cateId, 'prepend');
                             },
-                            error: function(xhr, type) {
+                            error: function (xhr, type) {
                                 that.dropload.resetload();
                             }
                         });
@@ -184,21 +179,21 @@ jQuery(function($) {
                         // 预加载
                         // that.preloadTimer(cateId);
                     },
-                    loadDownFn: function(me, preload) {
+                    loadDownFn: function (me, preload) {
                         var cateId = _$('nav').find('li.active').data('id');
 
-                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
-                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
+                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
+                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
 
                         if (preload) {
                             $.ajax({
                                 type: 'GET',
                                 url: url,
                                 dataType: 'json',
-                                success: function(data) {
+                                success: function (data) {
                                     successFun(data, me, cateId, 'append', preload);
                                 },
-                                error: function(xhr, type) {
+                                error: function (xhr, type) {
                                     that.dropload.resetload();
                                 }
                             });
@@ -207,14 +202,10 @@ jQuery(function($) {
                             if (that.preload[cateId]) {
                                 var el = 'ul[data-id="' + cateId + '"]';
                                 _$('section').find(el).append(that.preload[cateId]);
-                                // dotdotdot
-                               /* $('section h4').dotdotdot({
-                                    height: 48
-                                });*/
                                 var maxWidth = _$('section li h4').width()
                                     - parseInt(_$('section li .author').css('margin-right'))
                                     - parseInt(_$('section li .page-view').css('max-width'));
-                                _$('section li .author').css('max-width',maxWidth);
+                                _$('section li .author').css('max-width', maxWidth);
 
                                 that.preload[cateId] = '';
                                 that.dropload.resetload();
@@ -226,10 +217,10 @@ jQuery(function($) {
                                     type: 'GET',
                                     url: url,
                                     dataType: 'json',
-                                    success: function(data) {
+                                    success: function (data) {
                                         successFun(data, me, cateId, 'append');
                                     },
-                                    error: function(xhr, type) {
+                                    error: function (xhr, type) {
                                         that.dropload.resetload();
                                     }
                                 });
@@ -244,14 +235,14 @@ jQuery(function($) {
                 });
 
             },
-            refreshNode: function() {
+            refreshNode: function () {
                 var that = this;
-                $(document).on('tap', '.refresh-node', function() {
+                $(document).on('tap', '.refresh-node', function () {
                     that.dropload.opts.loadUpFn(that.dropload);
                 })
             },
-            storePage: function() {
-                $(document).on('click', 'section li a', function(e) {
+            storePage: function () {
+                $(document).on('click', 'section li a', function (e) {
                     e.preventDefault();
                     $(this).hasClass('visited') || $(this).addClass('visited');
 
@@ -267,7 +258,7 @@ jQuery(function($) {
                     // location.href = 'http://127.0.0.1:8888/article.html' // 开发环境
                 })
             },
-            preloadTimer: function(cateId) {
+            preloadTimer: function (cateId) {
                 var that = this;
                 // 预加载
                 // 关闭所有定时器
@@ -276,9 +267,62 @@ jQuery(function($) {
                     clearTimeout(that[timerKey]);
                 }
                 // 打开一个定时器
-                that[cateId] = setTimeout(function() {
+                that[cateId] = setTimeout(function () {
                     that.dropload.opts.loadDownFn(that.dropload, 'preload');
                 }, 2000);
+            },
+            horizontalScroll: function () {
+                var width = _$().width(),
+                    section = _$('section'),
+                    ul = section.find('ul'),
+                    vertical = false,
+                    horizontal = false;
+                //init
+                ul.css('width', width);
+                section.css('width', width * ul.length);
+                ul.each(function (idx) {
+                    $(this).attr('data-index', idx)
+                });
+
+                // event
+                var startX = 0,
+                    moveX = 0,
+                    swipeX = 0;
+                section.on('swipeleft', function () {
+                    swipeX = moveX;
+                    horizontal = true;
+                    vertical = false;
+                });
+
+                section.on('swiperight', function () {
+                    swipeX = moveX;
+                    vertical = true;
+                    horizontal = false;
+                });
+
+
+                section.on('touchstart', function (e) {
+                    startX = e.touches[0].pageX;
+                });
+
+                section.on('touchmove', function (e) {
+                    var ulIdx = $(e.target.closest('ul')).data('index');
+                    moveX = e.touches[0].pageX;
+                    if (horizontal) {
+                        var ml = ulIdx * width + moveX - swipeX;
+                        ml < 0 && section.css('margin-left', ml + 'px')
+                    } else if (vertical) {
+
+                    }
+                });
+
+                section.on('touchend', function (e) {
+                    // moveX = e.touches[0].pageX;
+                });
+
+                $(document).on('scroll', function () {
+                    // console.log('scroll');
+                });
             }
         };
 

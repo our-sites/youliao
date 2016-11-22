@@ -17,10 +17,20 @@
     height: 48px;
     line-height: 48px;
     background-color: #fff;
-    -webkit-box-shadow: 0 0.5px 0 #e6e6e6;
-    -moz-box-shadow: 0 0.5px 0 #e6e6e6;
-    box-shadow: 0 0.5px 0 #e6e6e6;
 }
+
+#Index nav::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: rgb(230, 230, 230);
+    transform: scaleY(0.5);
+    transform-origin: 0 0 0;
+}
+
 
 #Index nav::-webkit-scrollbar {
     display: none;
@@ -72,13 +82,27 @@
     background-color: #fff;
 }
 
+#Index section ul {
+    float: left;
+}
+
 #Index section li {
+    position: relative;
     width: 100%;
     height: 112px;
     padding: 17px;
-    -webkit-box-shadow: 0 0.5px 0 #e6e6e6;
-    -moz-box-shadow: 0 0.5px 0 #e6e6e6;
-    box-shadow: 0 0.5px 0 #e6e6e6;
+}
+
+#Index section li::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: rgb(230, 230, 230);
+    transform: scaleY(0.5);
+    transform-origin: 0 0 0;
 }
 
 #Index section li a {
