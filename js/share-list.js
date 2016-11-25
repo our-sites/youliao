@@ -18,7 +18,9 @@ jQuery(function ($) {
                 var that = this,
                     nav = _$('nav'),
                     section = _$('section'),
-                    Body = $('body'),
+                    ul = section.find('ul'),
+                    loadingBig = _$('.loading-big'),
+                    noDataTip = _$('.no-data-tip'),
                     loading = '<div class="loading-small"><div class="loading-icon"><div class="loading-curve"></div></div>页面加载中...</div>',
                     successFun = function (data, me) {
                         if (window.Common.verifyData(data)) {
@@ -40,15 +42,12 @@ jQuery(function ($) {
                                 }
 
 
-                                _$('.loading-big').hide();
+                                loadingBig.hide();
+                                noDataTip.hide();
                                 section.show();
-                                section.find('ul').append(_html);
+                                ul.append(_html);
                                 window.libraryPageNum += 1;
 
-                               /* // dotdotdot
-                                $('section h4').dotdotdot({
-                                    height: 48
-                                });*/
                                 var maxWidth = _$('section li h4').width()
                                     - parseInt(_$('section li .author').css('margin-right'))
                                     - parseInt(_$('section li .page-view').css('max-width'));
@@ -61,6 +60,11 @@ jQuery(function ($) {
                                 me.lock('down');
                                 me.noData();
                                 that.dropload.resetload();
+                                if(ul.find('li').length == 0){
+                                    loadingBig.hide();
+                                    section.hide();
+                                    noDataTip.show();
+                                }
                             }
 
                         }
@@ -75,8 +79,8 @@ jQuery(function ($) {
                         domNoData: '<div class="dropload-noData" style="background-color: #f3f3f3;"></div>'
                     },
                     loadDownFn: function (me) {
-                        var url = window.Common.domain + '/wx/share/list?page=' + window.libraryPageNum + '&callback=?';
-                        // var url = window.Common.domain + '/wx/share/list?page=' + window.libraryPageNum + '&uid=1&callback=?'; //开发环境
+                        // var url = window.Common.domain + '/wx/share/list?page=' + window.libraryPageNum + '&callback=?';
+                        var url = window.Common.domain + '/wx/share/list?page=' + window.libraryPageNum + '&uid=1&callback=?'; //开发环境
                         // var url = window.Common.domain + '/wx/collect/list?page=' + window.libraryPageNum + '&uid=1&callback=?'; //开发环境 收藏
                         $.ajax({
                             type: 'GET',
@@ -147,7 +151,7 @@ jQuery(function ($) {
                     location.href = $(this).data('href');
                     //location.href = 'http://127.0.0.1:8888/article.html' // 开发环境
                 })
-            },
+            }
 
         };
 

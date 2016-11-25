@@ -45,8 +45,7 @@
     margin-left: 15px;
 }
 
-
-#Library section{
+#Library section {
     display: none;
     margin-top: 10px;
     background-color: #fff;
@@ -62,7 +61,7 @@
     margin-bottom: 1px;
 }
 
-#Library section .item{
+#Library section .item {
     position: absolute;
     top: 0;
     left: 0;
@@ -74,12 +73,14 @@
 
 }
 
-#Library section .item a{
+#Library section .item a {
     display: block;
 }
-#Library section li a.visited h4{
+
+#Library section li a.visited h4 {
     color: #919191;
 }
+
 #Library section .item img {
     display: block;
     float: left;
@@ -120,7 +121,7 @@
     text-overflow: ellipsis;
 }
 
-#Library section li p .page-view{
+#Library section li p .page-view {
     max-width: 68px;
 }
 
@@ -129,7 +130,7 @@
     margin-right: 6px;
 }
 
-#Library section .item p .page-view img{
+#Library section .item p .page-view img {
     width: 17px;
     height: 12px;
     display: inline;
@@ -139,9 +140,7 @@
     margin-right: 2px;
 }
 
-
-
-#Library section li .del{
+#Library section li .del {
     position: absolute;
     right: 0;
     top: 0;
@@ -154,4 +153,15 @@
     font-size: 16px;
 }
 
+#Library .no-data-tip {
+    display: none;
+    font-size: 16px;
+    color: #9e9e9e;
+    text-align: center;
+    margin-top: 80px;
+}
+
+#Library .no-data-tip p {
+    margin-bottom: 10px;
+}
 
