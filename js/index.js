@@ -14,11 +14,13 @@ jQuery(function ($) {
 
                 this.storePage();
 
-                this.horizontalScroll();
+                // this.horizontalScroll();
+                this.test();
 
                 window.Common.footer(_$);
             },
             preload: {},
+            width: _$().width(),
             navSwipe: function () {
                 var that = this,
                     Nav = _$('nav'),
@@ -50,39 +52,44 @@ jQuery(function ($) {
                 });
 
                 // 点击 切换
-                Ul.find('li').on('click', function () {
-                    var cateId = $(this).data('id'),
-                        el = 'ul[data-id="' + cateId + '"]',
-                        key = 'tabs' + cateId,
-                        section = _$('section');
+                Ul.find('li').each(function (idx) {
+                    $(this).on('click', function () {
+                        var cateId = $(this).data('id'),
+                            el = 'ul[data-id="' + cateId + '"]',
+                            key = 'tabs' + cateId,
+                            section = _$('section');
 
-                    var oldCateId = $(this).siblings('.active').data('id'),
-                        oldEl = 'ul[data-id="' + oldCateId + '"]',
-                        oldKey = 'tabs' + oldCateId;
+                        var oldCateId = $(this).siblings('.active').data('id'),
+                            oldEl = 'ul[data-id="' + oldCateId + '"]',
+                            oldKey = 'tabs' + oldCateId;
 
-                    // 样式
-                    $(this).addClass('active').siblings('li').removeClass('active');
+                        // 样式
+                        $(this).addClass('active').siblings('li').removeClass('active');
 
-                    // 显示当前分类
-                    section.find(el).show().siblings('ul').hide();
-                    // 判断当前分类是否有内容，如果没有，显示loading
-                    if (!section.find(el).find('li').length) {
-                        // loading
-                        section.hide();
-                        _$('.loading-big').show();
-                    }
+                        // 显示当前分类
+                        // section.find(el).show().siblings('ul').hide();
+                        section.css('margin-left', -idx * that.width + 'px');
 
-
-                    // 重置
-                    that.dropload.unlock();
-                    that.dropload.noData(false);
-                    that.dropload.resetload();
+                        // 判断当前分类是否有内容，如果没有，显示loading
+                        if (!section.find(el).find('li').length) {
+                            // loading
+                            section.hide();
+                            _$('.loading-big').show();
+                        }
 
 
-                    // 预加载
-                    that.preloadTimer(cateId);
+                        // 重置
+                        that.dropload.unlock();
+                        that.dropload.noData(false);
+                        that.dropload.resetload();
 
-                });
+
+                        // 预加载
+                        that.preloadTimer(cateId);
+
+                    });
+                })
+
 
             },
             loadContent: function () {
@@ -272,14 +279,15 @@ jQuery(function ($) {
                 }, 2000);
             },
             horizontalScroll: function () {
-                var width = _$().width(),
+                var that = this,
                     section = _$('section'),
                     ul = section.find('ul'),
-                    vertical = false,
+                    left = false,
                     horizontal = false;
                 //init
-                ul.css('width', width);
-                section.css('width', width * ul.length);
+                $('head').append('<style type="text/css">#Index section .dropload-down,#Index section .dropload-up,#Index section ul' +
+                    '{width: ' + that.width + 'px;}#Index section ul{height: ' + window.screen.height + 'px;}</style>');
+                section.css('width', that.width * ul.length);
                 ul.each(function (idx) {
                     $(this).attr('data-index', idx)
                 });
@@ -291,13 +299,13 @@ jQuery(function ($) {
                 section.on('swipeleft', function () {
                     swipeX = moveX;
                     horizontal = true;
-                    vertical = false;
+                    left = true;
                 });
 
                 section.on('swiperight', function () {
                     swipeX = moveX;
-                    vertical = true;
-                    horizontal = false;
+                    horizontal = true;
+                    left = false;
                 });
 
 
@@ -309,20 +317,50 @@ jQuery(function ($) {
                     var ulIdx = $(e.target.closest('ul')).data('index');
                     moveX = e.touches[0].pageX;
                     if (horizontal) {
-                        var ml = ulIdx * width + moveX - swipeX;
+                        var ml = moveX - swipeX - ulIdx * that.width;
                         ml < 0 && section.css('margin-left', ml + 'px')
-                    } else if (vertical) {
-
                     }
                 });
 
                 section.on('touchend', function (e) {
-                    // moveX = e.touches[0].pageX;
+                    var marginLeft = section.css('margin-left');
+                    marginLeft = parseInt(marginLeft);
+                    marginLeft = Math.round(marginLeft / that.width);
+                    section.stop().animate({
+                        'margin-left': marginLeft * that.width + 'px'
+                    }, 300);
+                    _$('nav li').eq(Math.abs(marginLeft)).addClass('active').siblings('li').removeClass('active')
                 });
 
                 $(document).on('scroll', function () {
                     // console.log('scroll');
+                    horizontal = false;
                 });
+            },
+            test: function () {
+
+                var that = this,
+                    section = _$('section'),
+                    ul = section.find('ul'),
+                    left = false,
+                    horizontal = false;
+                //init
+                $('head').append('<style type="text/css">#Index section .dropload-down,#Index section .dropload-up,#Index section ul' +
+                    '{width: ' + that.width + 'px;}#Index section ul{height: ' + window.screen.height + 'px;}</style>');
+                section.css('width', that.width * ul.length);
+                ul.each(function (idx) {
+                    $(this).attr('data-index', idx)
+                });
+
+
+                _$('section').swipe({
+                    swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
+                        console.log(event, direction, distance, duration, fingerCount, fingerData);
+                    },
+                    threshold: 0,
+                    fingers: 'all',
+                    allowPageScroll: "auto"
+                })
             }
         };
 

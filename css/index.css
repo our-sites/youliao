@@ -4,6 +4,7 @@
     position: relative;
     padding: 48px 0;
     background-color: #f3f3f3;
+    overflow: hidden;
 }
 
 #Index nav {
@@ -84,6 +85,7 @@
 
 #Index section ul {
     float: left;
+    display: block;
 }
 
 #Index section li {
@@ -169,6 +171,11 @@
     top: 1px;
     margin-right: 2px;
 }
+
+
+
+
+
 
 #Index .refresh-node {
     height: 40px;

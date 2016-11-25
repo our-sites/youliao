@@ -3,6 +3,7 @@
 // a simple http server
 
 var fs = require('fs'),
+    os = require('os'),
     url = require('url'),
     path = require('path'),
     mime = require('mime'),
@@ -30,5 +31,6 @@ var server = http.createServer(function (request, response) {
 });
 
 server.listen(8888);
+var ip = os.networkInterfaces()['本地连接'][0].address;
 
-console.log('Server is running at http://127.0.0.1:8888/');
+console.log('Server is running at http://' + ip + ':8888/');
