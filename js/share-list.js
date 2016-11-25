@@ -79,8 +79,8 @@ jQuery(function ($) {
                         domNoData: '<div class="dropload-noData" style="background-color: #f3f3f3;"></div>'
                     },
                     loadDownFn: function (me) {
-                        // var url = window.Common.domain + '/wx/share/list?page=' + window.libraryPageNum + '&callback=?';
-                        var url = window.Common.domain + '/wx/share/list?page=' + window.libraryPageNum + '&uid=1&callback=?'; //开发环境
+                        var url = window.Common.domain + '/wx/share/list?page=' + window.libraryPageNum + '&callback=?';
+                        // var url = window.Common.domain + '/wx/share/list?page=' + window.libraryPageNum + '&uid=1&callback=?'; //开发环境
                         // var url = window.Common.domain + '/wx/collect/list?page=' + window.libraryPageNum + '&uid=1&callback=?'; //开发环境 收藏
                         $.ajax({
                             type: 'GET',
