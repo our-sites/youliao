@@ -346,7 +346,7 @@ jQuery(function ($) {
                     horizontal = false;
                 //init
                 $('head').append('<style type="text/css">#Index section .dropload-down,#Index section .dropload-up,#Index section ul' +
-                    '{width: ' + that.width + 'px;}#Index section ul{height: ' + window.screen.height + 'px;}</style>');
+                    '{width: ' + that.width + 'px;}</style>');
                 section.css('width', that.width * ul.length);
                 ul.each(function (idx) {
                     $(this).attr('data-index', idx)
