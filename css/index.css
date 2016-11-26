@@ -1,12 +1,10 @@
-body{
-    overflow-x: hidden;
-}
 #Index {
     width: 100%;
     height: 100%;
     position: relative;
     padding: 48px 0;
     background-color: #f3f3f3;
+    /*overflow: hidden;*/
 }
 
 #Index nav {
@@ -80,13 +78,33 @@ body{
 }
 
 #Index section {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    bottom: 0;
     display: none;
     background-color: #fff;
+    width: 100%;
+    /*overflow: auto;*/
 }
 
-#Index section ul {
-    float: left;
-    display: block;
+#Index section .channel {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    vertical-align: top;
+    white-space: normal;
+}
+
+#Index section .channel-scroll{
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
 }
 
 #Index section li {

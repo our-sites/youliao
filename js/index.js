@@ -6,6 +6,7 @@ jQuery(function ($) {
         },
         Index = {
             init: function () {
+
                 this.navSwipe();
 
                 this.loadContent();
@@ -15,7 +16,8 @@ jQuery(function ($) {
                 this.storePage();
 
                 // this.horizontalScroll();
-                this.test();
+                // this.test();
+                this.letsGo();
 
                 window.Common.footer(_$);
             },
@@ -26,7 +28,8 @@ jQuery(function ($) {
                     Nav = _$('nav'),
                     Ul = Nav.find('ul'),
                     Plus = Nav.find('.plus'),
-                    Body = $('body');
+                    Body = $('body'),
+                    section = _$('section');
 
                 // 取得ul的真实宽度
                 var width = 0,
@@ -53,22 +56,26 @@ jQuery(function ($) {
 
                 // 点击 切换
                 Ul.find('li').each(function (idx) {
-                    $(this).on('click', function () {
-                        var cateId = $(this).data('id'),
-                            el = 'ul[data-id="' + cateId + '"]',
-                            key = 'tabs' + cateId,
-                            section = _$('section');
+                    var _t = $(this);
+                    _t.on('click', function () {
 
-                        var oldCateId = $(this).siblings('.active').data('id'),
-                            oldEl = 'ul[data-id="' + oldCateId + '"]',
+                        var oldCateId = _t.siblings('.active').data('id'),
+                            oldEl = '[data-id="' + oldCateId + '"]',
                             oldKey = 'tabs' + oldCateId;
 
+                        var cateId = _t.data('id'),
+                            el = '[data-id="' + cateId + '"]',
+                            key = 'tabs' + cateId;
+
+
+
                         // 样式
-                        $(this).addClass('active').siblings('li').removeClass('active');
+                        _t.addClass('active').siblings('li').removeClass('active');
 
                         // 显示当前分类
-                        // section.find(el).show().siblings('ul').hide();
-                        section.css('margin-left', -idx * that.width + 'px');
+                        // section.find(el).show().siblings('.channel').hide();
+                        var x = 'translate3d(' + (-idx * that.width) +', 0px, 0px)';
+                        section.css('transform',  + x);
 
                         // 判断当前分类是否有内容，如果没有，显示loading
                         if (!section.find(el).find('li').length) {
@@ -94,6 +101,7 @@ jQuery(function ($) {
             },
             loadContent: function () {
                 var that = this,
+                    Nav = _$('nav'),
                     section = _$('section'),
                     Body = $('body'),
                     url = window.Common.domain + '/wx/article/interest' + '?callback=?',
@@ -102,7 +110,7 @@ jQuery(function ($) {
                         if (window.Common.verifyData(data)) {
                             var listData = data.data.list,
                                 key = 'tabs' + cateId,
-                                el = 'ul[data-id="' + cateId + '"]',
+                                el = '[data-id="' + cateId + '"]',
                                 _html = '';
                             for (var x in listData) {
                                 var detail = window.Common.domain + '/wx/article/detailapi',
@@ -132,18 +140,19 @@ jQuery(function ($) {
                                 // 判断是prepend 还是append
                                 if (type == 'prepend') {
                                     _html += '<div class="refresh-node">刚刚看到这里，点击刷新</div>';
-                                    section.find(el).prepend(_html);
+                                    section.find(el).find('ul').prepend(_html);
                                     Body.scrollTop(0);
                                 } else if (type == 'append') {
-                                    section.find(el).append(_html);
+                                    section.find(el).find('ul').append(_html);
                                 } else {
                                     console.log('choose the type first')
                                 }
                             }
-                            var maxWidth = _$('section li h4').width()
-                                - parseInt(_$('section li .author').css('margin-right'))
-                                - parseInt(_$('section li .page-view').css('max-width'));
-                            _$('section li .author').css('max-width', maxWidth);
+                            var Lis = section.find('li'),
+                                maxWidth = Lis.find('h4').width()
+                                - parseInt(Lis.find('.author').css('margin-right'))
+                                - parseInt(Lis.find('.page-view').css('max-width'));
+                            Lis.find('.author').css('max-width', maxWidth);
 
 
                             that.dropload.resetload();
@@ -166,7 +175,7 @@ jQuery(function ($) {
                     },
                     loadUpFn: function (me) {
 
-                        var cateId = _$('nav').find('li.active').data('id');
+                        var cateId = Nav.find('li.active').data('id');
 
                         // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
                         url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
@@ -187,7 +196,7 @@ jQuery(function ($) {
                         // that.preloadTimer(cateId);
                     },
                     loadDownFn: function (me, preload) {
-                        var cateId = _$('nav').find('li.active').data('id');
+                        var cateId = Nav.find('li.active').data('id');
 
                         // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
                         url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
@@ -207,12 +216,14 @@ jQuery(function ($) {
                         } else {
                             // 如果不是预加载 看看是否有存储的预加载数据 有的话就用 没有就去请求
                             if (that.preload[cateId]) {
-                                var el = 'ul[data-id="' + cateId + '"]';
-                                _$('section').find(el).append(that.preload[cateId]);
-                                var maxWidth = _$('section li h4').width()
-                                    - parseInt(_$('section li .author').css('margin-right'))
-                                    - parseInt(_$('section li .page-view').css('max-width'));
-                                _$('section li .author').css('max-width', maxWidth);
+                                var el = '[data-id="' + cateId + '"]';
+                                section.find(el).find('ul').append(that.preload[cateId]);
+
+                                var Lis = section.find('li'),
+                                    maxWidth = Lis.find('h4').width()
+                                        - parseInt(Lis.find('.author').css('margin-right'))
+                                        - parseInt(Lis.find('.page-view').css('max-width'));
+                                Lis.find('.author').css('max-width', maxWidth);
 
                                 that.preload[cateId] = '';
                                 that.dropload.resetload();
@@ -251,17 +262,21 @@ jQuery(function ($) {
             storePage: function () {
                 $(document).on('click', 'section li a', function (e) {
                     e.preventDefault();
-                    $(this).hasClass('visited') || $(this).addClass('visited');
+                    var _t = $(this),
+                        Body = $('body'),
+                        Nav = _$('nav'),
+                        section = _$('section');
+                    _t.hasClass('visited') || _t.addClass('visited');
 
-                    _$('section').find('.dropload-down').remove();
+                    section.find('.dropload-down').remove();
                     var obj = {
-                        nav: _$('nav').html(),
-                        navScrollLeft: _$('nav').scrollLeft(),
-                        section: _$('section').html(),
-                        scrollTop: $('body').scrollTop()
+                        nav: Nav.html(),
+                        navScrollLeft: Nav.scrollLeft(),
+                        section: section.html(),
+                        scrollTop: Body.scrollTop()
                     };
                     sessionStorage.setItem('index', JSON.stringify(obj));
-                    location.href = $(this).data('href');
+                    location.href = _t.data('href');
                     // location.href = 'http://127.0.0.1:8888/article.html' // 开发环境
                 })
             },
@@ -361,6 +376,15 @@ jQuery(function ($) {
                     fingers: 'all',
                     allowPageScroll: "auto"
                 })
+            },
+            letsGo: function () {
+                var that = this,
+                    section = _$('section'),
+                    channel = section.find('.channel'),
+                    Nav = _$('nav'),
+                    footer = _$('footer');
+                // section.height($(window).height() - Nav.height() - footer.height());
+
             }
         };
 
