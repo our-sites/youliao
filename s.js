@@ -31,6 +31,14 @@ var server = http.createServer(function (request, response) {
 });
 
 server.listen(8888);
-var ip = os.networkInterfaces()['本地连接'][0].address;
+var networkInterfaces = os.networkInterfaces(),
+    ip = "";
+    for(var x in networkInterfaces){
+        networkInterfaces[x].forEach(function (ele, idx) {
+            if(ele.family == 'IPv4'){
+                ip = ip || ele.address;
+            }
+        })
+    }
 
 console.log('Server is running at http://' + ip + ':8888/');

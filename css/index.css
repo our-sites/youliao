@@ -4,7 +4,7 @@
     position: relative;
     padding: 48px 0;
     background-color: #f3f3f3;
-    /*overflow: hidden;*/
+    overflow: hidden;
 }
 
 #Index nav {
@@ -70,6 +70,11 @@
     margin-left: 15px;
     border-bottom: 1px solid transparent;
     cursor: pointer;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
 }
 
 #Index nav li.active {
@@ -77,15 +82,37 @@
     border-bottom: 3px solid #0ec4af;
 }
 
+#Index .loading-big {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding-top: 40%;
+    background: #fff;
+}
+
 #Index section {
     position: absolute;
     top: 48px;
     left: 0;
-    bottom: 0;
-    display: none;
-    background-color: #fff;
     width: 100%;
-    /*overflow: auto;*/
+    height: 100%;
+    /*overflow: hidden;*/
+    white-space: nowrap;
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    -ms-transform: translateX(0px);
+    -o-transform: translateX(0px);
+    transform: translateX(0px);
+
+    -webkit-transition: all 0ms cubic-bezier(0.165, 0.84, 0.44, 1);
+    -moz-transition: all 0ms cubic-bezier(0.165, 0.84, 0.44, 1);
+    -ms-transition: all 0ms cubic-bezier(0.165, 0.84, 0.44, 1);
+    -o-transition: all 0ms cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0ms cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 #Index section .channel {
@@ -95,16 +122,19 @@
     position: relative;
     vertical-align: top;
     white-space: normal;
+    overflow: hidden;
 }
 
-#Index section .channel-scroll{
+#Index section .channel-scroll {
+    /*display: none;*/
     position: absolute;
     z-index: 2;
     top: 0;
     bottom: 0;
     left: 0;
-    overflow: hidden;
     width: 100%;
+    overflow: auto;
+    background-color: #fff;
 }
 
 #Index section li {
@@ -134,7 +164,7 @@
     outline: none;
 }
 
-#Index section li a.visited h4{
+#Index section li a.visited h4 {
     color: #919191;
 }
 
@@ -178,11 +208,11 @@
     text-overflow: ellipsis;
 }
 
-#Index section li p .page-view{
+#Index section li p .page-view {
     max-width: 68px;
 }
 
-#Index section li p .page-view img{
+#Index section li p .page-view img {
     width: 17px;
     height: 12px;
     display: inline;
@@ -191,11 +221,6 @@
     top: 1px;
     margin-right: 2px;
 }
-
-
-
-
-
 
 #Index .refresh-node {
     height: 40px;

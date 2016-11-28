@@ -6,27 +6,76 @@ jQuery(function ($) {
         },
         Index = {
             init: function () {
+                // 初始化数据
+                this.initData();
 
+                // 初始化列表结构
+                this.renderStructure();
+
+                // nav的左右滑动/点击跳转效果/新增效果
                 this.navSwipe();
 
-                this.loadContent();
+                this.test();
 
-                this.refreshNode();
+                /*this.loadContent();
 
-                this.storePage();
+                 this.refreshNode();
+
+                 this.storePage();*/
+
                 window.Common.footer(_$);
             },
-            preload: {},
-            width: _$().width(),
+            initData: function () {
+                var that = this,
+                    Nav = _$('nav'),
+                    section = _$('.list');
+
+                // 窗口的宽度
+                that.screenWidth = _$().width();
+
+                // 用于存储预加载的数据
+                that.preload = {};
+
+
+                // 所有频道的id :用于预加载 关闭定时器
+                that.cateIds = [];
+                Nav.find('li').each(function () {
+                    that.cateIds.push($(this).data('id'))
+                });
+
+
+                //列表父级盒子section的滚动数值为0
+                section.data('translate', 0);
+
+
+            },
+            renderStructure: function () {
+                var Nav = _$('nav'),
+                    section = _$('.list'),
+                    html = '';
+                Nav.find('li').each(function () {
+                    var id = $(this).data('id');
+                    html += '<div class="channel" data-id="' + id + '"><div class="channel-scroll"><ul></ul></div></div>';
+                });
+                section.append(html);
+
+            },
             navSwipe: function () {
                 var that = this,
                     Nav = _$('nav'),
                     Ul = Nav.find('ul'),
                     Plus = Nav.find('.plus'),
                     Body = $('body'),
-                    section = _$('section');
+                    section = _$('.list'),
+                    loading = _$('.loading-big');
 
-                // 取得ul的真实宽度
+                /*
+                 *  左右滑动效果
+                 *
+                 *  使用滚动条实现 ul.width = n*li.width
+                 * */
+
+                // 取得li的真实宽度
                 var width = 0,
                     Li = Ul.find('li'),
                     Padding = Number(Li.css('padding-left').replace('px', '')) * 2,
@@ -35,60 +84,58 @@ jQuery(function ($) {
                     width += $(this).width() + Padding + Margin
                 });
 
-                // 设置ul的宽度 使所有li在一行显示
+                // 设置ul的宽度
                 Ul.css('width', width + 15);
 
-                // 初始化一些值
-                Ul.find('li').each(function () {
-                    var key = 'tabs' + $(this).data('id');
-                    that[key] = false;
-                });
-                // 用于预加载 关闭定时器
-                that.cateIds = [];
-                Ul.find('li').each(function () {
-                    that.cateIds.push($(this).data('id'))
-                });
 
-                // 点击 切换
+                /*
+                 *
+                 * 点击切换频道
+                 *
+                 * */
                 Ul.find('li').each(function (idx) {
                     var _t = $(this);
                     _t.on('click', function () {
-
                         var oldCateId = _t.siblings('.active').data('id'),
-                            oldEl = '[data-id="' + oldCateId + '"]',
-                            oldKey = 'tabs' + oldCateId;
+                            oldEl = '[data-id="' + oldCateId + '"]';
 
                         var cateId = _t.data('id'),
-                            el = '[data-id="' + cateId + '"]',
-                            key = 'tabs' + cateId;
+                            el = '[data-id="' + cateId + '"]';
 
 
-
-                        // 样式
+                        // nav样式
                         _t.addClass('active').siblings('li').removeClass('active');
 
+
+                        // loading
+                        loading.show();
+
                         // 显示当前分类
-                        // section.find(el).show().siblings('.channel').hide();
-                        var x = 'translate3d(' + (-idx * that.width) +', 0px, 0px)';
-                        section.css('transform',  + x);
+                        var mathResult = -idx * that.screenWidth,
+                            cssResult = 'translateX(' + mathResult + 'px)';
+                        section.css('transform', cssResult).data('translate', mathResult);
+                        setTimeout(function () {
+                            loading.hide()
+                        }, 300);
 
-                        // 判断当前分类是否有内容，如果没有，显示loading
-                        if (!section.find(el).find('li').length) {
-                            // loading
-                            section.hide();
-                            _$('.loading-big').show();
-                        }
-
-
-                        // 重置
-                        that.dropload.unlock();
-                        that.dropload.noData(false);
-                        that.dropload.resetload();
+                        /*
+                         // 判断当前分类是否有内容，如果没有，显示loading
+                         if (!section.find(el).find('li').length) {
+                         // loading
+                         section.hide();
+                         _$('.loading-big').show();
+                         }
 
 
-                        // 预加载
-                        that.preloadTimer(cateId);
+                         // 重置
+                         that.dropload.unlock();
+                         that.dropload.noData(false);
+                         that.dropload.resetload();
 
+
+                         // 预加载
+                         that.preloadTimer(cateId);
+                         */
                     });
                 })
 
@@ -97,7 +144,7 @@ jQuery(function ($) {
             loadContent: function () {
                 var that = this,
                     Nav = _$('nav'),
-                    section = _$('section'),
+                    section = _$('.list'),
                     Body = $('body'),
                     url = window.Common.domain + '/wx/article/interest' + '?callback=?',
                     loading = '<div class="loading-small"><div class="loading-icon"><div class="loading-curve"></div></div>页面加载中...</div>',
@@ -145,8 +192,8 @@ jQuery(function ($) {
                             }
                             var Lis = section.find('li'),
                                 maxWidth = Lis.find('h4').width()
-                                - parseInt(Lis.find('.author').css('margin-right'))
-                                - parseInt(Lis.find('.page-view').css('max-width'));
+                                    - parseInt(Lis.find('.author').css('margin-right'))
+                                    - parseInt(Lis.find('.page-view').css('max-width'));
                             Lis.find('.author').css('max-width', maxWidth);
 
 
@@ -255,7 +302,7 @@ jQuery(function ($) {
                 })
             },
             storePage: function () {
-                $(document).on('click', 'section li a', function (e) {
+                $(document).on('click', '.list li a', function (e) {
                     e.preventDefault();
                     var _t = $(this),
                         Body = $('body'),
@@ -287,7 +334,126 @@ jQuery(function ($) {
                 that[cateId] = setTimeout(function () {
                     that.dropload.opts.loadDownFn(that.dropload, 'preload');
                 }, 2000);
+            },
+            test: function () {
+
+                var that = this,
+                    Nav = _$('nav'),
+                    section = _$('.list'),
+                    channelLength = section.find('.channel').length,
+                    loading = _$('.loading-big');
+
+                // 测试数据
+                loading.hide();
+
+                section.find('ul').each(function (idx) {
+                    var _html = '';
+                    for (var i = 0; i < 20; i++) {
+                        _html += '<li>' + idx + '</li>';
+                    }
+                    $(this).append(_html);
+                });
+
+
+                section.find('.channel').swipe({
+                    swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
+                        // console.log(direction, distance, duration);
+                    },
+                    swipeStatus: function (event, phase, direction, distance) {
+                        console.log(phase + " you have swiped " + distance + "px in direction:" + direction);
+
+                        if (phase == 'start') {
+                            that.startState = '';
+                        }
+
+                        /*
+                         *  在第一次移动中确定方向（水平或者竖直），以后的移动只改变该方向上的数值
+                         *
+                         *
+                         * */
+                        if (phase == 'move' && direction != 'none') {
+                            // 确定方向
+                            if (!that.startState) {
+                                // 确定滑动方向
+                                if (['up', 'down'].indexOf(direction) > -1) {
+                                    that.startState = 'vertical'
+                                } else {
+                                    that.startState = 'horizontal'
+                                }
+                            }
+                            // 改变数值
+                            else {
+                                //如果是竖直
+                                if (that.startState == 'vertical') {
+
+                                }
+                                // 如果是水平
+                                else if (that.startState == 'horizontal') {
+                                    if (direction == 'left') {
+                                        distance = -distance;
+                                    }
+                                    var mathResult = section.data('translate') + distance,
+                                        cssResult = 'translateX(' + mathResult + 'px)';
+                                    section.css('transform', cssResult).data('temp', mathResult);
+
+                                }
+                            }
+
+
+                        }
+
+
+                        if (phase == 'end') {
+                            // 初始化方向
+                            that.startState = '';
+
+                            // 通过计算得出最终停留的频道
+                            var current = Math.abs(section.data('temp')),
+                                integer = Math.floor(current / that.screenWidth),
+                                remainder = current % that.screenWidth,
+                                finalMathResult = 0,
+                                finalCssResult = '';
+
+
+                            // 首屏 及 其他
+                            if (current < that.screenWidth || remainder * 2 > that.screenWidth) {
+                                integer += 1
+                            }
+
+                            // 最后一屏
+                            if (integer > channelLength - 1) {
+                                integer = channelLength - 1
+                            }
+
+
+                            //最终数值
+                            finalMathResult = -integer * that.screenWidth;
+                            finalCssResult = 'translateX(' + finalMathResult + 'px)';
+
+                            // 保存滚动数值 设置滚动动画
+                            section
+                                .data('translate', finalMathResult)
+                                .css('transition-duration', '500ms')
+                                .css('transform', finalCssResult);
+
+                            // 初始化样式
+                            setTimeout(function () {
+                                section.css('transition-duration', '0ms')
+                            }, 600);
+
+                            // nav联动
+                            Nav.find('li').eq(integer).addClass('active').siblings('li').removeClass('active');
+
+
+                        }
+
+
+                    },
+                    threshold: 10,
+                    allowPageScroll: "auto"
+                })
             }
+
         };
 
     Index.init()
