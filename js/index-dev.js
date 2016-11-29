@@ -227,6 +227,7 @@ jQuery(function ($) {
                         },
                         domDown: {
                             domClass: 'dropload-down',
+                            domRefresh : '',
                             domLoad: loading
                         },
                         loadUpFn: function (me) {
@@ -369,7 +370,8 @@ jQuery(function ($) {
                     swipeStatus: function (event, phase, direction, distance) {
                         console.log(phase + " you have swiped " + distance + "px in direction:" + direction);
                         var scrollBox = $(this).find('.channel-scroll'),
-                            cateId = $(this).data('id');
+                            cateId = $(this).data('id'),
+                            nextCateId = $(this).next('.channel').data('id');
                         if (phase == 'start') {
                             that.startState = '';
 
@@ -493,20 +495,20 @@ jQuery(function ($) {
 
                             //  渲染数据
                             // 设置currentsCateId
-                            that.currentsCateId = cateId;
+                            that.currentsCateId = nextCateId;
 
                             // 判断当前分类是否有内容，如果没有，显示loading
-                            if ($(this).find('li').length) {
+                            if ($(this).next('.channel').find('li').length) {
                                 loading.hide();
                                 // 重置
-                                that.droploadObj[cateId].unlock();
-                                that.droploadObj[cateId].noData(false);
-                                that.droploadObj[cateId].resetload();
+                                that.droploadObj[nextCateId].unlock();
+                                that.droploadObj[nextCateId].noData(false);
+                                that.droploadObj[nextCateId].resetload();
                             }else {
                                 loading.show();
-                                that.droploadObj[cateId].opts.loadUpFn(that.droploadObj[cateId]);
+                                that.droploadObj[nextCateId].opts.loadUpFn(that.droploadObj[nextCateId]);
                                 // 预加载
-                                that.preloadTimer(cateId);
+                                that.preloadTimer(nextCateId);
                             }
 
                         }
