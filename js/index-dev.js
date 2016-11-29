@@ -17,11 +17,11 @@ jQuery(function ($) {
 
                 this.test();
 
-                /*this.loadContent();
+                this.loadContent();
 
                  this.refreshNode();
 
-                 this.storePage();*/
+                /*this.storePage();*/
 
                 window.Common.footer(_$);
             },
@@ -48,16 +48,26 @@ jQuery(function ($) {
                 section.data('translate', 0);
 
 
+                // 各个列表 下拉、上滑加载 方法对象
+                that.droploadObj = {};
+                // 数据对象
+                that.droploadData = {};
+                // 当前cateid
+                that.currentsCateId = 0;
+
+
             },
             renderStructure: function () {
                 var Nav = _$('nav'),
+                    footer = _$('footer'),
                     section = _$('.list'),
                     html = '';
                 Nav.find('li').each(function () {
                     var id = $(this).data('id');
                     html += '<div class="channel" data-id="' + id + '"><div class="channel-scroll"><ul></ul></div></div>';
                 });
-                section.append(html);
+                // 初始化 section 结构，并设置其高度为 窗口高度-nav - footer 及两者边框线高度
+                section.append(html).css('height', $(window).height() - Nav.height() - footer.height() - 2);
 
             },
             navSwipe: function () {
@@ -84,9 +94,13 @@ jQuery(function ($) {
                     width += $(this).width() + Padding + Margin
                 });
 
+                // 单个li的宽度
+                that.navLiWidth = Li.eq(0).width() + Padding + Margin;
+
                 // 设置ul的宽度
                 Ul.css('width', width + 15);
 
+                that.navUlWidth = width + 15;
 
                 /*
                  *
@@ -107,35 +121,30 @@ jQuery(function ($) {
                         _t.addClass('active').siblings('li').removeClass('active');
 
 
-                        // loading
-                        loading.show();
-
                         // 显示当前分类
                         var mathResult = -idx * that.screenWidth,
-                            cssResult = 'translateX(' + mathResult + 'px)';
-                        section.css('transform', cssResult).data('translate', mathResult);
-                        setTimeout(function () {
-                            loading.hide()
-                        }, 300);
-
-                        /*
-                         // 判断当前分类是否有内容，如果没有，显示loading
-                         if (!section.find(el).find('li').length) {
-                         // loading
-                         section.hide();
-                         _$('.loading-big').show();
-                         }
+                            cssResult = 'translate3d(' + mathResult + 'px, 0px ,0px) translateZ(0px)';
+                        section.css('-webkit-transform', cssResult).data('translate', mathResult);
 
 
-                         // 重置
-                         that.dropload.unlock();
-                         that.dropload.noData(false);
-                         that.dropload.resetload();
+                        // 设置currentsCateId
+                        that.currentsCateId = cateId;
+
+                        // 判断当前分类是否有内容，如果没有，显示loading
+                        if (section.find(el).find('li').length) {
+                            loading.hide();
+                            // 重置
+                            that.droploadObj[cateId].unlock();
+                            that.droploadObj[cateId].noData(false);
+                            that.droploadObj[cateId].resetload();
+                        }else {
+                            loading.show();
+                            that.droploadObj[cateId].opts.loadUpFn(that.droploadObj[cateId]);
+                            // 预加载
+                            that.preloadTimer(cateId);
+                        }
 
 
-                         // 预加载
-                         that.preloadTimer(cateId);
-                         */
                     });
                 })
 
@@ -145,13 +154,20 @@ jQuery(function ($) {
                 var that = this,
                     Nav = _$('nav'),
                     section = _$('.list'),
+                    loadingBig = _$('.loading-big'),
                     Body = $('body'),
                     url = window.Common.domain + '/wx/article/interest' + '?callback=?',
                     loading = '<div class="loading-small"><div class="loading-icon"><div class="loading-curve"></div></div>页面加载中...</div>',
+                    authorMaxWidth = function () {
+                        var Lis = section.find('li'),
+                            maxWidth = Lis.find('h4').width()
+                                - parseInt(Lis.find('.author').css('margin-right'))
+                                - parseInt(Lis.find('.page-view').css('max-width'));
+                        Lis.find('.author').css('max-width', maxWidth);
+                    },
                     successFun = function (data, me, cateId, type, preload) {
                         if (window.Common.verifyData(data)) {
                             var listData = data.data.list,
-                                key = 'tabs' + cateId,
                                 el = '[data-id="' + cateId + '"]',
                                 _html = '';
                             for (var x in listData) {
@@ -174,9 +190,7 @@ jQuery(function ($) {
                                 that.preload[cateId] = _html;
                             } else {
                                 // 隐藏loading
-                                _$('.loading-big').hide();
-                                // 显示section
-                                section.show();
+                                loadingBig.hide();
                                 // 删除之前的refresh-node
                                 section.find('.refresh-node').remove();
                                 // 判断是prepend 还是append
@@ -190,115 +204,112 @@ jQuery(function ($) {
                                     console.log('choose the type first')
                                 }
                             }
-                            var Lis = section.find('li'),
-                                maxWidth = Lis.find('h4').width()
-                                    - parseInt(Lis.find('.author').css('margin-right'))
-                                    - parseInt(Lis.find('.page-view').css('max-width'));
-                            Lis.find('.author').css('max-width', maxWidth);
 
 
-                            that.dropload.resetload();
+                            authorMaxWidth();
+                            me.resetload();
                             me.unlock();
                             me.noData(false);
 
                         }
                     };
 
-                that.dropload = section.dropload({
-                    scrollArea: window,
-                    // autoLoad: window.index.autoLoad,
-                    domUp: {
-                        domClass: 'dropload-up',
-                        domLoad: loading
-                    },
-                    domDown: {
-                        domClass: 'dropload-down',
-                        domLoad: loading
-                    },
-                    loadUpFn: function (me) {
 
-                        var cateId = Nav.find('li.active').data('id');
-
-                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
-                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
-
-                        $.ajax({
-                            type: 'GET',
-                            url: url,
-                            dataType: 'json',
-                            success: function (data) {
-                                successFun(data, me, cateId, 'prepend');
-                            },
-                            error: function (xhr, type) {
-                                that.dropload.resetload();
-                            }
-                        });
-
-                        // 预加载
-                        // that.preloadTimer(cateId);
-                    },
-                    loadDownFn: function (me, preload) {
-                        var cateId = Nav.find('li.active').data('id');
-
-                        // url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&callback=?';
-                        url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + '&uid=1&callback=?'; // 开发环境
-
-                        if (preload) {
+                section.find('.channel-scroll').each(function () {
+                    var self = $(this),
+                        cateId = self.parent().data('id');
+                    // 绑定事件
+                    that.droploadObj[cateId] = self.dropload({
+                        autoLoad: (cateId == '0'),
+                        domUp: {
+                            domClass: 'dropload-up',
+                            domLoad: loading
+                        },
+                        domDown: {
+                            domClass: 'dropload-down',
+                            domLoad: loading
+                        },
+                        loadUpFn: function (me) {
+                            var dev = true;
+                            var str = dev ?　'&uid=1&callback=?' : '&callback=?';
+                            cateId = that.currentsCateId;
+                            url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + str;
                             $.ajax({
                                 type: 'GET',
                                 url: url,
                                 dataType: 'json',
                                 success: function (data) {
-                                    successFun(data, me, cateId, 'append', preload);
+                                    successFun(data, me, cateId, 'prepend');
                                 },
                                 error: function (xhr, type) {
-                                    that.dropload.resetload();
+                                    that.droploadObj[cateId].resetload();
                                 }
                             });
-                        } else {
-                            // 如果不是预加载 看看是否有存储的预加载数据 有的话就用 没有就去请求
-                            if (that.preload[cateId]) {
-                                var el = '[data-id="' + cateId + '"]';
-                                section.find(el).find('ul').append(that.preload[cateId]);
 
-                                var Lis = section.find('li'),
-                                    maxWidth = Lis.find('h4').width()
-                                        - parseInt(Lis.find('.author').css('margin-right'))
-                                        - parseInt(Lis.find('.page-view').css('max-width'));
-                                Lis.find('.author').css('max-width', maxWidth);
-
-                                that.preload[cateId] = '';
-                                that.dropload.resetload();
-                                me.unlock();
-                                me.noData(false);
-
-                            } else {
+                            // 预加载
+                            // that.preloadTimer(cateId);
+                        },
+                        loadDownFn: function (me, preload) {
+                            var dev = true;
+                            var str = dev ?　'&uid=1&callback=?' : '&callback=?';
+                            cateId = that.currentsCateId;
+                            url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + str;
+                            if (preload) {
                                 $.ajax({
                                     type: 'GET',
                                     url: url,
                                     dataType: 'json',
                                     success: function (data) {
-                                        successFun(data, me, cateId, 'append');
+                                        successFun(data, me, cateId, 'append', preload);
                                     },
                                     error: function (xhr, type) {
-                                        that.dropload.resetload();
+                                        me.resetload();
                                     }
                                 });
-                                // 预加载
-                                that.preloadTimer(cateId);
+                            } else {
+                                // 如果不是预加载 看看是否有存储的预加载数据 有的话就用 没有就去请求
+                                if (that.preload[cateId]) {
+                                    var el = '[data-id="' + cateId + '"]';
+                                    section.find(el).find('ul').append(that.preload[cateId]);
+
+
+                                    // 设置公众号名称的最大宽度
+                                    authorMaxWidth();
+
+                                    that.preload[cateId] = '';
+                                    me.resetload();
+                                    me.unlock();
+                                    me.noData(false);
+
+                                } else {
+                                    $.ajax({
+                                        type: 'GET',
+                                        url: url,
+                                        dataType: 'json',
+                                        success: function (data) {
+                                            successFun(data, me, cateId, 'append');
+                                        },
+                                        error: function (xhr, type) {
+                                            me.resetload();
+                                        }
+                                    });
+                                    // 预加载
+                                    that.preloadTimer(cateId);
+                                }
                             }
-
                         }
+                    });
 
 
-                    }
                 });
+
 
             },
             refreshNode: function () {
                 var that = this;
-                $(document).on('tap', '.refresh-node', function () {
-                    that.dropload.opts.loadUpFn(that.dropload);
+                $(document).on('click', '.refresh-node', function () {
+                    var cateId = $(this).closest('.channel').data('id');
+                    that.droploadObj[cateId].opts.loadUpFn(that.droploadObj[cateId]);
                 })
             },
             storePage: function () {
@@ -332,19 +343,19 @@ jQuery(function ($) {
                 }
                 // 打开一个定时器
                 that[cateId] = setTimeout(function () {
-                    that.dropload.opts.loadDownFn(that.dropload, 'preload');
+                    that.droploadObj[cateId].opts.loadDownFn(that.droploadObj[cateId], 'preload');
                 }, 2000);
             },
             test: function () {
-
                 var that = this,
                     Nav = _$('nav'),
                     section = _$('.list'),
                     channelLength = section.find('.channel').length,
+                    navThreshold = Math.floor(that.screenWidth / that.navLiWidth), // 列表水平滑动 触发 nav 水平滑动的阈值
                     loading = _$('.loading-big');
 
                 // 测试数据
-                loading.hide();
+                /*loading.hide();
 
                 section.find('ul').each(function (idx) {
                     var _html = '';
@@ -352,20 +363,17 @@ jQuery(function ($) {
                         _html += '<li>' + idx + '</li>';
                     }
                     $(this).append(_html);
-                });
-
+                });*/
 
                 section.find('.channel').swipe({
-                    swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
-                        // console.log(direction, distance, duration);
-                    },
                     swipeStatus: function (event, phase, direction, distance) {
                         console.log(phase + " you have swiped " + distance + "px in direction:" + direction);
-
+                        var scrollBox = $(this).find('.channel-scroll'),
+                            cateId = $(this).data('id');
                         if (phase == 'start') {
                             that.startState = '';
-                        }
 
+                        }
                         /*
                          *  在第一次移动中确定方向（水平或者竖直），以后的移动只改变该方向上的数值
                          *
@@ -376,32 +384,52 @@ jQuery(function ($) {
                             if (!that.startState) {
                                 // 确定滑动方向
                                 if (['up', 'down'].indexOf(direction) > -1) {
-                                    that.startState = 'vertical'
+                                    that.startState = 'vertical';
                                 } else {
-                                    that.startState = 'horizontal'
+                                    that.startState = 'horizontal';
+                                    // 如果是水平滚动，则禁止竖直方向的滚动
+                                    scrollBox.css('overflow', 'hidden');
+                                    // 阻止竖直方向的事件
+                                    that.droploadObj[cateId].loading = true;
                                 }
                             }
                             // 改变数值
                             else {
                                 //如果是竖直
-                                if (that.startState == 'vertical') {
-
-                                }
+                                if (that.startState == 'vertical') {}
                                 // 如果是水平
                                 else if (that.startState == 'horizontal') {
+                                    // 左/右
                                     if (direction == 'left') {
                                         distance = -distance;
                                     }
-                                    var mathResult = section.data('translate') + distance,
-                                        cssResult = 'translateX(' + mathResult + 'px)';
-                                    section.css('transform', cssResult).data('temp', mathResult);
-
+                                    // 跟随触点移动
+                                    var sectionTranslate = section.data('translate'),
+                                        mathResult = sectionTranslate + distance,
+                                        cssResult = 'translate3d(' + mathResult + 'px, 0px ,0px) translateZ(0px)';
+                                    // 保存最终的移动距离 设置移动的安全距离
+                                    // 如果是首屏
+                                    if (sectionTranslate == 0) {
+                                        // 设置安全距离
+                                        if (mathResult > that.screenWidth / 2) {
+                                            mathResult = that.screenWidth / 2;
+                                            cssResult = 'translate3d(' + mathResult + 'px, 0px ,0px) translateZ(0px)';
+                                        }
+                                    }
+                                    // 最后一屏
+                                    else if (sectionTranslate == -(channelLength - 1) * that.screenWidth) {
+                                        // 设置安全距离
+                                        if (mathResult < -(channelLength - 1) * that.screenWidth - that.screenWidth / 2) {
+                                            mathResult = -(channelLength - 1) * that.screenWidth - that.screenWidth / 2;
+                                            cssResult = 'translate3d(' + mathResult + 'px, 0px ,0px) translateZ(0px)';
+                                        }
+                                    }
+                                    section.css('-webkit-transform', cssResult)
+                                        .data('temp', mathResult)
+                                        .data('direction', direction);
                                 }
                             }
-
-
                         }
-
 
                         if (phase == 'end') {
                             // 初始化方向
@@ -409,52 +437,90 @@ jQuery(function ($) {
 
                             // 通过计算得出最终停留的频道
                             var current = Math.abs(section.data('temp')),
+                                currentDirection = section.data('direction'),
                                 integer = Math.floor(current / that.screenWidth),
                                 remainder = current % that.screenWidth,
                                 finalMathResult = 0,
                                 finalCssResult = '';
 
 
-                            // 首屏 及 其他
-                            if (current < that.screenWidth || remainder * 2 > that.screenWidth) {
+                            //首屏
+                            if (integer == 0) {
+                                if (current * 2 > that.screenWidth) {
+                                    integer = 1
+                                }
+                            }
+                            // 最后一屏
+                            else if (integer == channelLength - 1) {
+                                integer = channelLength - 1
+                            }
+                            // 其他
+                            else if (remainder * 2 > that.screenWidth) {
                                 integer += 1
                             }
 
-                            // 最后一屏
-                            if (integer > channelLength - 1) {
-                                integer = channelLength - 1
-                            }
-
-
                             //最终数值
                             finalMathResult = -integer * that.screenWidth;
-                            finalCssResult = 'translateX(' + finalMathResult + 'px)';
+                            finalCssResult = 'translate3d(' + finalMathResult + 'px, 0px ,0px) translateZ(0px)';
 
                             // 保存滚动数值 设置滚动动画
                             section
                                 .data('translate', finalMathResult)
                                 .css('transition-duration', '500ms')
-                                .css('transform', finalCssResult);
+                                .css('-webkit-transform', finalCssResult);
 
                             // 初始化样式
                             setTimeout(function () {
                                 section.css('transition-duration', '0ms')
                             }, 600);
 
+                            // 恢复滚动
+                            scrollBox.css('overflow', 'auto');
+
+                            // 恢复竖直方向的事件
+                            that.droploadObj[cateId].loading = false;
+
                             // nav联动
                             Nav.find('li').eq(integer).addClass('active').siblings('li').removeClass('active');
 
+                            var currentLiOffsetLeft = Nav.find('li').context.offsetLeft,
+                                maxScrollLeft = Nav.find('ul').width() - that.screenWidth;
+                            if (currentLiOffsetLeft > maxScrollLeft - 15) {
+                                Nav.scrollLeft(currentLiOffsetLeft);
+                            } else {
+                                Nav.scrollLeft(0);
+                            }
+
+                            //  渲染数据
+                            // 设置currentsCateId
+                            that.currentsCateId = cateId;
+
+                            // 判断当前分类是否有内容，如果没有，显示loading
+                            if ($(this).find('li').length) {
+                                loading.hide();
+                                // 重置
+                                that.droploadObj[cateId].unlock();
+                                that.droploadObj[cateId].noData(false);
+                                that.droploadObj[cateId].resetload();
+                            }else {
+                                loading.show();
+                                that.droploadObj[cateId].opts.loadUpFn(that.droploadObj[cateId]);
+                                // 预加载
+                                that.preloadTimer(cateId);
+                            }
 
                         }
-
-
                     },
-                    threshold: 10,
-                    allowPageScroll: "auto"
+                    fingers: 1,
+                    threshold: 10, // 超过 n 像素 确定滚动方向
+                    allowPageScroll: "auto" // 允许滚动
                 })
             }
 
         };
 
-    Index.init()
+    Index.init();
+
+    // 控制台调试
+    window.Index = Index;
 });
