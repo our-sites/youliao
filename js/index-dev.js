@@ -12,7 +12,7 @@ jQuery(function ($) {
                 // nav的左右滑动/点击跳转效果/新增效果
                 this.navSwipe();
 
-                this.test();
+                this.horizontalSwipe();
 
                 this.loadContent();
 
@@ -314,6 +314,7 @@ jQuery(function ($) {
                     var obj = {
                         nav: Nav.html(),
                         navScrollLeft: Nav.scrollLeft(),
+                        sectionTranslate: section.attr('style'),
                         channelId: channel.data('id'),
                         channel: channel.html(),
                         channelScrollTop: channel.find('.channel-scroll').scrollTop()
@@ -336,7 +337,7 @@ jQuery(function ($) {
                     that.droploadObj[cateId].opts.loadDownFn(that.droploadObj[cateId], 'preload');
                 }, 2000);
             },
-            test: function () {
+            horizontalSwipe: function () {
                 var that = this,
                     Nav = _$('nav'),
                     section = _$('.list'),
@@ -360,8 +361,8 @@ jQuery(function ($) {
                         console.log(phase + " you have swiped " + distance + "px in direction:" + direction);
                         var scrollBox = $(this).find('.channel-scroll'),
                             cateId = $(this).data('id'),
-                            nextChannel = $(this).next('.channel'),
-                            nextCateId = nextChannel.data('id');
+                            nextChannel = '',
+                            nextCateId = '';
                         if (phase == 'start') {
                             that.startState = '';
 
@@ -425,7 +426,7 @@ jQuery(function ($) {
                         }
 
                         if (phase == 'end') {
-                            if(that.startState == 'horizontal'){
+                            if (that.startState == 'horizontal') {
                                 // 初始化方向
                                 that.startState = '';
 
@@ -474,34 +475,65 @@ jQuery(function ($) {
                                 // 恢复竖直方向的事件
                                 that.droploadObj[cateId].loading = false;
 
-                                // nav联动
-                                Nav.find('li').eq(integer).addClass('active').siblings('li').removeClass('active');
 
-                                var currentLiOffsetLeft = Nav.find('li').context.offsetLeft,
-                                    maxScrollLeft = Nav.find('ul').width() - that.screenWidth;
-                                if (currentLiOffsetLeft > maxScrollLeft - 15) {
-                                    Nav.scrollLeft(currentLiOffsetLeft);
-                                } else {
-                                    Nav.scrollLeft(0);
+                                if(currentDirection === 'left'){
+                                    nextChannel = $(this).next('.channel');
+                                }else{
+                                    nextChannel = $(this).prev('.channel');
                                 }
 
-                                //  渲染数据
-                                // 设置currentsCateId
-                                that.currentsCateId = nextCateId;
+                                // 如果 nextChannel存在
+                                if(nextChannel.length){
+                                    // nav联动
+                                    Nav.find('li').eq(integer).addClass('active').siblings('li').removeClass('active');
 
-                                // 判断当前分类是否有内容，如果没有，显示loading
-                                if (nextChannel.find('li').length) {
-                                    loading.hide();
-                                    // 重置
-                                    that.droploadObj[nextCateId].unlock();
-                                    that.droploadObj[nextCateId].noData(false);
-                                    that.droploadObj[nextCateId].resetload();
-                                } else {
-                                    loading.show();
-                                    that.droploadObj[nextCateId].opts.loadUpFn(that.droploadObj[nextCateId]);
-                                    // 预加载
-                                    that.preloadTimer(nextCateId);
+                                    var currentLiOffsetLeft = Nav.find('li.active').offset().left,
+                                        currentScrollLeft = Nav.scrollLeft();
+                                    // ←
+                                    if (currentDirection == 'left') {
+                                        if (currentLiOffsetLeft - currentScrollLeft - that.navLiWidth - 15 > 0) {
+                                            if (currentLiOffsetLeft - currentScrollLeft - that.navLiWidth - 15 < that.screenWidth) {
+                                                Nav.scrollLeft(currentScrollLeft + 15 + that.navLiWidth);
+                                            } else {
+                                                Nav.scrollLeft(currentLiOffsetLeft - 15);
+                                            }
+                                        } else {
+                                            // Nav.scrollLeft(currentLiOffsetLeft - 15);
+                                        }
+                                    }
+                                    // →
+                                    else {
+                                        if (currentScrollLeft - currentLiOffsetLeft - that.navLiWidth - 15 > 0) {
+                                            // Nav.scrollLeft(currentScrollLeft - 15 - that.navLiWidth);
+                                        }else{
+                                            if (currentLiOffsetLeft - currentScrollLeft - that.navLiWidth - 15 < that.screenWidth) {
+                                                Nav.scrollLeft(currentLiOffsetLeft + 15 + that.navLiWidth);
+                                            } else {
+                                                Nav.scrollLeft(currentLiOffsetLeft - 15);
+                                            }
+                                        }
+                                    }
+
+
+                                    //  渲染数据
+                                    // 设置currentsCateId
+                                    that.currentsCateId = nextCateId = nextChannel.data('id');
+
+                                    // 判断当前分类是否有内容，如果没有，显示loading
+                                    if (nextChannel.find('li').length) {
+                                        loading.hide();
+                                        // 重置
+                                        that.droploadObj[nextCateId].unlock();
+                                        that.droploadObj[nextCateId].noData(false);
+                                        that.droploadObj[nextCateId].resetload();
+                                    } else {
+                                        loading.show();
+                                        that.droploadObj[nextCateId].opts.loadUpFn(that.droploadObj[nextCateId]);
+                                        // 预加载
+                                        that.preloadTimer(nextCateId);
+                                    }
                                 }
+
                             }
                         }
                     },

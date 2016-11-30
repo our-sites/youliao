@@ -26,6 +26,8 @@ if (index.length) {
         loading.hide();
         // 初始化nav 内容及滚动位置
         Nav.html(indexSess.nav).scrollLeft(indexSess.navScrollLeft);
+        // 初始化section 水平位置
+        section.attr('style',indexSess.sectionTranslate);
         // 初始化 频道内容 及滚动位置
         var el = '[data-id="' + indexSess.channelId + '"]';
         section.find(el).html(indexSess.channel).find('.channel-scroll').scrollTop(indexSess.channelScrollTop);
