@@ -9,9 +9,6 @@ jQuery(function ($) {
                 // 初始化数据
                 this.initData();
 
-                // 初始化列表结构
-                this.renderStructure();
-
                 // nav的左右滑动/点击跳转效果/新增效果
                 this.navSwipe();
 
@@ -19,9 +16,9 @@ jQuery(function ($) {
 
                 this.loadContent();
 
-                 this.refreshNode();
+                this.refreshNode();
 
-                /*this.storePage();*/
+                this.storePage();
 
                 window.Common.footer(_$);
             },
@@ -53,21 +50,11 @@ jQuery(function ($) {
                 // 数据对象
                 that.droploadData = {};
                 // 当前cateid
-                that.currentsCateId = 0;
+                that.currentsCateId = Nav.find('li.active').data('id');
 
+                //定时器
+                that.timer = {};
 
-            },
-            renderStructure: function () {
-                var Nav = _$('nav'),
-                    footer = _$('footer'),
-                    section = _$('.list'),
-                    html = '';
-                Nav.find('li').each(function () {
-                    var id = $(this).data('id');
-                    html += '<div class="channel" data-id="' + id + '"><div class="channel-scroll"><ul></ul></div></div>';
-                });
-                // 初始化 section 结构，并设置其高度为 窗口高度-nav - footer 及两者边框线高度
-                section.append(html).css('height', $(window).height() - Nav.height() - footer.height() - 2);
 
             },
             navSwipe: function () {
@@ -137,7 +124,7 @@ jQuery(function ($) {
                             that.droploadObj[cateId].unlock();
                             that.droploadObj[cateId].noData(false);
                             that.droploadObj[cateId].resetload();
-                        }else {
+                        } else {
                             loading.show();
                             that.droploadObj[cateId].opts.loadUpFn(that.droploadObj[cateId]);
                             // 预加载
@@ -220,20 +207,20 @@ jQuery(function ($) {
                         cateId = self.parent().data('id');
                     // 绑定事件
                     that.droploadObj[cateId] = self.dropload({
-                        autoLoad: (cateId == '0'),
+                        autoLoad: window.index.autoLoad ? false : (cateId == '0'),
                         domUp: {
                             domClass: 'dropload-up',
                             domLoad: loading
                         },
                         domDown: {
                             domClass: 'dropload-down',
-                            domRefresh : '',
+                            domRefresh: '',
                             domLoad: loading
                         },
                         loadUpFn: function (me) {
                             var dev = true;
-                            var str = dev ?　'&uid=1&callback=?' : '&callback=?';
-                            cateId = that.currentsCateId;
+                            var str = dev ? '&uid=1&callback=?' : '&callback=?';
+                            that.currentsCateId = cateId = Nav.find('li.active').data('id');
                             url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + str;
                             $.ajax({
                                 type: 'GET',
@@ -252,8 +239,8 @@ jQuery(function ($) {
                         },
                         loadDownFn: function (me, preload) {
                             var dev = true;
-                            var str = dev ?　'&uid=1&callback=?' : '&callback=?';
-                            cateId = that.currentsCateId;
+                            var str = dev ? '&uid=1&callback=?' : '&callback=?';
+                            that.currentsCateId = cateId = Nav.find('li.active').data('id');
                             url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + str;
                             if (preload) {
                                 $.ajax({
@@ -319,15 +306,17 @@ jQuery(function ($) {
                     var _t = $(this),
                         Body = $('body'),
                         Nav = _$('nav'),
-                        section = _$('section');
+                        section = _$('section'),
+                        channel = _t.closest('.channel');
                     _t.hasClass('visited') || _t.addClass('visited');
 
                     section.find('.dropload-down').remove();
                     var obj = {
                         nav: Nav.html(),
                         navScrollLeft: Nav.scrollLeft(),
-                        section: section.html(),
-                        scrollTop: Body.scrollTop()
+                        channelId: channel.data('id'),
+                        channel: channel.html(),
+                        channelScrollTop: channel.find('.channel-scroll').scrollTop()
                     };
                     sessionStorage.setItem('index', JSON.stringify(obj));
                     location.href = _t.data('href');
@@ -340,10 +329,10 @@ jQuery(function ($) {
                 // 关闭所有定时器
                 for (var h in that.cateIds) {
                     var timerKey = that.cateIds[h];
-                    clearTimeout(that[timerKey]);
+                    clearTimeout(that.timer[timerKey]);
                 }
                 // 打开一个定时器
-                that[cateId] = setTimeout(function () {
+                that.timer[cateId] = setTimeout(function () {
                     that.droploadObj[cateId].opts.loadDownFn(that.droploadObj[cateId], 'preload');
                 }, 2000);
             },
@@ -358,20 +347,21 @@ jQuery(function ($) {
                 // 测试数据
                 /*loading.hide();
 
-                section.find('ul').each(function (idx) {
-                    var _html = '';
-                    for (var i = 0; i < 20; i++) {
-                        _html += '<li>' + idx + '</li>';
-                    }
-                    $(this).append(_html);
-                });*/
+                 section.find('ul').each(function (idx) {
+                 var _html = '';
+                 for (var i = 0; i < 20; i++) {
+                 _html += '<li>' + idx + '</li>';
+                 }
+                 $(this).append(_html);
+                 });*/
 
                 section.find('.channel').swipe({
                     swipeStatus: function (event, phase, direction, distance) {
                         console.log(phase + " you have swiped " + distance + "px in direction:" + direction);
                         var scrollBox = $(this).find('.channel-scroll'),
                             cateId = $(this).data('id'),
-                            nextCateId = $(this).next('.channel').data('id');
+                            nextChannel = $(this).next('.channel'),
+                            nextCateId = nextChannel.data('id');
                         if (phase == 'start') {
                             that.startState = '';
 
@@ -398,7 +388,8 @@ jQuery(function ($) {
                             // 改变数值
                             else {
                                 //如果是竖直
-                                if (that.startState == 'vertical') {}
+                                if (that.startState == 'vertical') {
+                                }
                                 // 如果是水平
                                 else if (that.startState == 'horizontal') {
                                     // 左/右
@@ -498,13 +489,13 @@ jQuery(function ($) {
                             that.currentsCateId = nextCateId;
 
                             // 判断当前分类是否有内容，如果没有，显示loading
-                            if ($(this).next('.channel').find('li').length) {
+                            if (nextChannel.find('li').length) {
                                 loading.hide();
                                 // 重置
                                 that.droploadObj[nextCateId].unlock();
                                 that.droploadObj[nextCateId].noData(false);
                                 that.droploadObj[nextCateId].resetload();
-                            }else {
+                            } else {
                                 loading.show();
                                 that.droploadObj[nextCateId].opts.loadUpFn(that.droploadObj[nextCateId]);
                                 // 预加载
