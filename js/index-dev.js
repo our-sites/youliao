@@ -425,83 +425,84 @@ jQuery(function ($) {
                         }
 
                         if (phase == 'end') {
-                            // 初始化方向
-                            that.startState = '';
+                            if(that.startState == 'horizontal'){
+                                // 初始化方向
+                                that.startState = '';
 
-                            // 通过计算得出最终停留的频道
-                            var current = Math.abs(section.data('temp')),
-                                currentDirection = section.data('direction'),
-                                integer = Math.floor(current / that.screenWidth),
-                                remainder = current % that.screenWidth,
-                                finalMathResult = 0,
-                                finalCssResult = '';
+                                // 通过计算得出最终停留的频道
+                                var current = Math.abs(section.data('temp')),
+                                    currentDirection = section.data('direction'),
+                                    integer = Math.floor(current / that.screenWidth),
+                                    remainder = current % that.screenWidth,
+                                    finalMathResult = 0,
+                                    finalCssResult = '';
 
 
-                            //首屏
-                            if (integer == 0) {
-                                if (current * 2 > that.screenWidth) {
-                                    integer = 1
+                                //首屏
+                                if (integer == 0) {
+                                    if (current * 2 > that.screenWidth) {
+                                        integer = 1
+                                    }
+                                }
+                                // 最后一屏
+                                else if (integer == channelLength - 1) {
+                                    integer = channelLength - 1
+                                }
+                                // 其他
+                                else if (remainder * 2 > that.screenWidth) {
+                                    integer += 1
+                                }
+
+                                //最终数值
+                                finalMathResult = -integer * that.screenWidth;
+                                finalCssResult = 'translate3d(' + finalMathResult + 'px, 0px ,0px) translateZ(0px)';
+
+                                // 保存滚动数值 设置滚动动画
+                                section
+                                    .data('translate', finalMathResult)
+                                    .css('transition-duration', '500ms')
+                                    .css('-webkit-transform', finalCssResult);
+
+                                // 初始化样式
+                                setTimeout(function () {
+                                    section.css('transition-duration', '0ms')
+                                }, 600);
+
+                                // 恢复滚动
+                                scrollBox.css('overflow', 'auto');
+
+                                // 恢复竖直方向的事件
+                                that.droploadObj[cateId].loading = false;
+
+                                // nav联动
+                                Nav.find('li').eq(integer).addClass('active').siblings('li').removeClass('active');
+
+                                var currentLiOffsetLeft = Nav.find('li').context.offsetLeft,
+                                    maxScrollLeft = Nav.find('ul').width() - that.screenWidth;
+                                if (currentLiOffsetLeft > maxScrollLeft - 15) {
+                                    Nav.scrollLeft(currentLiOffsetLeft);
+                                } else {
+                                    Nav.scrollLeft(0);
+                                }
+
+                                //  渲染数据
+                                // 设置currentsCateId
+                                that.currentsCateId = nextCateId;
+
+                                // 判断当前分类是否有内容，如果没有，显示loading
+                                if (nextChannel.find('li').length) {
+                                    loading.hide();
+                                    // 重置
+                                    that.droploadObj[nextCateId].unlock();
+                                    that.droploadObj[nextCateId].noData(false);
+                                    that.droploadObj[nextCateId].resetload();
+                                } else {
+                                    loading.show();
+                                    that.droploadObj[nextCateId].opts.loadUpFn(that.droploadObj[nextCateId]);
+                                    // 预加载
+                                    that.preloadTimer(nextCateId);
                                 }
                             }
-                            // 最后一屏
-                            else if (integer == channelLength - 1) {
-                                integer = channelLength - 1
-                            }
-                            // 其他
-                            else if (remainder * 2 > that.screenWidth) {
-                                integer += 1
-                            }
-
-                            //最终数值
-                            finalMathResult = -integer * that.screenWidth;
-                            finalCssResult = 'translate3d(' + finalMathResult + 'px, 0px ,0px) translateZ(0px)';
-
-                            // 保存滚动数值 设置滚动动画
-                            section
-                                .data('translate', finalMathResult)
-                                .css('transition-duration', '500ms')
-                                .css('-webkit-transform', finalCssResult);
-
-                            // 初始化样式
-                            setTimeout(function () {
-                                section.css('transition-duration', '0ms')
-                            }, 600);
-
-                            // 恢复滚动
-                            scrollBox.css('overflow', 'auto');
-
-                            // 恢复竖直方向的事件
-                            that.droploadObj[cateId].loading = false;
-
-                            // nav联动
-                            Nav.find('li').eq(integer).addClass('active').siblings('li').removeClass('active');
-
-                            var currentLiOffsetLeft = Nav.find('li').context.offsetLeft,
-                                maxScrollLeft = Nav.find('ul').width() - that.screenWidth;
-                            if (currentLiOffsetLeft > maxScrollLeft - 15) {
-                                Nav.scrollLeft(currentLiOffsetLeft);
-                            } else {
-                                Nav.scrollLeft(0);
-                            }
-
-                            //  渲染数据
-                            // 设置currentsCateId
-                            that.currentsCateId = nextCateId;
-
-                            // 判断当前分类是否有内容，如果没有，显示loading
-                            if (nextChannel.find('li').length) {
-                                loading.hide();
-                                // 重置
-                                that.droploadObj[nextCateId].unlock();
-                                that.droploadObj[nextCateId].noData(false);
-                                that.droploadObj[nextCateId].resetload();
-                            } else {
-                                loading.show();
-                                that.droploadObj[nextCateId].opts.loadUpFn(that.droploadObj[nextCateId]);
-                                // 预加载
-                                that.preloadTimer(nextCateId);
-                            }
-
                         }
                     },
                     fingers: 1,
