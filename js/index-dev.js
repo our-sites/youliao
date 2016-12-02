@@ -42,7 +42,7 @@ jQuery(function ($) {
 
 
                 //列表父级盒子section的滚动数值为0
-                section.data('translate', 0);
+                section.data('translate', section.data('translate') || 0);
 
 
                 // 各个列表 下拉、上滑加载 方法对象
@@ -314,6 +314,7 @@ jQuery(function ($) {
                     var obj = {
                         nav: Nav.html(),
                         navScrollLeft: Nav.scrollLeft(),
+                        sectionDataTranslate: section.data('translate'),
                         sectionTranslate: section.attr('style'),
                         channelId: channel.data('id'),
                         channel: channel.html(),
@@ -343,6 +344,7 @@ jQuery(function ($) {
                     section = _$('.list'),
                     channelLength = section.find('.channel').length,
                     navThreshold = Math.floor(that.screenWidth / that.navLiWidth), // 列表水平滑动 触发 nav 水平滑动的阈值
+                    screenLength = Math.floor(channelLength / navThreshold) - 1,
                     loading = _$('.loading-big');
 
                 // 测试数据
@@ -475,64 +477,56 @@ jQuery(function ($) {
                                 // 恢复竖直方向的事件
                                 that.droploadObj[cateId].loading = false;
 
-
-                                if(currentDirection === 'left'){
-                                    nextChannel = $(this).next('.channel');
-                                }else{
-                                    nextChannel = $(this).prev('.channel');
-                                }
-
-                                // 如果 nextChannel存在
-                                if(nextChannel.length){
-                                    // nav联动
-                                    Nav.find('li').eq(integer).addClass('active').siblings('li').removeClass('active');
-
-                                    var currentLiOffsetLeft = Nav.find('li.active').offset().left,
-                                        currentScrollLeft = Nav.scrollLeft();
-                                    // ←
-                                    if (currentDirection == 'left') {
-                                        if (currentLiOffsetLeft - currentScrollLeft - that.navLiWidth - 15 > 0) {
-                                            if (currentLiOffsetLeft - currentScrollLeft - that.navLiWidth - 15 < that.screenWidth) {
-                                                Nav.scrollLeft(currentScrollLeft + 15 + that.navLiWidth);
-                                            } else {
-                                                Nav.scrollLeft(currentLiOffsetLeft - 15);
-                                            }
-                                        } else {
-                                            // Nav.scrollLeft(currentLiOffsetLeft - 15);
-                                        }
-                                    }
-                                    // →
-                                    else {
-                                        if (currentScrollLeft - currentLiOffsetLeft - that.navLiWidth - 15 > 0) {
-                                            // Nav.scrollLeft(currentScrollLeft - 15 - that.navLiWidth);
-                                        }else{
-                                            if (currentLiOffsetLeft - currentScrollLeft - that.navLiWidth - 15 < that.screenWidth) {
-                                                Nav.scrollLeft(currentLiOffsetLeft + 15 + that.navLiWidth);
-                                            } else {
-                                                Nav.scrollLeft(currentLiOffsetLeft - 15);
-                                            }
-                                        }
-                                    }
-
-
-                                    //  渲染数据
-                                    // 设置currentsCateId
-                                    that.currentsCateId = nextCateId = nextChannel.data('id');
-
-                                    // 判断当前分类是否有内容，如果没有，显示loading
-                                    if (nextChannel.find('li').length) {
-                                        loading.hide();
-                                        // 重置
-                                        that.droploadObj[nextCateId].unlock();
-                                        that.droploadObj[nextCateId].noData(false);
-                                        that.droploadObj[nextCateId].resetload();
+                                // 如果频道切换了 导航也跟着切换
+                                if ($(this).data('index') != integer) {
+                                    if (currentDirection === 'left') {
+                                        nextChannel = $(this).next('.channel');
                                     } else {
-                                        loading.show();
-                                        that.droploadObj[nextCateId].opts.loadUpFn(that.droploadObj[nextCateId]);
-                                        // 预加载
-                                        that.preloadTimer(nextCateId);
+                                        nextChannel = $(this).prev('.channel');
+                                    }
+
+                                    // 如果 nextChannel存在
+                                    if (nextChannel.length) {
+                                        // nav样式
+                                        Nav.find('li').eq(integer).addClass('active').siblings('li').removeClass('active');
+                                        // nav联动
+                                        var idx = nextChannel.data('index'),
+                                            equation = idx / navThreshold - screenLength,
+                                            aniFun = function (num) {
+                                                Nav.animate({
+                                                    scrollLeft: num
+                                                }, 500)
+                                            };
+                                        if (equation < 0) {
+                                            aniFun(0);
+                                        }
+                                        else if (equation >= 0 && equation < 1) {
+                                            aniFun(navThreshold * that.navLiWidth * screenLength);
+                                        }
+                                        else {
+                                            aniFun(navThreshold * that.navLiWidth * (screenLength + 1));
+                                        }
+
+                                        //  渲染数据
+                                        // 设置currentsCateId
+                                        that.currentsCateId = nextCateId = nextChannel.data('id');
+
+                                        // 判断当前分类是否有内容，如果没有，显示loading
+                                        if (nextChannel.find('li').length) {
+                                            loading.hide();
+                                            // 重置
+                                            that.droploadObj[nextCateId].unlock();
+                                            that.droploadObj[nextCateId].noData(false);
+                                            that.droploadObj[nextCateId].resetload();
+                                        } else {
+                                            loading.show();
+                                            that.droploadObj[nextCateId].opts.loadUpFn(that.droploadObj[nextCateId]);
+                                            // 预加载
+                                            that.preloadTimer(nextCateId);
+                                        }
                                     }
                                 }
+
 
                             }
                         }

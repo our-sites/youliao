@@ -14,9 +14,9 @@ if (index.length) {
         loading = index.find('.loading-big'),
         section = index.find('.list'),
         html = '';
-    Nav.find('li').each(function () {
+    Nav.find('li').each(function (idx) {
         var id = $(this).data('id');
-        html += '<div class="channel" data-id="' + id + '"><div class="channel-scroll"><ul></ul></div></div>';
+        html += '<div class="channel" data-id="' + id + '" data-index="' + idx + '"><div class="channel-scroll"><ul></ul></div></div>';
     });
     // 初始化 section 结构，并设置其高度为 窗口高度-nav - footer 及两者边框线高度
     section.append(html).css('height', $(window).height() - Nav.height() - footer.height() - 2);
@@ -27,7 +27,7 @@ if (index.length) {
         // 初始化nav 内容及滚动位置
         Nav.html(indexSess.nav).scrollLeft(indexSess.navScrollLeft);
         // 初始化section 水平位置
-        section.attr('style',indexSess.sectionTranslate);
+        section.attr('style', indexSess.sectionTranslate).data('translate', indexSess.sectionDataTranslate);
         // 初始化 频道内容 及滚动位置
         var el = '[data-id="' + indexSess.channelId + '"]';
         section.find(el).html(indexSess.channel).find('.channel-scroll').scrollTop(indexSess.channelScrollTop);
