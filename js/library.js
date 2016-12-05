@@ -79,8 +79,8 @@ jQuery(function ($) {
                         domNoData: '<div class="dropload-noData" style="background-color: #f3f3f3;"></div>'
                     },
                     loadDownFn: function (me) {
-                        // var url = window.Common.domain + '/wx/collect/list?page=' + window.libraryPageNum + '&callback=?';
-                        var url = window.Common.domain + '/wx/collect/list?page=' + window.libraryPageNum + '&uid=1&callback=?'; //开发环境
+                        var url = window.Common.domain + '/wx/collect/list?page=' + window.libraryPageNum;
+                        url = url + (window.dev ? '&uid=1' : '') + '&callback=?';
                         $.ajax({
                             type: 'GET',
                             url: url,
@@ -113,8 +113,9 @@ jQuery(function ($) {
                 // 删除
                 $(document).on('click', 'section .del', function () {
                     var id = $(this).data('id'),
-                        url = window.Common.domain + '/wx/collect/collect?id=' + id + '&callback=?',
                         Li = $(this).closest('li');
+                    var url = window.Common.domain + '/wx/collect/collect?id=' + id;
+                    url = url + (window.dev ? '&uid=1' : '') + '&callback=?';
                     Li.slideUp(500, function () {
                         $.getJSON(url, function (resp) {
                             if (window.Common.verifyData(resp)) {
@@ -146,7 +147,6 @@ jQuery(function ($) {
                     };
                     sessionStorage.setItem('library', JSON.stringify(obj));
                     location.href = $(this).data('href');
-                    //location.href = 'http://127.0.0.1:8888/article.html' // 开发环境
                 })
             },
 

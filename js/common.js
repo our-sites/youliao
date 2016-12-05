@@ -82,7 +82,7 @@ jQuery(function ($) {
                 }
             });
 
-            $(document).on('tap', '.comment-mask', function () {
+            $(document).on('click', '.comment-mask', function () {
                 $('#commentBox').hide();
             })
         },
@@ -116,5 +116,6 @@ jQuery(function ($) {
 
     Common.addDprAttr();
 
-    window.Common = Common
+    window.Common = Common;
+    window.dev = false;
 });

@@ -381,6 +381,7 @@
     font-size: 0;
     width: 19px;
     height: 25px;
+    cursor: pointer;
 }
 
 .audio-box .audio-start .audio-read {

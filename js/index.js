@@ -218,10 +218,13 @@ jQuery(function ($) {
                             domLoad: loading
                         },
                         loadUpFn: function (me) {
-                            // var dev = true;
-                            var str = dev ? '&uid=1&callback=?' : '&callback=?';
+
                             that.currentsCateId = cateId = Nav.find('li.active').data('id');
-                            url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + str;
+                            var url = window.Common.domain +  ((cateId == 0) ? '/wx/article/interest?' : ('/wx/article/cate?cateid=' + cateId));
+                            var devUrl = url + ((cateId == 0) ? '' : '&') + 'uid=1&callback=?';
+                            var proUrl = url + ((cateId == 0) ? '' : '&') + 'callback=?';
+                            url =  window.dev ? devUrl : proUrl;
+
                             $.ajax({
                                 type: 'GET',
                                 url: url,
@@ -238,10 +241,11 @@ jQuery(function ($) {
                             // that.preloadTimer(cateId);
                         },
                         loadDownFn: function (me, preload) {
-                            // var dev = true;
-                            var str = dev ? '&uid=1&callback=?' : '&callback=?';
                             that.currentsCateId = cateId = Nav.find('li.active').data('id');
-                            url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + str;
+                            var url = window.Common.domain +  ((cateId == 0) ? '/wx/article/interest?' : ('/wx/article/cate?cateid=' + cateId));
+                            var devUrl = url + ((cateId == 0) ? '' : '&') + 'uid=1&callback=?';
+                            var proUrl = url + ((cateId == 0) ? '' : '&') + 'callback=?';
+                            url =  window.dev ? devUrl : proUrl;
                             if (preload) {
                                 $.ajax({
                                     type: 'GET',
@@ -528,8 +532,10 @@ jQuery(function ($) {
 
         };
 
-    Index.init();
 
     // 控制台调试
     // window.Index = Index;
+    Index.init();
+
+
 });
