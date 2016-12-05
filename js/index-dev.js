@@ -218,7 +218,7 @@ jQuery(function ($) {
                             domLoad: loading
                         },
                         loadUpFn: function (me) {
-                            var dev = true;
+                            // var dev = true;
                             var str = dev ? '&uid=1&callback=?' : '&callback=?';
                             that.currentsCateId = cateId = Nav.find('li.active').data('id');
                             url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + str;
@@ -238,7 +238,7 @@ jQuery(function ($) {
                             // that.preloadTimer(cateId);
                         },
                         loadDownFn: function (me, preload) {
-                            var dev = true;
+                            // var dev = true;
                             var str = dev ? '&uid=1&callback=?' : '&callback=?';
                             that.currentsCateId = cateId = Nav.find('li.active').data('id');
                             url = window.Common.domain + ((cateId == 0) ? '/wx/article/interest' : ('/wx/article/cate?cateid=' + cateId)) + str;
@@ -346,17 +346,6 @@ jQuery(function ($) {
                     navThreshold = Math.floor(that.screenWidth / that.navLiWidth), // 列表水平滑动 触发 nav 水平滑动的阈值
                     screenLength = Math.floor(channelLength / navThreshold) - 1,
                     loading = _$('.loading-big');
-
-                // 测试数据
-                /*loading.hide();
-
-                 section.find('ul').each(function (idx) {
-                 var _html = '';
-                 for (var i = 0; i < 20; i++) {
-                 _html += '<li>' + idx + '</li>';
-                 }
-                 $(this).append(_html);
-                 });*/
 
                 section.find('.channel').swipe({
                     swipeStatus: function (event, phase, direction, distance) {
@@ -542,5 +531,5 @@ jQuery(function ($) {
     Index.init();
 
     // 控制台调试
-    window.Index = Index;
+    // window.Index = Index;
 });
