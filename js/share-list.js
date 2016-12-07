@@ -71,8 +71,9 @@ jQuery(function ($) {
                         }
                     };
 
-                that.dropload = section.dropload({
-                    scrollArea: window,
+                section.css('height', ($(window).height() - nav.height()*2 - 12) + 'px');
+
+                that.dropload = section.find('.scroll-area').dropload({
                     autoLoad: window.library.autoLoad,
                     domDown: {
                         domClass: 'dropload-down',
@@ -107,7 +108,7 @@ jQuery(function ($) {
                         swipeRight: function (event, direction, distance, duration, fingerCount) {
                             self.css('-webkit-transform', 'translate3d(0px, 0px ,0px) translateZ(0px)');
                         },
-                        threshold: 1
+                        threshold: 20
                     })
                 })
             },
