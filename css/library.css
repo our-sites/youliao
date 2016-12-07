@@ -45,8 +45,7 @@
     margin-left: 15px;
 }
 
-
-#Library section{
+#Library section {
     display: none;
     margin-top: 10px;
     background-color: #fff;
@@ -62,7 +61,7 @@
     margin-bottom: 1px;
 }
 
-#Library section .item{
+#Library section .item {
     position: absolute;
     top: 0;
     left: 0;
@@ -71,15 +70,21 @@
     height: 112px;
     padding: 17px;
     background-color: #fff;
-
+    -webkit-transition: all .2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    -moz-transition: all .2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    -ms-transition: all .2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    -o-transition: all .2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all .2s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-#Library section .item a{
+#Library section .item a {
     display: block;
 }
-#Library section li a.visited h4{
+
+#Library section li a.visited h4 {
     color: #919191;
 }
+
 #Library section .item img {
     display: block;
     float: left;
@@ -120,7 +125,7 @@
     text-overflow: ellipsis;
 }
 
-#Library section li p .page-view{
+#Library section li p .page-view {
     max-width: 68px;
 }
 
@@ -129,7 +134,7 @@
     margin-right: 6px;
 }
 
-#Library section .item p .page-view img{
+#Library section .item p .page-view img {
     width: 17px;
     height: 12px;
     display: inline;
@@ -139,9 +144,7 @@
     margin-right: 2px;
 }
 
-
-
-#Library section li .del{
+#Library section li .del {
     position: absolute;
     right: 0;
     top: 0;
@@ -152,9 +155,8 @@
     background-color: #4fe3c1;
     color: #ffffff;
     font-size: 16px;
+    cursor: pointer;
 }
-
-
 
 #Library .no-data-tip {
     display: none;

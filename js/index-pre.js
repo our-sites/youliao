@@ -38,7 +38,7 @@ if (index.length) {
     }
 }
 else if (library.length && librarySess) {
-// 我的文库 
+// 我的文库
     librarySess = JSON.parse(librarySess);
     // 隐藏loading
     library.find('.loading-big').hide();

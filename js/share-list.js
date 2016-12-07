@@ -33,7 +33,7 @@ jQuery(function ($) {
                                         href = detail + '?id=' + id,
                                         src = listData[x]['cover'],
                                         title = listData[x]['title'],
-                                        view = (Number(listData[x]['viewnum']) > 10*10000) ?　'100000+' : listData[x]['viewnum'],
+                                        view = (Number(listData[x]['viewnum']) > 10 * 10000) ? '100000+' : listData[x]['viewnum'],
                                         author = listData[x]['actname'];
                                     _html += '<li><div class="item clf"><a data-href="' + href + '" href="javascript:;"><img src="' + src + '" alt="">' +
                                         '<h4>' + title + '</h4><p><span class="author">' + author +
@@ -46,12 +46,13 @@ jQuery(function ($) {
                                 noDataTip.hide();
                                 section.show();
                                 ul.append(_html);
+                                that.swipeItem(ul);
                                 window.libraryPageNum += 1;
 
                                 var maxWidth = _$('section li h4').width()
                                     - parseInt(_$('section li .author').css('margin-right'))
                                     - parseInt(_$('section li .page-view').css('max-width'));
-                                _$('section li .author').css('max-width',maxWidth);
+                                _$('section li .author').css('max-width', maxWidth);
 
                                 that.dropload.resetload();
                                 me.unlock();
@@ -60,7 +61,7 @@ jQuery(function ($) {
                                 me.lock('down');
                                 me.noData();
                                 that.dropload.resetload();
-                                if(ul.find('li').length == 0){
+                                if (ul.find('li').length == 0) {
                                     loadingBig.hide();
                                     section.hide();
                                     noDataTip.show();
@@ -96,25 +97,27 @@ jQuery(function ($) {
                 });
             },
 
-            delItem: function () {
-                // 左滑显示
-                $(document).on('swipeleft', 'section .item', function () {
-                    $(this).animate({
-                        left: "-80px"
-                    }, 200);
+            swipeItem: function (ul) {
+                ul.find('li .item').each(function () {
+                    var self = $(this);
+                    self.swipe({
+                        swipeLeft: function (event, direction, distance, duration, fingerCount) {
+                            self.css('-webkit-transform', 'translate3d(-80px, 0px ,0px) translateZ(0px)');
+                        },
+                        swipeRight: function (event, direction, distance, duration, fingerCount) {
+                            self.css('-webkit-transform', 'translate3d(0px, 0px ,0px) translateZ(0px)');
+                        },
+                        threshold: 1
+                    })
+                })
+            },
 
-                });
-                // 右滑隐藏
-                $(document).on('swiperight', 'section .item', function () {
-                    $(this).animate({
-                        left: 0
-                    }, 200);
-                });
+            delItem: function () {
                 // 删除
                 $(document).on('click', 'section .del', function () {
                     var id = $(this).data('id'),
                         Li = $(this).closest('li');
-                    var url = window.Common.domain + '/wx/share/delete?id=' + id;
+                    var url = window.Common.domain + '/wx/collect/collect?id=' + id;
                     url = url + (window.dev ? '&uid=1' : '') + '&callback=?';
                     Li.slideUp(500, function () {
                         $.getJSON(url, function (resp) {
@@ -124,13 +127,20 @@ jQuery(function ($) {
                                     pos: "bottom"
                                 });
                                 Li.remove();
+
+                                // 删除最后一个时
+                                if (!_$('section ul li').length) {
+                                    _$('.loading-big').hide();
+                                    _$('section').hide();
+                                    _$('.no-data-tip').show();
+                                }
+
+
                             } else {
                                 Li.show();
                             }
                         });
                     });
-
-
                 });
             },
 
