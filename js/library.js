@@ -123,6 +123,14 @@ jQuery(function ($) {
                                     pos: "bottom"
                                 });
                                 Li.remove();
+
+                                // 删除最后一个时
+                                if (!_$('section ul li').length) {
+                                    _$('.loading-big').hide();
+                                    _$('section').hide();
+                                    _$('.no-data-tip').show();
+                                }
+
                             } else {
                                 Li.show();
                             }

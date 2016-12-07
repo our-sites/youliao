@@ -26,10 +26,6 @@
     margin-bottom: 20px;
 }
 
-#About section .second {
-    margin-top: 160px;
-}
-
 #About section .part .content {
     position: relative;
     width: 263px;
@@ -99,30 +95,13 @@
 }
 
 
-/* #About .feedback {
-    width: 224px;
-    height: 36px;
-    margin: 0 auto 36px;
-    line-height: 36px;
-    text-align: center;
-    color: #0ec4af;
-    border: 1px solid #0ec4af;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
-}
- */
-/* 
 #About .qr-code {
-    width: 224px;
-    margin: 0 auto 35px;
-    padding: 24px;
-    background-color: #fff;
-    border-radius: 5px;
-    text-align: center;
+    width: 120px;
+    height: 120px;
+    margin: 30px auto 10px;
+    cursor: pointer;
 }
-
-#About .qr-code p {
-    line-height: 3;
+#About .qr-code img{
+    width: 120px;
+    height: 120px;
 }
- */
