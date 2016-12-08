@@ -111,7 +111,7 @@ jQuery(function ($) {
             $('html').attr('data-dpr', dpr);
         },
 
-        domain: 'http://uliao.news'
+        domain: '//wx.ylread.cn'
     };
 
     Common.addDprAttr();
