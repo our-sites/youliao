@@ -18,8 +18,8 @@ if (index.length) {
         var id = $(this).data('id');
         html += '<div class="channel" data-id="' + id + '" data-index="' + idx + '"><div class="channel-scroll"><ul></ul></div></div>';
     });
-    // 初始化 section 结构，并设置其高度为 窗口高度-nav - footer 及两者边框线高度
-    section.append(html).css('height', $(window).height() - Nav.height() - footer.height() - 2);
+    // 初始化 section 结构，并设置其高度为 窗口高度-nav - footer
+    section.append(html).css('height', $(window).height() - Nav.height() - footer.height());
     if (indexSess) {
         indexSess = JSON.parse(indexSess);
         // 隐藏loading

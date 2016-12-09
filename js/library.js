@@ -71,7 +71,7 @@ jQuery(function ($) {
                         }
                     };
 
-                section.css('height', ($(window).height() - nav.height()*2 - 12) + 'px');
+                section.css('height', ($(window).height() - nav.height()*2 - 10) + 'px');
 
                 that.dropload = section.find('.scroll-area').dropload({
                     autoLoad: window.library.autoLoad,
