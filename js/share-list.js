@@ -135,8 +135,6 @@ jQuery(function ($) {
                                     _$('section').hide();
                                     _$('.no-data-tip').show();
                                 }
-
-
                             } else {
                                 Li.show();
                             }
