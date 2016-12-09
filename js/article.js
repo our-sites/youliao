@@ -190,9 +190,9 @@ jQuery(function ($) {
             },
 
             remindLogin: function () {
-                var time = 1000;
+                var time = 2000;
                 window.Common.toastr({
-                    content: '请先登录',
+                    content: '长按下方二维码，关注有料，解锁功能',
                     time: time
                 });
 
