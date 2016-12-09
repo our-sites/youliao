@@ -78,7 +78,7 @@ jQuery(function ($) {
                     domDown: {
                         domClass: 'dropload-down',
                         domLoad: loading,
-                        domNoData: '<div class="dropload-noData" style="background-color: #f3f3f3;"></div>'
+                        domNoData: '<div class="dropload-noData"></div>'
                     },
                     loadDownFn: function (me) {
                         var url = window.Common.domain + '/wx/share/list?page=' + window.libraryPageNum;
