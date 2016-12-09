@@ -111,9 +111,8 @@ jQuery(function ($) {
             $('html').attr('data-dpr', dpr);
         },
 
-        domain: '//wx.ylread.cn'
+        domain: location.href.indexOf('wx.ylread.cn') > -1 ? '//wx.ylread.cn' : '//uliao.news'
     };
-
     Common.addDprAttr();
 
     window.Common = Common
