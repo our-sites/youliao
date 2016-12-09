@@ -49,7 +49,8 @@
     height: 48px;
     font-size: 17px;
 }
-#Index nav ul::before {
+
+#Index nav ul:before {
     content: "";
     position: absolute;
     bottom: 0;
@@ -62,11 +63,12 @@
 }
 
 #Index nav li {
+    position: relative;
+    z-index: 3;
     float: left;
-    height: 47px;
+    height: 48px;
     padding: 0 3px;
     margin-left: 15px;
-    border-bottom: 1px solid transparent;
     cursor: pointer;
 }
 
@@ -81,23 +83,23 @@
 }
 
 #Index section li {
+    position: relative;
     width: 100%;
     height: 112px;
     padding: 17px;
-    border-bottom: 1px solid #f3f3f3;
 }
 
-/*#Index section li::after {*/
-    /*content: "";*/
-    /*position: absolute;*/
-    /*bottom: 0;*/
-    /*left: 0;*/
-    /*width: 100%;*/
-    /*height: 1px;*/
-    /*background-color: rgb(230, 230, 230);*/
-    /*transform: scaleY(0.5);*/
-    /*transform-origin: 0 0 0;*/
-/*}*/
+#Index section li:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: rgb(230, 230, 230);
+    transform: scaleY(0.5);
+    transform-origin: 0 0 0;
+}
 
 #Index section li a {
     display: block;
@@ -106,7 +108,7 @@
     outline: none;
 }
 
-#Index section li a.visited h4{
+#Index section li a.visited h4 {
     color: #919191;
 }
 
@@ -150,11 +152,11 @@
     text-overflow: ellipsis;
 }
 
-#Index section li p .page-view{
+#Index section li p .page-view {
     max-width: 68px;
 }
 
-#Index section li p .page-view img{
+#Index section li p .page-view img {
     width: 17px;
     height: 12px;
     display: inline;
