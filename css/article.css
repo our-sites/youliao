@@ -45,6 +45,7 @@
     position: fixed;
     right: 18px;
     cursor: pointer;
+    z-index: 1001;
 
 }
 
@@ -398,6 +399,27 @@
 }
 
 @keyframes reading {
+    0% {
+        width: 6px;
+    }
+    33.9999%{
+        width: 6px;
+    }
+    34% {
+        width: 12px;
+    }
+    66.9999%{
+        width: 12px;
+    }
+    67% {
+        width: 19px;
+    }
+    99.9999%{
+        width: 19px;
+    }
+}
+
+@-webkit-keyframes reading {
     0% {
         width: 6px;
     }
