@@ -10,6 +10,7 @@ jQuery(function ($) {
                 this.initData();
                 this.addComment();
                 this.commentPraise();
+                this.lottery();
 
             },
             initData: function () {
@@ -521,6 +522,12 @@ jQuery(function ($) {
                             progress.css('width', width + '%')
                         }, 100)
                     }
+                })
+            },
+            
+            lottery: function () {
+                _$('.lottery-body').on('click', function () {
+                    _$('.lottery').hide();
                 })
             }
 
